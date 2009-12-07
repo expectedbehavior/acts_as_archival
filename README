@@ -21,6 +21,22 @@ class Mole < ActiveRecord::Base
   acts_as_archival
 end
 
+-----
+
+>> Hole.archived.size             # => 0
+>> Hole.is_archival?              # => true
+>> h = Hole.create                 
+>> Hole.unarchived.size           # => 1
+>> h.is_archival?                 # => true
+>> h.moles.create                  
+>> h.archive                      # archive the hole and its mole.
+>> h.archive_number               # => 8c9f03f9d....
+>> h.moles.first.archive_number   # => 8c9f03f9d....
+>> Hole.archived.size             # => 1
+>> Hole.unarchived.size           # => 0
+>> h.unarchive             
+>> Hole.archived.size             # => 0
+>> Hole.unarchived.size           # => 1
 
 Caveats
 =======
