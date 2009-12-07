@@ -1,13 +1,36 @@
 ActsAsArchival
 ==============
+Plugin for atomically archiving model records in activerecord models.
 
-Introduction goes here.
+We had the problem that acts_as_paranoid and similar plugins/gems always work on a record by record basis and made it very difficult to restore records atomically (or archive them, for that matter).
+
+Install
+=======
+script/plugin install http://github.com/expectedbehavior/acts_as_archival.git/
 
 
 Example
 =======
 
-Example goes here.
+class Hole < ActiveRecord::Base
+  acts_as_archival
+  has_many :moles, :dependent => :destroy
+end
+
+class Mole < ActiveRecord::Base
+  acts_as_archival
+end
 
 
-Copyright (c) 2009 [name of plugin creator], released under the MIT license
+Caveats
+=======
+* This will only work on associations that are dependent destroy.  It should be trival to change that or make it optional.
+* It will only work for Rails 2.2 and up, because we are using named_scope.  You can check out permanent records for a way to conditionally add the functionality to older Rails installations.
+
+Thanks
+======
+ActsAsParanoid and PermanentRecords were both inspirations for this
+http://github.com/technoweenie/acts_as_paranoid
+http://github.com/fastestforward/permanent_records/
+
+Copyright (c) 2009 [Expected Behavior, LLC], released under the MIT license
