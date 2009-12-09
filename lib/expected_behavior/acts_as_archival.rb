@@ -14,8 +14,7 @@ module ExpectedBehavior
 
     module ActMethods
       def acts_as_archival
-        unless included_modules.include? InstanceMethods 
-          extend ClassMethods 
+        unless included_modules.include? InstanceMethods
           include InstanceMethods 
 
           before_save :raise_if_not_archival
