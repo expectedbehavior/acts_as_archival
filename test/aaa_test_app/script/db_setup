@@ -1,0 +1,162 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'getoptlong'
+
+require "fileutils"
+require "yaml"
+require 'highline/import'
+
+opts = GetoptLong.new(*[
+                      [ '--help', '-h', GetoptLong::NO_ARGUMENT ],
+#                      [ '--verbose', '-v', GetoptLong::REQUIRED_ARGUMENT ],
+                      [ '--create', '-c', GetoptLong::NO_ARGUMENT ],
+                      [ '--development', '-d', GetoptLong::NO_ARGUMENT ],
+                      [ '--production', '-p', GetoptLong::NO_ARGUMENT ],
+                      [ '--test', '-t', GetoptLong::NO_ARGUMENT ],
+                      [ '--password', '-s', GetoptLong::REQUIRED_ARGUMENT],
+                      [ '--output', '-o', GetoptLong::REQUIRED_ARGUMENT]
+                      ]
+                      )
+
+$CREATE = false
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), "/../"))
+puts RAILS_ROOT
+$ENVS = []
+$DB_DIR = File.join RAILS_ROOT, "db"
+$DB_PASS = nil
+$OUTPUT_FILE = nil
+
+opts.each do |opt, arg|
+  case opt
+  when '--create'
+    $CREATE = true
+  when '--development'
+    $ENVS << "development"
+  when '--production'
+    $ENVS << "production"
+  when '--test'
+    $ENVS << "test"
+  when '--password'
+    $DB_PASS = arg
+  when '--output'
+    $OUTPUT_FILE = arg
+    File.open($OUTPUT_FILE,"w+") {|f|}
+  else
+    puts <<-STR
+Usage: #{File.basename(__FILE__)} [OPTION]
+
+This will reset, and optionally create any or all of the three DBs.
+
+No arguments = just drop all tables in all 3 DBs so we don\'t need the root password
+
+  -c \t drop and recreate the DBs instead of just dropping tables
+  -p \t process the production db
+  -d \t dev db
+  -t \t test db
+
+  -h \t this help screen
+
+    STR
+  end
+end
+
+if $ENVS == []
+  $ENVS = ['development', 'production', 'test']
+end
+
+#exit 0
+
+$DB_CONFIG = YAML.load(ERB.new(File.open(File.join(RAILS_ROOT, "config", "database.yml")) {|f| f.read}).result(binding))
+
+if $CREATE && !$OUTPUT_FILE
+  if $DB_PASS
+    $ROOT_PW = $DB_PASS
+  else
+    $ROOT_PW = ask("gimme root sql password: ") { |q| q.echo = false}
+  end
+  if !$ROOT_PW || $ROOT_PW.empty?
+    puts "error reading password"
+    exit 4
+  else
+    puts "got password"
+  end
+doit = "echo 'show databases;' | mysql -u root -p'#{$ROOT_PW}' > /dev/null"
+  unless system doit
+    puts "incorrect password"
+    exit 7
+  end
+end
+puts
+puts
+
+$ENVS.each do |env|
+  db = $DB_CONFIG[env]['database']
+  user = $CREATE ? "root" : $DB_CONFIG[env]["username"]
+  pw = $CREATE ? $ROOT_PW : $DB_CONFIG[env]["password"]
+  
+  puts "backing up #{db} to #{File.join $DB_DIR, db}.bkp"
+  temp_error = `mysqldump -u #{user} -p'#{pw}' --database #{db} 2>&1 > #{File.join $DB_DIR, db}.bkp`
+  if (temp_err_num = $?) != 0
+    case temp_error.strip
+      when "mysqldump: Got error: 1049: Unknown database '#{db}' when selecting the database"
+        puts "couldn't find #{db} to dump, skipping this DB"
+      else
+        puts "ERROR: couldn't back up #{db}.  mysqldump exited with: #{temp_err_num}, and error: #{temp_error}"
+        puts "You may need to start, or restart, your mysql server."
+        exit 1
+    end
+  end
+  puts
+end unless $OUTPUT_FILE
+
+def execute_mysql(message, statement, user = nil, password = nil)
+  puts message
+  `echo '#{statement}' | mysql -u #{user} -p'#{password}'`
+end
+
+$ENVS.each do |env|
+  db = $DB_CONFIG[env]['database']
+  user = $CREATE ? "root" : $DB_CONFIG[env]["username"]
+  pw = $CREATE ? $ROOT_PW : $DB_CONFIG[env]["password"]
+  
+  if $CREATE
+    drop_statement = "drop database if exists #{db};"
+    create_statement =  "create database #{db};"
+    grant_statement =  "grant all on `#{db}`.* to `#{$DB_CONFIG[env]['username']}`@`localhost` identified by \"#{$DB_CONFIG[env]['password']}\";"
+    if $OUTPUT_FILE
+      File.open($OUTPUT_FILE,"a+") do |f|
+        f.puts drop_statement
+        f.puts create_statement
+        f.puts grant_statement
+      end
+    else
+      # puts "Dropping #{db}"
+      execute_mysql("dropping #{db}", drop_statement, user, pw)
+      # puts "creating and granting on #{db}"
+      execute_mysql("creating #{db}", create_statement, user, pw)
+      execute_mysql("granting on #{db}", grant_statement, user, pw)
+      puts
+    end
+  else
+    views = `echo "select table_name from information_schema.views where table_schema = '#{db}';" | mysql -u #{user} -p'#{pw}' --skip-column-names #{db}`.split("\n").join(", ")
+    puts "views: #{views}"
+    puts `echo "drop view if exists #{views};" | mysql -u #{user} -p'#{pw}' #{db}` unless !views || views.strip.empty?
+    puts "getting table list for #{db}"
+    tables = `echo "show tables;" | mysql -u #{user} -p'#{pw}' --skip-column-names #{db}`.split("\n").join(", ")
+    puts "tables: #{tables}"
+    puts
+    
+    if tables.strip == ""
+      puts "#{db} contains no tables, skipping"
+    else
+      puts "dropping tables in #{db}"
+      puts `echo "drop table if exists #{tables};" | mysql -u #{user} -p'#{pw}' #{db}`
+      if $? != 0
+        puts "ERROR: couldn't drop table(s) on #{db}"
+        exit 2
+      end
+    end
+  end
+end
+
