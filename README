@@ -49,6 +49,16 @@ Caveats
 * This will only work on associations that are dependent destroy.  It should be trival to change that or make it optional.
 * It will only work for Rails 2.2 and up, because we are using named_scope.  You can check out permanent records for a way to conditionally add the functionality to older Rails installations.
 
+Testing
+=======
+
+Because this plugin makes use of transactions we're testing it on MySQL instead of the more convenient sqlite. Running the tests should be as easy as
+
+cd ./test/aaa_test_app/
+script/db_setup -c      # makes the databases with the correct permissions
+cd ../..                # back in the AAA root
+rake
+
 Thanks
 ======
 ActsAsParanoid and PermanentRecords were both inspirations for this
