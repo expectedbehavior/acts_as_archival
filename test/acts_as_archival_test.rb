@@ -194,7 +194,7 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert ship.is_archival?
     assert ship.rats.first.is_archival?
     ship.archive
-    assert_not ship.reload.archived?
+    assert_not ship.reload.archived?, "If this failed, you might be trying to test on a system that doesn't support nested transactions"
     assert_not ship.rats(true).first.archived?
   end
   
