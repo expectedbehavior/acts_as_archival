@@ -67,7 +67,9 @@ module ExpectedBehavior
             if self.archived?
               head_archive_number ||= self.archive_number
               self.unarchive_associations(head_archive_number)
-              self.update_attributes!({:archived_at => nil, :archive_number => nil})
+              self.archived_at = nil
+              self.archive_number = nil
+              self.save!
             end
             run_callbacks :after_unarchive
           rescue
