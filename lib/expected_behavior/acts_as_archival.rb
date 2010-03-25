@@ -6,7 +6,8 @@ module ExpectedBehavior
     UNARCHIVED_CONDITIONS = { :archived_at => nil, :archive_number => nil }
     
     MissingArchivalColumnError = Class.new(ActiveRecord::ActiveRecordError) unless defined?(MissingArchivalColumnError) == 'constant' && MissingArchivalColumnError.class == Class
-
+    CouldNotArchiveError = Class.new(ActiveRecord::ActiveRecordError) unless defined?(CouldNotArchiveError) == 'constant' && CouldNotArchiveError.class == Class
+    CouldNotUnarchiveError = Class.new(ActiveRecord::ActiveRecordError) unless defined?(CouldNotUnarchiveError) == 'constant' && CouldNotUnarchiveError.class == Class
     
     def self.included(base) 
       base.extend ActMethods
@@ -88,15 +89,18 @@ module ExpectedBehavior
       def act_on_all_archival_associations(head_archive_number, options={})
         return if options.length == 0
         options[:association_options] ||= Proc.new { true }
+#         puts "0 - #{self.class.name}"
         self.class.reflect_on_all_associations.each do |association|
-          if association.klass.is_archival? && association.macro.to_s =~ /^has/ && options[:association_options].call(association)
+#           puts "0.1 - #{association.klass.name}"
+#           puts "0.2 - #{association.options.inspect}"
+          if association.klass.is_archival? && association.macro.to_s =~ /^has/ && options[:association_options].call(association) && association.options[:through].nil?
             act_on_a_related_archival(association.klass, association.primary_key_name, id, head_archive_number, options)
           end
         end
       end
           
       def act_on_a_related_archival(klass, key_name, id, head_archive_number, options={})
-        # puts "[klass => #{klass.name}, key_name => #{key_name}, :id => #{id}, :head_archive_number => #{head_archive_number}, options => #{options.inspect}]"
+#         puts "1 - [klass => #{klass.name}, key_name => #{key_name}, :id => #{id}, :head_archive_number => #{head_archive_number}, options => #{options.inspect}]"
         return if options.length == 0 || (!options[:archive] && !options[:unarchive])
         if options[:archive]
           klass.unarchived.find(:all, :conditions => ["#{key_name} = ?", id]).each do |related_record|

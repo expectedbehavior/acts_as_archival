@@ -13,6 +13,13 @@ ActiveRecord::Schema.define(:version => 1) do
     t.references :hole
   end
 
+  create_table :fleas, :force => true do |t|
+    t.column :name, :string
+    t.column :archive_number, :string
+    t.column :archived_at, :datetime
+    t.references :muskrat
+  end
+  
   create_table :squirrels, :force => true do |t|
     t.column :name, :string
     t.column :archive_number, :string

@@ -3,9 +3,9 @@ require File.expand_path(File.dirname(__FILE__) + "/test_helper")
 class ActsAsArchivalTest < ActiveSupport::TestCase
   def setup
     super
-    @hole = Hole.create(:number => 14)
-    @mole = @hole.muskrats.create(:name => "Steady Rat")
-    @mole = @hole.moles.create(:name => "Grabowski")
+    @hole     = Hole.create(:number => 14)
+    @muskrat  = @hole.muskrats.create(:name => "Steady Rat")
+    @mole     = @hole.moles.create(:name => "Grabowski")
     @archived = Hole.create(:number => 12).archive
   end
 
@@ -206,5 +206,23 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     ship.archive.unarchive
     assert ship.reload.archived?
     assert ship.oranges(true).first.archived?
+  end
+  
+  test "archiving deeply nested items doesn't blow up" do
+    @hole.muskrats.first.fleas << Flea.create(:name => "Wadsworth")
+    @hole.archive
+    assert @hole.reload.archived?
+    assert @hole.muskrats.first.reload.archived?
+    assert @hole.muskrats.first.fleas.first.archived?
+  end
+  
+  test "unarchiving deeply nested items doesn't blow up" do
+    @hole.muskrats.first.fleas << Flea.create(:name => "Wadsworth")
+    @hole.archive
+    
+    @hole.unarchive
+    assert_not @hole.reload.archived?
+    assert_not @hole.muskrats.first.reload.archived?
+    assert_not @hole.muskrats.first.fleas.first.archived?
   end
 end
