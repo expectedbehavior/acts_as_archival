@@ -61,4 +61,10 @@ ActiveRecord::Schema.define(:version => 1) do
     t.column :archived_at, :datetime
     t.references :ship
   end
+  
+  create_table :snakes, :force => true do |t|
+    t.string   :color
+    t.string   :archive_number
+    t.datetime :archived_at
+  end
 end
