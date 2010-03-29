@@ -48,7 +48,9 @@ module ExpectedBehavior
             run_callbacks :before_archive
             unless self.archived?
               head_archive_number ||= Digest::MD5.hexdigest("#{self.class.name}#{self.id}")
-              self.update_attributes!({:archived_at => DateTime.now, :archive_number => head_archive_number})
+              self.archived_at = DateTime.now
+              self.archive_number = head_archive_number
+              self.save!
               self.archive_associations(head_archive_number)
             end
             run_callbacks :after_archive
@@ -66,7 +68,9 @@ module ExpectedBehavior
             if self.archived?
               head_archive_number ||= self.archive_number
               self.unarchive_associations(head_archive_number)
-              self.update_attributes!({:archived_at => nil, :archive_number => nil})
+              self.archived_at = nil
+              self.archive_number = nil
+              self.save!
             end
             run_callbacks :after_unarchive
           rescue
