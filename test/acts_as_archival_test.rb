@@ -225,4 +225,10 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert_not @hole.muskrats.first.reload.archived?
     assert_not @hole.muskrats.first.fleas.first.archived?
   end
+
+  # test against the problem fixed in http://github.com/DarkTatka/acts_as_archival/commit/63d0a2532a15d7a6ab41d081e1591108a5ea9b37
+  test "no ambiguous table problem" do
+    @hole.muskrats.first.archive
+    assert_equal 1, Muskrat.archived.all(:conditions => "holes.number = '14'", :joins => :hole).size
+  end
 end
