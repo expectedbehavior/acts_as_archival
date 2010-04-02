@@ -231,4 +231,16 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     @hole.muskrats.first.archive
     assert_equal 1, Muskrat.archived.all(:conditions => "holes.number = '14'", :joins => :hole).size
   end
+  
+  test "archival works when mass attribute assignment protection is present" do 
+    snake = Snake.create(:color => "pink")
+
+    snake.archive    
+    assert snake.archive_number
+    assert snake.archived_at
+    
+    snake.unarchive
+    assert snake.archive_number.nil?
+    assert snake.archived_at.nil?
+  end
 end
