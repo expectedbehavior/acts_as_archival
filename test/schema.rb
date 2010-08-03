@@ -67,4 +67,10 @@ ActiveRecord::Schema.define(:version => 1) do
     t.string   :archive_number
     t.datetime :archived_at
   end
+  
+  create_table :beavers, :force => true do |t|
+    t.integer  :how_much_wood_can_it_chuck
+    t.string   :archive_number
+    t.datetime :archived_at
+  end
 end

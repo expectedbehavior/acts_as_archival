@@ -243,4 +243,39 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert snake.archive_number.nil?
     assert snake.archived_at.nil?
   end
+  
+  test "readonly_when_archived flag works" do
+    
+    #not readonly_when_archived
+    snake = Snake.create(:color => "pink")
+    snake.archive
+    assert_equal "pink", snake.color
+    snake.color = "blue"
+    assert snake.save
+    snake.reload
+    assert_equal "blue", snake.color
+    snake.unarchive
+    assert_equal "blue", snake.color
+    snake.color = "pink"
+    assert snake.save
+    snake.reload
+    assert_equal "pink", snake.color
+
+    #readonly_when_archived
+    beaver = Beaver.create(:how_much_wood_can_it_chuck => 5)
+    beaver.archive
+    assert_equal 5, beaver.how_much_wood_can_it_chuck
+    beaver.how_much_wood_can_it_chuck = 10
+    assert_not beaver.save
+    assert_equal "Cannot modifify an archived record.", beaver.errors.full_messages.first
+    beaver.reload
+    assert_equal 5, beaver.how_much_wood_can_it_chuck
+    beaver.unarchive
+    assert_equal 5, beaver.how_much_wood_can_it_chuck
+    beaver.how_much_wood_can_it_chuck = 10
+    assert beaver.save
+    beaver.reload
+    assert_equal 10, beaver.how_much_wood_can_it_chuck
+
+  end
 end

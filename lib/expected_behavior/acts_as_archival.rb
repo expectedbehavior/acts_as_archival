@@ -14,11 +14,12 @@ module ExpectedBehavior
     end
 
     module ActMethods
-      def acts_as_archival
+      def acts_as_archival(options = { })
         unless included_modules.include? InstanceMethods
-          include InstanceMethods 
-
-          before_save :raise_if_not_archival
+          include InstanceMethods
+          
+          before_validation :raise_if_not_archival
+          validate :readonly_when_archived if options[:readonly_when_archived]
       
           named_scope :archived, :conditions => ARCHIVED_CONDITIONS.call(self)
           named_scope :unarchived, :conditions => UNARCHIVED_CONDITIONS
@@ -28,9 +29,17 @@ module ExpectedBehavior
           define_callbacks :before_unarchive, :after_unarchive
         end 
       end 
+      
     end
     
     module InstanceMethods
+      
+      def readonly_when_archived
+        if self.archived? && self.changed? && !self.archived_at_changed? && !self.archive_number_changed?
+          self.errors.add_to_base("Cannot modifify an archived record.")
+        end
+      end
+      
       def raise_if_not_archival
         missing_columns = []
         missing_columns << "archive_number" unless self.respond_to?(:archive_number)
