@@ -4,9 +4,15 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
   def setup
     super
     @hole     = Hole.create(:number => 14)
+    @readonly_hole = Hole.create(:number => 15)
+    @readonly_hole.readonly!
     @muskrat  = @hole.muskrats.create(:name => "Steady Rat")
     @mole     = @hole.moles.create(:name => "Grabowski")
-    @archived = Hole.create(:number => 12).archive
+    @archived = Hole.create(:number => 12)
+    @archived.archive
+    @readonly_archived = Hole.create(:number => 13)
+    @readonly_archived.archive
+    @readonly_archived.readonly!
   end
 
   test "including archival throws exceptions if the correct columns aren't in place" do
@@ -27,8 +33,10 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
   
   test "archive on archived object doesn't alter the archive_number" do
     assert @hole.is_archival?
-    initial_number = @hole.archive
-    second_number = @hole.reload.archive
+    @hole.archive
+    initial_number = @hole.archive_number
+    @hole.reload.archive
+    second_number = @hole.archive_number
     assert_equal initial_number, second_number
   end
   
@@ -38,18 +46,14 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert_not_nil @hole.reload.archived_at
   end
   
-  test "archive returns the object being archived for chaining" do
-    assert @hole.is_archival?
-    id = @hole.id
-    test = @hole.archive.reload.id
-    assert_equal id, test
+  test "archive returns true on success, false on failure" do
+    assert @hole.archive
+    assert !@readonly_hole.archive
   end
   
   test "unarchive returns the object being unarchived for chaining" do
-    assert @hole.is_archival?
-    id = @archived.id
-    test = @archived.unarchive.id
-    assert_equal id, test
+    assert @archived.unarchive
+    assert !@readonly_archived.unarchive
   end
   
   test "archive sets archived_at to the time of archiving" do
@@ -122,7 +126,8 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert @hole.is_archival?
     assert @hole.muskrats.first.is_archival?
     
-    @hole.archive.unarchive
+    @hole.archive
+    @hole.unarchive
     
     assert_not @hole.archived?
     assert_not @hole.muskrats(true).first.archived?
@@ -136,7 +141,8 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert @hole.muskrats[1].is_archival?
     
     @hole.muskrats.first.archive
-    @hole.archive.unarchive
+    @hole.archive
+    @hole.unarchive
     
     assert     @hole.muskrats(true)[0].archived?
     assert_not @hole.muskrats[1].archived?
@@ -150,7 +156,9 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert @hole.muskrats[1].is_archival?
     
     @hole.muskrats.first.archive
-    @hole.archive.unarchive.unarchive
+    @hole.archive
+    @hole.unarchive
+    @hole.unarchive
     
     assert     @hole.muskrats(true)[0].archived?
     assert_not @hole.muskrats[1].archived?
@@ -164,20 +172,20 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert @hole.muskrats.first.is_archival?
     assert @hole.muskrats.last.is_archival?
 
-    assert_equal 1, Hole.unarchived.size
-    assert_equal 0, Hole.archived.size
+    assert_equal 2, Hole.unarchived.size
+    assert_equal 1, Hole.archived.size
     assert_equal 2, Muskrat.unarchived.size
     assert_equal 0, Muskrat.archived.size
     
     @hole.muskrats.first.archive
-    assert_equal 1, Hole.unarchived.size
-    assert_equal 0, Hole.archived.size
+    assert_equal 2, Hole.unarchived.size
+    assert_equal 1, Hole.archived.size
     assert_equal 1, Muskrat.unarchived.size
     assert_equal 1, Muskrat.archived.size
     
     @hole.archive
-    assert_equal 0, Hole.unarchived.size
-    assert_equal 1, Hole.archived.size
+    assert_equal 1, Hole.unarchived.size
+    assert_equal 2, Hole.archived.size
     assert_equal 0, Muskrat.unarchived.size
     assert_equal 2, Muskrat.archived.size
     
@@ -203,7 +211,8 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     ship.oranges << Orange.create(:name => "Pennyworth")
     assert ship.is_archival?
     assert ship.oranges.first.is_archival?
-    ship.archive.unarchive
+    ship.archive
+    ship.unarchive
     assert ship.reload.archived?
     assert ship.oranges(true).first.archived?
   end

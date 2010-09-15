@@ -63,11 +63,11 @@ module ExpectedBehavior
               self.archive_associations(head_archive_number)
             end
             run_callbacks :after_archive
+            true
           rescue
             raise ActiveRecord::Rollback
           end
         end
-        self
       end
       
       def unarchive(head_archive_number=nil)
@@ -82,11 +82,11 @@ module ExpectedBehavior
               self.save!
             end
             run_callbacks :after_unarchive
+            true
           rescue
             raise ActiveRecord::Rollback
           end
         end
-        self
       end
       
       def archive_associations(head_archive_number)
