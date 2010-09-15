@@ -51,7 +51,7 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert !@readonly_hole.archive
   end
   
-  test "unarchive returns the object being unarchived for chaining" do
+  test "unarchive returns true on success, false on failure" do
     assert @archived.unarchive
     assert !@readonly_archived.unarchive
   end
@@ -287,4 +287,22 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert_equal 10, beaver.how_much_wood_can_it_chuck
 
   end
+  
+  test "entire archiving operation fails if a child fails to archive" do
+    assert @hole.archive
+    assert @hole.unarchive
+    @hole.muskrats.create(:name => "Invalid Rat")
+    assert !@hole.archive
+    assert @hole.reload.archive_number.blank?
+  end
+  
+  test "entire unarchiving operation fails if a child fails to unarchive" do
+    assert @hole.archive
+    @hole.muskrats.create(:name => "Invalid Rat", :archive_number => @hole.archive_number, :archived_at => @hole.archived_at)
+    assert !@hole.unarchive
+    assert @hole.reload.archive_number.present?
+    @hole.muskrats.last.destroy
+    assert @hole.unarchive
+  end
+  
 end

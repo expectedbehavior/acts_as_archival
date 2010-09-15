@@ -57,10 +57,10 @@ module ExpectedBehavior
             run_callbacks :before_archive
             unless self.archived?
               head_archive_number ||= Digest::MD5.hexdigest("#{self.class.name}#{self.id}")
+              self.archive_associations(head_archive_number)
               self.archived_at = DateTime.now
               self.archive_number = head_archive_number
               self.save!
-              self.archive_associations(head_archive_number)
             end
             run_callbacks :after_archive
             true
@@ -76,10 +76,10 @@ module ExpectedBehavior
             run_callbacks :before_unarchive
             if self.archived?
               head_archive_number ||= self.archive_number
-              self.unarchive_associations(head_archive_number)
               self.archived_at = nil
               self.archive_number = nil
               self.save!
+              self.unarchive_associations(head_archive_number)
             end
             run_callbacks :after_unarchive
             true
@@ -117,11 +117,11 @@ module ExpectedBehavior
         return if options.length == 0 || (!options[:archive] && !options[:unarchive])
         if options[:archive]
           klass.unarchived.find(:all, :conditions => ["#{key_name} = ?", id]).each do |related_record|
-            related_record.archive(head_archive_number)
+            raise ActiveRecord::Rollback unless related_record.archive(head_archive_number)
           end
         else
           klass.archived.find(:all, :conditions => ["#{key_name} = ? AND archive_number = ?", id, head_archive_number]).each do |related_record|
-            related_record.unarchive(head_archive_number)
+            raise ActiveRecord::Rollback unless related_record.unarchive(head_archive_number)
           end
         end
       end
