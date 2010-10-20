@@ -12,6 +12,10 @@ Install
 =======
 script/plugin install http://github.com/expectedbehavior/acts_as_archival.git/
 
+Any models you want to be archival should have the columns archive_number(string) and archived_at(datetime).
+i.e. script/generate migration AddAAAToPost archive_number:string archived_at:datetime
+
+Any dependent-destroy objects connected to an AAA model will be archived with its parent.
 
 Example
 =======
