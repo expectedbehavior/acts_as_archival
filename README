@@ -55,6 +55,11 @@ Caveats
 
 Testing
 =======
+You'll need a few gems installed to run the tests:
+
+gem install rails --version '2.3.11'
+gem install assertions
+gem install mysql
 
 Because this plugin makes use of transactions we're testing it on MySQL instead of the more convenient sqlite. Running the tests should be as easy as
 
