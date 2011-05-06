@@ -10,7 +10,11 @@ Additionally, other plugins generally screw with how destroy/delete work.  We do
 
 Install
 =======
-script/plugin install http://github.com/expectedbehavior/acts_as_archival.git/
+Rails 3:
+rails plugin install http://github.com/expectedbehavior/acts_as_archival.git -r rails3
+
+Rails 2:
+script/plugin install http://github.com/expectedbehavior/acts_as_archival.git
 
 Any models you want to be archival should have the columns archive_number(string) and archived_at(datetime).
 i.e. script/generate migration AddAAAToPost archive_number:string archived_at:datetime
@@ -55,15 +59,11 @@ Caveats
 
 Testing
 =======
-You'll need a few gems installed to run the tests:
-
-gem install rails --version '2.3.11'
-gem install assertions
-gem install mysql
 
 Because this plugin makes use of transactions we're testing it on MySQL instead of the more convenient sqlite. Running the tests should be as easy as
 
 cd ./test/aaa_test_app/
+bundle
 script/db_setup -c      # makes the databases with the correct permissions
 cd ../..                # back in the AAA root
 rake
