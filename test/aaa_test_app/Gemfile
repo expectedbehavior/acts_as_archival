@@ -1,0 +1,8 @@
+source 'http://rubygems.org'
+
+gem 'rails', '3.0.0'
+gem 'mysql'
+
+group :development, :test do
+  gem 'assertions'
+end
