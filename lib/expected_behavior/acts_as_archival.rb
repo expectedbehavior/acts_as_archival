@@ -21,12 +21,22 @@ module ExpectedBehavior
           before_validation :raise_if_not_archival
           validate :readonly_when_archived if options[:readonly_when_archived]
       
-          named_scope :archived, :conditions => ARCHIVED_CONDITIONS.call(self)
-          named_scope :unarchived, :conditions => UNARCHIVED_CONDITIONS
-          named_scope :archived_from_archive_number, lambda { |head_archive_number| {:conditions => ['archived_at IS NOT NULL AND archive_number = ?', head_archive_number] } }
+          scope :archived, :conditions => ARCHIVED_CONDITIONS.call(self)
+          scope :unarchived, :conditions => UNARCHIVED_CONDITIONS
+          scope :archived_from_archive_number, lambda { |head_archive_number| {:conditions => ['archived_at IS NOT NULL AND archive_number = ?', head_archive_number] } }
        
-          define_callbacks :before_archive, :after_archive
-          define_callbacks :before_unarchive, :after_unarchive
+          callbacks = ['archive','unarchive']
+          define_callbacks *[callbacks, {:terminator => 'result == false'}].flatten
+          callbacks.each do |callback|
+            eval <<-end_callbacks
+              def before_#{callback}(*args, &blk)
+                set_callback(:#{callback}, :before, *args, &blk)
+              end
+              def after_#{callback}(*args, &blk)
+                set_callback(:#{callback}, :after, *args, &blk)
+              end
+            end_callbacks
+          end
         end 
       end 
       
@@ -36,7 +46,7 @@ module ExpectedBehavior
       
       def readonly_when_archived
         if self.archived? && self.changed? && !self.archived_at_changed? && !self.archive_number_changed?
-          self.errors.add_to_base("Cannot modifify an archived record.")
+          self.errors.add(:base, "Cannot modifify an archived record.")
         end
       end
       
@@ -54,7 +64,7 @@ module ExpectedBehavior
       def archive(head_archive_number=nil)
         self.class.transaction do
           begin
-            run_callbacks :before_archive
+            run_callbacks :archive, :before
             unless self.archived?
               head_archive_number ||= Digest::MD5.hexdigest("#{self.class.name}#{self.id}")
               self.archive_associations(head_archive_number)
@@ -62,7 +72,7 @@ module ExpectedBehavior
               self.archive_number = head_archive_number
               self.save!
             end
-            run_callbacks :after_archive
+            run_callbacks :archive, :after
             true
           rescue
             raise ActiveRecord::Rollback
@@ -73,7 +83,7 @@ module ExpectedBehavior
       def unarchive(head_archive_number=nil)
         self.class.transaction do
           begin
-            run_callbacks :before_unarchive
+            run_callbacks :unarchive, :before
             if self.archived?
               head_archive_number ||= self.archive_number
               self.archived_at = nil
@@ -81,7 +91,7 @@ module ExpectedBehavior
               self.save!
               self.unarchive_associations(head_archive_number)
             end
-            run_callbacks :after_unarchive
+            run_callbacks :unarchive, :after
             true
           rescue
             raise ActiveRecord::Rollback
