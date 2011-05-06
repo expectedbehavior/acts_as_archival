@@ -1,5 +1,5 @@
 $:.unshift(File.dirname(__FILE__) + '/../lib')
-RAILS_ROOT = File.dirname(__FILE__)
+#RAILS_ROOT = File.dirname(__FILE__)
 
 require 'rubygems'
 require 'active_record'
@@ -20,7 +20,7 @@ ENV["RAILS_ENV"] = "test"
   require File.expand_path(File.dirname(__FILE__) + file_to_load)
 end
 
-require 'test_help'
+require 'rails/test_help'
 require 'assertions'
 
 %w(hole mole muskrat squirrel kitty puppy ship rat orange flea snake beaver).each do |a|
