@@ -4,6 +4,9 @@ class Muskrat < ActiveRecord::Base
   belongs_to :hole
   has_many :fleas, :dependent => :destroy
   
+  has_many :ixodidaes, :as => :warm_blooded, :dependent => :destroy
+  has_many :ticks, :through => :ixodidaes
+
   validate :invalid_for_certain_names
   
   def invalid_for_certain_names
