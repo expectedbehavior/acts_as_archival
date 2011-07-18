@@ -116,7 +116,7 @@ module ExpectedBehavior
         self.class.reflect_on_all_associations.each do |association|
 #           puts "0.1 - #{association.klass.name}"
 #           puts "0.2 - #{association.options.inspect}"
-          if association.klass.is_archival? && association.macro.to_s =~ /^has/ && options[:association_options].call(association) && association.options[:through].nil?
+          if association.macro.to_s =~ /^has/ && association.klass.is_archival? && options[:association_options].call(association) && association.options[:through].nil?
             act_on_a_related_archival(association.klass, association.primary_key_name, id, head_archive_number, options)
           end
         end

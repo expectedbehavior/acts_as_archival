@@ -73,4 +73,17 @@ ActiveRecord::Schema.define(:version => 1) do
     t.string   :archive_number
     t.datetime :archived_at
   end
+
+  create_table :ticks, :force => true do |t|
+    t.string :archive_number
+    t.datetime :archived_at
+  end
+
+  create_table :ixodidaes, :force => true do |t|
+    t.references :ticks
+    t.integer :warm_blooded_id
+    t.string :warm_blooded_type
+    t.string :archive_number
+    t.datetime :archived_at
+  end
 end
