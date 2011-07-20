@@ -11,10 +11,10 @@ Additionally, other plugins generally screw with how destroy/delete work.  We do
 Install
 =======
 Rails 3:
-rails plugin install http://github.com/expectedbehavior/acts_as_archival.git -r rails3
+rails plugin install http://github.com/expectedbehavior/acts_as_archival.git
 
 Rails 2:
-script/plugin install http://github.com/expectedbehavior/acts_as_archival.git
+script/plugin install http://github.com/expectedbehavior/acts_as_archival.git -r rails2
 
 Any models you want to be archival should have the columns archive_number(string) and archived_at(datetime).
 i.e. script/generate migration AddAAAToPost archive_number:string archived_at:datetime
