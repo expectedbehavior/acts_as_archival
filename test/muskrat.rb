@@ -10,6 +10,6 @@ class Muskrat < ActiveRecord::Base
   validate :invalid_for_certain_names
 
   def invalid_for_certain_names
-    self.errors.add_to_base("Bad name!!") if self.name == "Invalid Rat" && !self.new_record?
+    self.errors.add(:base, "Bad name!!") if self.name == "Invalid Rat" && !self.new_record?
   end
 end

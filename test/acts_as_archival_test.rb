@@ -224,7 +224,7 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert @hole.muskrats.first.reload.archived?
     assert @hole.muskrats.first.fleas.first.archived?
   end
-  
+
   test "archiving items with polymorphic associations succeeds" do
     @muskrat = Muskrat.create(:name => "Algernon")
     @tick = Tick.create
