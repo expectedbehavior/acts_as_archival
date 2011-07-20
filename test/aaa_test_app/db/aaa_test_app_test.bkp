@@ -22,6 +22,382 @@
 CREATE DATABASE /*!32312 IF NOT EXISTS*/ `aaa_test_app_test` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
 USE `aaa_test_app_test`;
+
+--
+-- Table structure for table `beavers`
+--
+
+DROP TABLE IF EXISTS `beavers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `beavers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `how_much_wood_can_it_chuck` int(11) DEFAULT NULL,
+  `archive_number` varchar(255) DEFAULT NULL,
+  `archived_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `beavers`
+--
+
+LOCK TABLES `beavers` WRITE;
+/*!40000 ALTER TABLE `beavers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `beavers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `fleas`
+--
+
+DROP TABLE IF EXISTS `fleas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `fleas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `archive_number` varchar(255) DEFAULT NULL,
+  `archived_at` datetime DEFAULT NULL,
+  `muskrat_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `fleas`
+--
+
+LOCK TABLES `fleas` WRITE;
+/*!40000 ALTER TABLE `fleas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `fleas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `holes`
+--
+
+DROP TABLE IF EXISTS `holes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `holes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `number` int(11) DEFAULT NULL,
+  `archive_number` varchar(255) DEFAULT NULL,
+  `archived_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `holes`
+--
+
+LOCK TABLES `holes` WRITE;
+/*!40000 ALTER TABLE `holes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `holes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ixodidaes`
+--
+
+DROP TABLE IF EXISTS `ixodidaes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ixodidaes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ticks_id` int(11) DEFAULT NULL,
+  `warm_blooded_id` int(11) DEFAULT NULL,
+  `warm_blooded_type` varchar(255) DEFAULT NULL,
+  `archive_number` varchar(255) DEFAULT NULL,
+  `archived_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ixodidaes`
+--
+
+LOCK TABLES `ixodidaes` WRITE;
+/*!40000 ALTER TABLE `ixodidaes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ixodidaes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `kitties`
+--
+
+DROP TABLE IF EXISTS `kitties`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `kitties` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `archive_number` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `kitties`
+--
+
+LOCK TABLES `kitties` WRITE;
+/*!40000 ALTER TABLE `kitties` DISABLE KEYS */;
+/*!40000 ALTER TABLE `kitties` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `moles`
+--
+
+DROP TABLE IF EXISTS `moles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `moles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `hole_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `moles`
+--
+
+LOCK TABLES `moles` WRITE;
+/*!40000 ALTER TABLE `moles` DISABLE KEYS */;
+/*!40000 ALTER TABLE `moles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `muskrats`
+--
+
+DROP TABLE IF EXISTS `muskrats`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `muskrats` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `archive_number` varchar(255) DEFAULT NULL,
+  `archived_at` datetime DEFAULT NULL,
+  `hole_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `muskrats`
+--
+
+LOCK TABLES `muskrats` WRITE;
+/*!40000 ALTER TABLE `muskrats` DISABLE KEYS */;
+/*!40000 ALTER TABLE `muskrats` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `oranges`
+--
+
+DROP TABLE IF EXISTS `oranges`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oranges` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `archive_number` varchar(255) DEFAULT NULL,
+  `archived_at` datetime DEFAULT NULL,
+  `ship_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `oranges`
+--
+
+LOCK TABLES `oranges` WRITE;
+/*!40000 ALTER TABLE `oranges` DISABLE KEYS */;
+/*!40000 ALTER TABLE `oranges` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `puppies`
+--
+
+DROP TABLE IF EXISTS `puppies`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `puppies` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `archived_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `puppies`
+--
+
+LOCK TABLES `puppies` WRITE;
+/*!40000 ALTER TABLE `puppies` DISABLE KEYS */;
+/*!40000 ALTER TABLE `puppies` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `rats`
+--
+
+DROP TABLE IF EXISTS `rats`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rats` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `archive_number` varchar(255) DEFAULT NULL,
+  `archived_at` datetime DEFAULT NULL,
+  `ship_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rats`
+--
+
+LOCK TABLES `rats` WRITE;
+/*!40000 ALTER TABLE `rats` DISABLE KEYS */;
+/*!40000 ALTER TABLE `rats` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `schema_migrations`
+--
+
+DROP TABLE IF EXISTS `schema_migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `schema_migrations` (
+  `version` varchar(255) NOT NULL,
+  UNIQUE KEY `unique_schema_migrations` (`version`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `schema_migrations`
+--
+
+LOCK TABLES `schema_migrations` WRITE;
+/*!40000 ALTER TABLE `schema_migrations` DISABLE KEYS */;
+INSERT INTO `schema_migrations` VALUES ('1');
+/*!40000 ALTER TABLE `schema_migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ships`
+--
+
+DROP TABLE IF EXISTS `ships`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ships` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `archive_number` varchar(255) DEFAULT NULL,
+  `archived_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ships`
+--
+
+LOCK TABLES `ships` WRITE;
+/*!40000 ALTER TABLE `ships` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ships` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `snakes`
+--
+
+DROP TABLE IF EXISTS `snakes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `snakes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `color` varchar(255) DEFAULT NULL,
+  `archive_number` varchar(255) DEFAULT NULL,
+  `archived_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `snakes`
+--
+
+LOCK TABLES `snakes` WRITE;
+/*!40000 ALTER TABLE `snakes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `snakes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `squirrels`
+--
+
+DROP TABLE IF EXISTS `squirrels`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `squirrels` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `archive_number` varchar(255) DEFAULT NULL,
+  `archived_at` datetime DEFAULT NULL,
+  `hole_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `squirrels`
+--
+
+LOCK TABLES `squirrels` WRITE;
+/*!40000 ALTER TABLE `squirrels` DISABLE KEYS */;
+/*!40000 ALTER TABLE `squirrels` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ticks`
+--
+
+DROP TABLE IF EXISTS `ticks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ticks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `archive_number` varchar(255) DEFAULT NULL,
+  `archived_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ticks`
+--
+
+LOCK TABLES `ticks` WRITE;
+/*!40000 ALTER TABLE `ticks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ticks` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -32,4 +408,4 @@ USE `aaa_test_app_test`;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2011-07-20  1:41:17
+-- Dump completed on 2011-07-20  1:46:11
