@@ -74,4 +74,14 @@ ActsAsParanoid and PermanentRecords were both inspirations for this
 http://github.com/technoweenie/acts_as_paranoid
 http://github.com/fastestforward/permanent_records/
 
-Copyright (c) 2009 [Expected Behavior, LLC], released under the MIT license
+Contributors
+============
+* Joel Meador
+* Michael Kuehl
+* Matthew Gordon
+* Vojtech Salbaba
+* David Jones
+* Dave Woodward
+-- Thanks, guys!
+
+Copyright (c) 2009-2011 [Expected Behavior, LLC], released under the MIT license
