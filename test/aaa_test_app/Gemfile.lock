@@ -1,0 +1,35 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    actionmailer (2.3.12)
+      actionpack (= 2.3.12)
+    actionpack (2.3.12)
+      activesupport (= 2.3.12)
+      rack (~> 1.1.0)
+    activerecord (2.3.12)
+      activesupport (= 2.3.12)
+    activeresource (2.3.12)
+      activesupport (= 2.3.12)
+    activesupport (2.3.12)
+    assertions (1.4.1)
+    highline (1.6.2)
+    mysql (2.8.1)
+    rack (1.1.2)
+    rails (2.3.12)
+      actionmailer (= 2.3.12)
+      actionpack (= 2.3.12)
+      activerecord (= 2.3.12)
+      activeresource (= 2.3.12)
+      activesupport (= 2.3.12)
+      rake (>= 0.8.3)
+    rake (0.8.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  assertions
+  highline
+  mysql
+  rails (= 2.3.12)
+  rake (= 0.8.7)

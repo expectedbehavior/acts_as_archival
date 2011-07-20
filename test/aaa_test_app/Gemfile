@@ -1,0 +1,7 @@
+source :rubygems
+
+gem 'rails', '2.3.12'
+gem 'assertions'
+gem 'mysql'
+gem 'highline'
+gem 'rake', '0.8.7'

@@ -23,7 +23,7 @@ end
 require 'test_help'
 require 'assertions'
 
-%w(hole mole muskrat squirrel kitty puppy ship rat orange flea snake beaver).each do |a|
+%w(hole mole muskrat squirrel kitty puppy ship rat orange flea snake beaver tick ixodidae).each do |a|
   require File.expand_path(File.dirname(__FILE__) + "/" + a)
 end
 
