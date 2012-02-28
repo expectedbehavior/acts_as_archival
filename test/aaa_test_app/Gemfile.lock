@@ -29,7 +29,7 @@ GEM
       activesupport (= 3.0.9)
     activesupport (3.0.9)
     arel (2.0.10)
-    assertions (1.4.1)
+    assertions-eb (1.7.3)
     builder (2.1.2)
     erubis (2.6.6)
       abstract (>= 1.0.0)
@@ -41,7 +41,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
-    mysql (2.8.1)
+    mysql2 (0.3.11)
     polyglot (0.3.1)
     rack (1.2.3)
     rack-mount (0.6.14)
@@ -73,7 +73,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  assertions
+  assertions-eb
   highline
-  mysql
-  rails (>= 3.0.0)
+  mysql2
+  rails (>= 3.0.9)

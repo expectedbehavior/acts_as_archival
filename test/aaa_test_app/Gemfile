@@ -1,9 +1,9 @@
 source :rubygems
 
-gem 'rails', '>=3.0.0'
-gem 'mysql'
-gem 'highline'
+gem "rails",   ">=3.0.9"
+gem "mysql2"
+gem "highline"
 
 group :development, :test do
-  gem 'assertions'
+  gem "assertions-eb"
 end

@@ -1,5 +1,5 @@
 development:
-  adapter: mysql
+  adapter: mysql2
   encoding: utf8
   reconnect: false
   database: aaa_test_app_dev
@@ -9,7 +9,7 @@ development:
   socket: /tmp/mysql.sock
 
 test:
-  adapter: mysql
+  adapter: mysql2
   encoding: utf8
   reconnect: false
   database: aaa_test_app_test
@@ -19,11 +19,11 @@ test:
   socket: /tmp/mysql.sock
 
 production:
-  adapter: mysql
+  adapter: mysql2
   encoding: utf8
   reconnect: false
   database: aaa_test_app_prod
   pool: 5
   username: archival_tester
-  password: perspicacious 
+  password: perspicacious
   socket: /tmp/mysql.sock
