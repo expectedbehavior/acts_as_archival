@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + "/test_helper")
+require_relative "test_helper"
 
 class ActsAsArchivalTest < ActiveSupport::TestCase
   def setup
@@ -24,13 +24,13 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert @hole.class.is_archival?
     assert_not Mole.is_archival?
   end
-  
+
   test "archival object responds correctly to 'is_archival?'" do
     mole = Mole.create(:name => "Mittens")
     assert @hole.is_archival?
     assert_not mole.is_archival?
   end
-  
+
   test "archive on archived object doesn't alter the archive_number" do
     assert @hole.is_archival?
     @hole.archive
@@ -39,131 +39,133 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     second_number = @hole.archive_number
     assert_equal initial_number, second_number
   end
-  
+
   test "archive sets archived_at" do
     assert @hole.is_archival?
     @hole.archive
     assert_not_nil @hole.reload.archived_at
   end
-  
+
   test "archive returns true on success, false on failure" do
     assert @hole.archive
     assert !@readonly_hole.archive
   end
-  
+
   test "unarchive returns true on success, false on failure" do
     assert @archived.unarchive
     assert !@readonly_archived.unarchive
   end
-  
+
   test "archive sets archived_at to the time of archiving" do
     assert @hole.is_archival?
     before = DateTime.now
+    sleep(0.001)
     @hole.archive
     sleep(0.001)
     after = DateTime.now
-    assert_between before, after, @hole.archived_at
+
+    assert_between before, after, @hole.archived_at.to_datetime
   end
-  
+
   test "archive sets the archive number to the md5 hexdigest for the model and id that is archived" do
     assert @hole.class.is_archival?
     @hole.archive
     assert_equal Digest::MD5.hexdigest("#{@hole.class.name}#{@hole.id}"), @hole.archive_number
   end
-  
+
   test "archive archives the record" do
     assert @hole.is_archival?
     @hole.archive
     assert @hole.archived?
   end
-  
+
   test "archive archives 'has_' associated archival objects that are dependent destroy" do
     assert @hole.class.is_archival?
     assert @hole.muskrats.first.class.is_archival?
 
     @hole.archive
-    
+
     assert @hole.reload.archived?
     assert @hole.muskrats(true).first.archived?
   end
-  
-  test "archive does not archive 'has_' associated archival objects that are not dependent destroy" do 
+
+  test "archive does not archive 'has_' associated archival objects that are not dependent destroy" do
     @hole.squirrels.create(:name => "Rocky")
-    
+
     @hole.archive
-    
+
     assert @hole.reload.archived?
     assert_not @hole.squirrels(true).first.archived?
   end
 
-  test "unarchive retrieves 'has_' associated archival objects regardless of dependent destroy" do 
+  test "unarchive retrieves 'has_' associated archival objects regardless of dependent destroy" do
     @hole.squirrels.create(:name => "Rocky")
-    
+
     @hole.archive
     @hole.squirrels.first.update_attributes(:archive_number => @hole.archive_number, :archived_at => @hole.archived_at)
-    
+
     assert @hole.reload.archived?
     assert @hole.squirrels(true).first.archived?
-    
+
     @hole.unarchive
-    
+
     assert_not @hole.reload.archived?
     assert_not @hole.squirrels(true).first.archived?
-  end  
-  
+  end
+
   test "archive sets the archive number to the md5 hexdigest for the model and id of the head object that is archived for 'has_' associated archival objects" do
     assert @hole.is_archival?
     assert @hole.muskrats.first.is_archival?
 
     @hole.archive
-    
+
     digest = Digest::MD5.hexdigest("#{@hole.class.name}#{@hole.id}")
     assert_equal digest, @hole.archive_number
-    assert_equal digest, @hole.muskrats(true).first.archive_number    
+    assert_equal digest, @hole.muskrats(true).first.archive_number
   end
-  
+
   test "unarchive unarchives archival records" do
     assert @hole.is_archival?
     assert @hole.muskrats.first.is_archival?
-    
+
     @hole.archive
     @hole.unarchive
-    
+
     assert_not @hole.archived?
     assert_not @hole.muskrats(true).first.archived?
   end
-  
+
   test "test unarchive unarchives only the records associated with the archiving of the head object" do
     assert @hole.is_archival?
     @hole.muskrats << Muskrat.create(:name => "Tenille")
     assert_greater_than @hole.muskrats.size, 1
     assert @hole.muskrats[0].is_archival?
     assert @hole.muskrats[1].is_archival?
-    
+
     @hole.muskrats.first.archive
     @hole.archive
     @hole.unarchive
-    
+
     assert     @hole.muskrats(true)[0].archived?
     assert_not @hole.muskrats[1].archived?
   end
-  
+
   test "test unarchive unarchives only the records associated with the archiving of the head object eveb if you try to unarchive the head object twice" do
     assert @hole.is_archival?
     @hole.muskrats << Muskrat.create(:name => "Tenille")
     assert_greater_than @hole.muskrats.size, 1
     assert @hole.muskrats[0].is_archival?
     assert @hole.muskrats[1].is_archival?
-    
+
     @hole.muskrats.first.archive
     @hole.archive
     @hole.unarchive
     @hole.unarchive
-    
+
     assert     @hole.muskrats(true)[0].archived?
     assert_not @hole.muskrats[1].archived?
   end
-  
+
   test "named scopes work" do
     assert @hole.is_archival?
     @hole.muskrats << Muskrat.create(:name => "Tenille")
@@ -176,26 +178,26 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert_equal 1, Hole.archived.size
     assert_equal 2, Muskrat.unarchived.size
     assert_equal 0, Muskrat.archived.size
-    
+
     @hole.muskrats.first.archive
     assert_equal 2, Hole.unarchived.size
     assert_equal 1, Hole.archived.size
     assert_equal 1, Muskrat.unarchived.size
     assert_equal 1, Muskrat.archived.size
-    
+
     @hole.archive
     assert_equal 1, Hole.unarchived.size
     assert_equal 2, Hole.archived.size
     assert_equal 0, Muskrat.unarchived.size
     assert_equal 2, Muskrat.archived.size
-    
+
     assert_equal 1, Hole.archived_from_archive_number(@hole.archive_number).size
     assert_equal 1, Muskrat.archived_from_archive_number(@hole.archive_number).size
-    
+
     assert_equal 0, Hole.archived_from_archive_number(@hole.muskrats.first.archive_number).size
     assert_equal 1, Muskrat.archived_from_archive_number(@hole.muskrats.first.archive_number).size
   end
-  
+
   test "archiving is transactional" do
     ship = Ship.create(:name => "HMS Holly Hawk")
     ship.rats << Rat.create(:name => "Pennyworth")
@@ -205,7 +207,7 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert_not ship.reload.archived?, "If this failed, you might be trying to test on a system that doesn't support nested transactions"
     assert_not ship.rats(true).first.archived?
   end
-  
+
   test "unarchiving is transactional" do
     ship = Ship.create(:name => "HMS Holly Hawk")
     ship.oranges << Orange.create(:name => "Pennyworth")
@@ -216,7 +218,7 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert ship.reload.archived?
     assert ship.oranges(true).first.archived?
   end
-  
+
   test "archiving deeply nested items doesn't blow up" do
     @hole.muskrats.first.fleas << Flea.create(:name => "Wadsworth")
     @hole.archive
@@ -236,7 +238,7 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
   test "unarchiving deeply nested items doesn't blow up" do
     @hole.muskrats.first.fleas << Flea.create(:name => "Wadsworth")
     @hole.archive
-    
+
     @hole.unarchive
     assert_not @hole.reload.archived?
     assert_not @hole.muskrats.first.reload.archived?
@@ -248,21 +250,21 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     @hole.muskrats.first.archive
     assert_equal 1, Muskrat.archived.all(:conditions => "holes.number = '14'", :joins => :hole).size
   end
-  
-  test "archival works when mass attribute assignment protection is present" do 
+
+  test "archival works when mass attribute assignment protection is present" do
     snake = Snake.create(:color => "pink")
 
-    snake.archive    
+    snake.archive
     assert snake.archive_number
     assert snake.archived_at
-    
+
     snake.unarchive
     assert snake.archive_number.nil?
     assert snake.archived_at.nil?
   end
-  
+
   test "readonly_when_archived flag works" do
-    
+
     #not readonly_when_archived
     snake = Snake.create(:color => "pink")
     snake.archive
@@ -295,7 +297,7 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert_equal 10, beaver.how_much_wood_can_it_chuck
 
   end
-  
+
   test "entire archiving operation fails if a child fails to archive" do
     assert @hole.archive
     assert @hole.unarchive
@@ -303,7 +305,7 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert !@hole.archive
     assert @hole.reload.archive_number.blank?
   end
-  
+
   test "entire unarchiving operation fails if a child fails to unarchive" do
     assert @hole.archive
     @hole.muskrats.create(:name => "Invalid Rat", :archive_number => @hole.archive_number, :archived_at => @hole.archived_at)
@@ -312,5 +314,4 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     @hole.muskrats.last.destroy
     assert @hole.unarchive
   end
-  
 end
