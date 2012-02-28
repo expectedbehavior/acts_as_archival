@@ -37,18 +37,18 @@ end
 
 >> Hole.archived.size               # => 0
 >> Hole.is_archival?                # => true
->> h = Hole.create                   
+>> h = Hole.create
 >> Hole.unarchived.size             # => 1
 >> h.is_archival?                   # => true
 >> h.archived?                      # => false
->> h.muskrats.create                  
+>> h.muskrats.create
 >> h.archive                        # archive the hole and its muskrat.
 >> h.archive_number                 # => 8c9f03f9d....
 >> h.muskrats.first.archive_number  # => 8c9f03f9d....
 >> h.archived?                      # => 8c9f03f9d....
 >> Hole.archived.size               # => 1
 >> Hole.unarchived.size             # => 0
->> h.unarchive                       
+>> h.unarchive
 >> Hole.archived.size               # => 0
 >> Hole.unarchived.size             # => 1
 
@@ -84,4 +84,4 @@ Contributors
 * Dave Woodward
 -- Thanks, guys!
 
-Copyright (c) 2009-2011 [Expected Behavior, LLC], released under the MIT license
+Copyright (c) 2009-2012 [Expected Behavior, LLC], released under the MIT license

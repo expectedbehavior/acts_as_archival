@@ -31,7 +31,6 @@ GEM
     arel (2.0.10)
     assertions-eb (1.7.3)
     builder (2.1.2)
-    coderay (1.0.5)
     erubis (2.6.6)
       abstract (>= 1.0.0)
     i18n (0.5.0)
@@ -41,14 +40,9 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    method_source (0.7.1)
     mime-types (1.17.2)
     mysql2 (0.2.18)
     polyglot (0.3.3)
-    pry (0.9.8.2)
-      coderay (~> 1.0.5)
-      method_source (~> 0.7)
-      slop (>= 2.4.4, < 3)
     rack (1.2.5)
     rack-mount (0.6.14)
       rack (>= 1.0.0)
@@ -68,10 +62,9 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (~> 0.14.4)
-    rake (0.9.2.2)
+    rake (0.8.7)
     rdoc (3.12)
       json (~> 1.4)
-    slop (2.4.4)
     thor (0.14.6)
     treetop (1.4.10)
       polyglot
@@ -84,5 +77,5 @@ PLATFORMS
 DEPENDENCIES
   assertions-eb
   mysql2 (= 0.2.18)
-  pry
   rails (= 3.0.9)
+  rake (= 0.8.7)
