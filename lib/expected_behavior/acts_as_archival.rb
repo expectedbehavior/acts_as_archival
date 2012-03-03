@@ -115,7 +115,7 @@ module ExpectedBehavior
         options[:association_options] ||= Proc.new { true }
         self.class.reflect_on_all_associations.each do |association|
           if association.macro.to_s =~ /^has/ && association.klass.is_archival? && options[:association_options].call(association) && association.options[:through].nil?
-            act_on_a_related_archival(association.klass, association.active_record_primary_key, id, head_archive_number, options)
+            act_on_a_related_archival(association.klass, association.foreign_key, id, head_archive_number, options)
           end
         end
       end

@@ -10,12 +10,31 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert child.reload.archived?
   end
 
+  test "archive acts on all objects in the 'has_' relationship" do
+    archival = Archival.create!
+    children = [archival.kids.create!, archival.kids.create!]
+    archival.archive
+
+    assert archival.reload.archived?
+    assert children.map(&:reload).all?(&:archived?)
+  end
+
+  test "archive does not act on already archived objects" do
+    archival = Archival.create!
+    child = archival.kids.create!
+    prearchived_child = archival.kids.create!
+    prearchived_child.archive
+    archival.archive
+
+    assert_not_equal archival.archive_number, prearchived_child.reload.archive_number
+  end
+
   test "archive does not archive 'has_' associated archival objects that are not dependent destroy" do
     archival = Archival.create!
     non_dependent_child = archival.independent_kids.create!
     archival.archive
 
-    assert archival.reload.archived?
+    assert     archival.reload.archived?
     assert_not non_dependent_child.reload.archived?
   end
 
@@ -28,14 +47,56 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert plain.reload
   end
 
-  test "archive_number for associations uses the head object" do
+  test "archive sets the object hierarchy to all have the same archive_number" do
     archival = Archival.create!
     child = archival.kids.create!
     archival.archive
-
     expected_digest = Digest::MD5.hexdigest("Archival#{archival.id}")
+
     assert_equal expected_digest, archival.archive_number
-    # TODO apparently it doesn't archive properly if records exist
-    assert_equal archival.archive_number, child.reload.archive_number
+    assert_equal expected_digest, child.reload.archive_number
+  end
+
+  test "unarchive acts on child objects" do
+    archival = Archival.create!
+    child = archival.kids.create!
+    archival.archive
+    archival.unarchive
+
+    assert_not archival.archived?
+    assert_not child.reload.archived?
+  end
+
+  test "unarchive does not act on already archived objects" do
+    archival = Archival.create!
+    child = archival.kids.create!
+    prearchived_child = archival.kids.create!
+    prearchived_child.archive
+    archival.archive
+    archival.unarchive
+
+    assert_not archival.archived?
+    assert_not child.reload.archived?
+    assert     prearchived_child.reload.archived?
+  end
+
+  test "unarchive acts on 'has_' associated non-dependent_destroy objects" do
+    archival = Archival.create!
+    independent = archival.independent_kids.create!
+    archival.archive
+    independent.archive(archival.archive_number)
+    archival.unarchive
+
+    assert_not archival.reload.archived?
+    assert_not independent.reload.archived?
+  end
+
+  test "unarchive doesn't unarchive associated objects if the head object is already unarchived" do
+    archival = Archival.create!
+    prearchived_child = archival.kids.create!
+    prearchived_child.archive
+    archival.unarchive
+
+    assert prearchived_child.reload.archived?
   end
 end
