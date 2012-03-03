@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 require "bundler/setup"
-require "active_record"
 require "yaml"
 require 'highline/import'
 
