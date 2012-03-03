@@ -18,4 +18,13 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert archival.reload.archived?
     assert_not non_dependent_child.reload.archived?
   end
+
+  test "archive doesn't do anything to associated dependent destroy models that are non-archival" do
+    archival = Archival.create!
+    plain = archival.plains.create!
+    archival.archive
+
+    assert archival.archived?
+    assert plain.reload
+  end
 end
