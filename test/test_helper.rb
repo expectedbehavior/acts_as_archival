@@ -1,11 +1,6 @@
 $:.unshift(File.dirname(__FILE__) + '/../lib')
-
-require "rubygems"
 require "active_record"
-require "expected_behavior/acts_as_archival.rb"
-require "expected_behavior/acts_as_archival_active_record_methods.rb"
-require_relative "../init"
-
+require "acts_as_archival"
 
 ENV["RAILS_ENV"] = "test"
 ["aaa_test_app/config/environment", "local_test_helper"].each do |file_to_load|

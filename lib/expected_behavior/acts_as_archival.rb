@@ -112,10 +112,10 @@ module ExpectedBehavior
       def act_on_all_archival_associations(head_archive_number, options={})
         return if options.length == 0
         options[:association_options] ||= Proc.new { true }
-#         puts "0 - #{self.class.name}"
+        # puts "0 - #{self.class.name}"
         self.class.reflect_on_all_associations.each do |association|
-#           puts "0.1 - #{association.klass.name}"
-#           puts "0.2 - #{association.options.inspect}"
+          # puts "0.1 - #{association.klass.name}"
+          # puts "0.2 - #{association.options.inspect}"
           if association.macro.to_s =~ /^has/ && association.klass.is_archival? && options[:association_options].call(association) && association.options[:through].nil?
             act_on_a_related_archival(association.klass, association.primary_key_name, id, head_archive_number, options)
           end
@@ -123,7 +123,7 @@ module ExpectedBehavior
       end
 
       def act_on_a_related_archival(klass, key_name, id, head_archive_number, options={})
-#         puts "1 - [klass => #{klass.name}, key_name => #{key_name}, :id => #{id}, :head_archive_number => #{head_archive_number}, options => #{options.inspect}]"
+        # puts "1 - [klass => #{klass.name}, key_name => #{key_name}, :id => #{id}, :head_archive_number => #{head_archive_number}, options => #{options.inspect}]"
         return if options.length == 0 || (!options[:archive] && !options[:unarchive])
         if options[:archive]
           klass.unarchived.find(:all, :conditions => ["#{key_name} = ?", id]).each do |related_record|
