@@ -3,20 +3,25 @@ require "bundler/setup"
 require "yaml"
 require 'highline/import'
 
-database_file = File.join(File.dirname(__FILE__), "/../", "database.yml")
-
-$DB_CONFIG = YAML.load(File.read(database_file))
-
-$ROOT_PW = ask("Provide root mySQL password to setup '#{$DB_CONFIG["database"]}': ") { |q| q.echo = false}
-if !$ROOT_PW || $ROOT_PW.empty?
-  puts "error reading password"
-  exit 4
+def read_database_config
+  database_file = File.join(File.dirname(__FILE__), "/../", "database.yml")
+  $DB_CONFIG = YAML.load(File.read(database_file))
 end
 
-password_check = "echo 'show databases;' | mysql -u root -p'#{$ROOT_PW}' > /dev/null"
-unless system password_check
-  puts "incorrect password"
-  exit 7
+def get_root_password
+  $ROOT_PW = ask("Provide root mySQL password to setup '#{$DB_CONFIG["database"]}': ") { |q| q.echo = false}
+  if !$ROOT_PW || $ROOT_PW.empty?
+    puts "error reading password"
+    exit 4
+  end
+end
+
+def check_root_password
+  password_check = "echo 'show databases;' | mysql -u root -p'#{$ROOT_PW}' > /dev/null"
+  unless system password_check
+    puts "incorrect password"
+    exit 7
+  end
 end
 
 def execute_mysql(message, statement, user = nil, password = nil)
@@ -24,16 +29,29 @@ def execute_mysql(message, statement, user = nil, password = nil)
   `echo '#{statement}' | mysql -u #{user} -p'#{password}'`
 end
 
+def drop_existing(db, user, pass)
+  drop_statement   = "drop database if exists #{db};"
+  execute_mysql("dropping #{db}", drop_statement, user, pass)
+end
+
+def create_db(db, user, pass)
+  create_statement =  "create database #{db};"
+  execute_mysql("creating #{db}", create_statement, user, pass)
+end
+
+def grant_permission_on_db(db, user, pass)
+  grant_statement  =  "grant all on `#{db}`.* to `#{$DB_CONFIG["username"]}`@`localhost` identified by \"#{$DB_CONFIG["password"]}\";"
+  execute_mysql("granting on #{db}", grant_statement, user, pass)
+end
+
+read_database_config
+get_root_password
+check_root_password
+
 db   = $DB_CONFIG["database"]
 user = "root"
 pass = $ROOT_PW
 
-drop_statement   = "drop database if exists #{db};"
-create_statement =  "create database #{db};"
-grant_statement  =  "grant all on `#{db}`.* to `#{$DB_CONFIG["username"]}`@`localhost` identified by \"#{$DB_CONFIG["password"]}\";"
-
-execute_mysql("dropping #{db}", drop_statement, user, pass)
-
-execute_mysql("creating #{db}", create_statement, user, pass)
-
-execute_mysql("granting on #{db}", grant_statement, user, pass)
+drop_existing(db, user, pass)
+create_db(db, user, pass)
+grant_permission_on_db(db, user, pass)
