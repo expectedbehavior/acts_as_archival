@@ -7,7 +7,7 @@ module ExpectedBehavior
     
     module ARClassMethods
       def is_archival?
-        self.included_modules.map(&:to_s).include?("ExpectedBehavior::ActsAsArchival::InstanceMethods")
+        self.included_modules.include?(ExpectedBehavior::ActsAsArchival::InstanceMethods)
       end
     end
    
