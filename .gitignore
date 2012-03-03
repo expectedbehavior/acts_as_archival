@@ -4,3 +4,4 @@
 bin
 vendor/bundle
 test/aaa_test_app/vendor/bundle
+*.bkp
