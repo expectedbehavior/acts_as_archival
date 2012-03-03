@@ -19,7 +19,7 @@ ActiveRecord::Base.logger = Logger.new(logfile)
 ActiveRecord::Base.establish_connection(dbconfig)
 load(schema_file) if File.exist?(schema_file)
 
-%w(archival independent_archival plain missing_archived_at missing_archive_number hole mole muskrat squirrel kitty puppy ship rat orange flea snake beaver tick ixodidae).each do |test_class_file|
+%w(archival independent_archival exploder plain missing_archived_at missing_archive_number hole mole muskrat squirrel ship rat orange flea snake beaver tick ixodidae).each do |test_class_file|
   require_relative "fixtures/#{test_class_file}"
 end
 

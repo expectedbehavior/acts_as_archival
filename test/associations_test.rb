@@ -3,7 +3,7 @@ require_relative "test_helper"
 class ActsAsArchivalTest < ActiveSupport::TestCase
   test "archive archives 'has_' associated archival objects that are dependent destroy" do
     archival = Archival.create!
-    child = archival.kids.create!
+    child = archival.archivals.create!
     archival.archive
 
     assert archival.reload.archived?
@@ -12,7 +12,7 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
 
   test "archive acts on all objects in the 'has_' relationship" do
     archival = Archival.create!
-    children = [archival.kids.create!, archival.kids.create!]
+    children = [archival.archivals.create!, archival.archivals.create!]
     archival.archive
 
     assert archival.reload.archived?
@@ -21,8 +21,8 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
 
   test "archive does not act on already archived objects" do
     archival = Archival.create!
-    child = archival.kids.create!
-    prearchived_child = archival.kids.create!
+    child = archival.archivals.create!
+    prearchived_child = archival.archivals.create!
     prearchived_child.archive
     archival.archive
 
@@ -31,7 +31,7 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
 
   test "archive does not archive 'has_' associated archival objects that are not dependent destroy" do
     archival = Archival.create!
-    non_dependent_child = archival.independent_kids.create!
+    non_dependent_child = archival.independent_archivals.create!
     archival.archive
 
     assert     archival.reload.archived?
@@ -49,7 +49,7 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
 
   test "archive sets the object hierarchy to all have the same archive_number" do
     archival = Archival.create!
-    child = archival.kids.create!
+    child = archival.archivals.create!
     archival.archive
     expected_digest = Digest::MD5.hexdigest("Archival#{archival.id}")
 
@@ -59,7 +59,7 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
 
   test "unarchive acts on child objects" do
     archival = Archival.create!
-    child = archival.kids.create!
+    child = archival.archivals.create!
     archival.archive
     archival.unarchive
 
@@ -69,8 +69,8 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
 
   test "unarchive does not act on already archived objects" do
     archival = Archival.create!
-    child = archival.kids.create!
-    prearchived_child = archival.kids.create!
+    child = archival.archivals.create!
+    prearchived_child = archival.archivals.create!
     prearchived_child.archive
     archival.archive
     archival.unarchive
@@ -82,7 +82,7 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
 
   test "unarchive acts on 'has_' associated non-dependent_destroy objects" do
     archival = Archival.create!
-    independent = archival.independent_kids.create!
+    independent = archival.independent_archivals.create!
     archival.archive
     independent.archive(archival.archive_number)
     archival.unarchive
@@ -93,7 +93,7 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
 
   test "unarchive doesn't unarchive associated objects if the head object is already unarchived" do
     archival = Archival.create!
-    prearchived_child = archival.kids.create!
+    prearchived_child = archival.archivals.create!
     prearchived_child.archive
     archival.unarchive
 

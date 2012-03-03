@@ -6,9 +6,9 @@ class TransactionTest < ActiveSupport::TestCase
 
   test "archiving is transactional" do
     archival = Archival.create!
-    exploder = archival.kids.create!
-    any_instance_of(Kid) do |kid|
-      stub(kid).archive { raise "Rollback Imminent" }
+    exploder = archival.exploders.create!
+    any_instance_of(Exploder) do |exploder|
+      stub(exploder).archive { raise "Rollback Imminent" }
     end
     archival.archive
 
@@ -18,9 +18,9 @@ class TransactionTest < ActiveSupport::TestCase
 
   test "unarchiving is transactional" do
     archival = Archival.create!
-    exploder = archival.kids.create!
-    any_instance_of(Kid) do |kid|
-      stub(kid).unarchive { raise "Rollback Imminent" }
+    exploder = archival.exploders.create!
+    any_instance_of(Exploder) do |exploder|
+      stub(exploder).unarchive { raise "Rollback Imminent" }
     end
     archival.archive
     archival.unarchive

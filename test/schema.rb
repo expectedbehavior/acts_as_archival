@@ -7,7 +7,7 @@ ActiveRecord::Schema.define(:version => 1) do
     t.column :archived_at, :datetime
   end
 
-  create_table :independent_kids, :force => true do |t|
+  create_table :independent_archivals, :force => true do |t|
     t.column :name, :string
     t.column :archival_id, :integer
     t.column :archive_number, :string
@@ -17,6 +17,12 @@ ActiveRecord::Schema.define(:version => 1) do
   create_table :plains, :force => true do |t|
     t.column :name, :string
     t.column :archival_id, :integer
+  end
+
+  create_table :exploders, :force => true do |t|
+    t.column :archival_id, :integer
+    t.column :archive_number, :string
+    t.column :archived_at, :datetime
   end
 
   create_table :missing_archived_ats, :force => true do |t|
