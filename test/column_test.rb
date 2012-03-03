@@ -1,8 +1,15 @@
 require_relative "test_helper"
 
 class ColumnTest < ActiveSupport::TestCase
-  test "including archival throws exceptions if the correct columns aren't in place" do
-    assert_raises(ExpectedBehavior::ActsAsArchival::MissingArchivalColumnError) { Kitty.create!(:name => "foo-foo")}
-    assert_raises(ExpectedBehavior::ActsAsArchival::MissingArchivalColumnError) { Puppy.create!(:name => "rover")}
+  test "acts_as_archival raises during create if missing archived_at column" do
+    assert_raises(ExpectedBehavior::ActsAsArchival::MissingArchivalColumnError) {
+      MissingArchivedAt.create!(:name => "foo-foo")
+    }
+  end
+
+  test "acts_as_archival raises during create if missing archive_number column" do
+    assert_raises(ExpectedBehavior::ActsAsArchival::MissingArchivalColumnError) {
+      MissingArchiveNumber.create!(:name => "rover")
+    }
   end
 end
