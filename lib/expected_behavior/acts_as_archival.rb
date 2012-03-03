@@ -4,12 +4,12 @@ module ExpectedBehavior
 
     ARCHIVED_CONDITIONS = lambda { |zelf| %Q{#{zelf.to_s.tableize}.archived_at IS NOT NULL AND #{zelf.to_s.tableize}.archive_number IS NOT NULL} }
     UNARCHIVED_CONDITIONS = { :archived_at => nil, :archive_number => nil }
-    
+
     MissingArchivalColumnError = Class.new(ActiveRecord::ActiveRecordError) unless defined?(MissingArchivalColumnError) == 'constant' && MissingArchivalColumnError.class == Class
     CouldNotArchiveError = Class.new(ActiveRecord::ActiveRecordError) unless defined?(CouldNotArchiveError) == 'constant' && CouldNotArchiveError.class == Class
     CouldNotUnarchiveError = Class.new(ActiveRecord::ActiveRecordError) unless defined?(CouldNotUnarchiveError) == 'constant' && CouldNotUnarchiveError.class == Class
-    
-    def self.included(base) 
+
+    def self.included(base)
       base.extend ActMethods
     end
 
@@ -17,14 +17,14 @@ module ExpectedBehavior
       def acts_as_archival(options = { })
         unless included_modules.include? InstanceMethods
           include InstanceMethods
-          
+
           before_validation :raise_if_not_archival
           validate :readonly_when_archived if options[:readonly_when_archived]
-      
+
           scope :archived, :conditions => ARCHIVED_CONDITIONS.call(self)
           scope :unarchived, :conditions => UNARCHIVED_CONDITIONS
           scope :archived_from_archive_number, lambda { |head_archive_number| {:conditions => ['archived_at IS NOT NULL AND archive_number = ?', head_archive_number] } }
-       
+
           callbacks = ['archive','unarchive']
           define_callbacks *[callbacks, {:terminator => 'result == false'}].flatten
           callbacks.each do |callback|
@@ -37,30 +37,30 @@ module ExpectedBehavior
               end
             end_callbacks
           end
-        end 
-      end 
-      
+        end
+      end
+
     end
-    
+
     module InstanceMethods
-      
+
       def readonly_when_archived
         if self.archived? && self.changed? && !self.archived_at_changed? && !self.archive_number_changed?
           self.errors.add(:base, "Cannot modifify an archived record.")
         end
       end
-      
+
       def raise_if_not_archival
         missing_columns = []
         missing_columns << "archive_number" unless self.respond_to?(:archive_number)
         missing_columns << "archived_at" unless self.respond_to?(:archived_at)
         raise MissingArchivalColumnError.new("Add '#{missing_columns.join "', '"}' column(s) to '#{self.class.name}' to make it archival") unless missing_columns.blank?
       end
-      
+
       def archived?
         self.archived_at? && self.archive_number
       end
-      
+
       def archive(head_archive_number=nil)
         self.class.transaction do
           begin
@@ -79,7 +79,7 @@ module ExpectedBehavior
           end
         end
       end
-      
+
       def unarchive(head_archive_number=nil)
         self.class.transaction do
           begin
@@ -98,16 +98,16 @@ module ExpectedBehavior
           end
         end
       end
-      
+
       def archive_associations(head_archive_number)
         act_only_on_dependent_destroy_associations = Proc.new {|association| association.options[:dependent] == :destroy}
         act_on_all_archival_associations(head_archive_number, :archive => true, :association_options => act_only_on_dependent_destroy_associations)
       end
-      
+
       def unarchive_associations(head_archive_number)
         act_on_all_archival_associations(head_archive_number, :unarchive => true)
       end
-   
+
       # associations_options => lambda.new {|association| association.options[:dependent] == :destroy}
       def act_on_all_archival_associations(head_archive_number, options={})
         return if options.length == 0
@@ -121,7 +121,7 @@ module ExpectedBehavior
           end
         end
       end
-          
+
       def act_on_a_related_archival(klass, key_name, id, head_archive_number, options={})
 #         puts "1 - [klass => #{klass.name}, key_name => #{key_name}, :id => #{id}, :head_archive_number => #{head_archive_number}, options => #{options.inspect}]"
         return if options.length == 0 || (!options[:archive] && !options[:unarchive])
