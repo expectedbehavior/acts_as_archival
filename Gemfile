@@ -1,4 +1,2 @@
-source :rubygems
-
-# Specify your gem's dependencies in acts_as_archival.gemspec
+source "https://rubygems.org"
 gemspec

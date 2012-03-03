@@ -19,13 +19,16 @@ Gem::Specification.new do |gem|
 
   gem.files         = `git ls-files`.split("\n")
   gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.require_paths = ["lib"]
 
-  gem.add_dependency "rails", "3.0.12"
+  gem.add_dependency "activerecord"
+
+  gem.add_development_dependency "activesupport"
   gem.add_development_dependency "assertions-eb"
-  gem.add_development_dependency "mysql2", "0.2.18"
-  gem.add_development_dependency "rake", "0.9.2.2"
+  gem.add_development_dependency "rake"
+  gem.add_development_dependency "mysql2"
+  gem.add_development_dependency "highline"
+  gem.add_development_dependency "pry"
 
   gem.description = %q{We had the problem that acts_as_paranoid and similar plugins/gems always work on a record by record basis and made it very difficult to restore records atomically (or archive them, for that matter).
 
