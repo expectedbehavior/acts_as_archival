@@ -26,7 +26,7 @@ Any dependent-destroy objects connected to an AAA model will be archived with it
 
 ##Example
 
-```
+``` ruby
 class Hole < ActiveRecord::Base
   acts_as_archival
   has_many :moles, :dependent => :destroy
@@ -37,7 +37,7 @@ class Mole < ActiveRecord::Base
 end
 ```
 
-```
+``` ruby
 >> Hole.archived.size               # => 0
 >> Hole.is_archival?                # => true
 >> h = Hole.create
