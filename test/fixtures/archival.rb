@@ -4,8 +4,8 @@
 class Archival < ActiveRecord::Base
   acts_as_archival
 
-  has_many :kids,   :dependent => :destroy
+  has_many :kids, :dependent => :destroy
   has_many :plains, :dependent => :destroy
+  has_many :explode_on_archive_kids, :dependent => :destroy
   has_many :independent_kids
-
 end

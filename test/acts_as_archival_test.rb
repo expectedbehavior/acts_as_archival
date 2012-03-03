@@ -3,7 +3,6 @@ require_relative "test_helper"
 class ActsAsArchivalTest < ActiveSupport::TestCase
   def setup
     super
-    DatabaseCleaner.clean
     @hole     = Hole.create(:number => 14)
     @readonly_hole = Hole.create(:number => 15)
     @readonly_hole.readonly!
@@ -29,17 +28,6 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
 
     assert_not @hole.reload.archived?
     assert_not @hole.squirrels(true).first.archived?
-  end
-
-  test "archive sets the archive number to the md5 hexdigest for the model and id of the head object that is archived for 'has_' associated archival objects" do
-    assert @hole.is_archival?
-    assert @hole.muskrats.first.is_archival?
-
-    @hole.archive
-
-    digest = Digest::MD5.hexdigest("#{@hole.class.name}#{@hole.id}")
-    assert_equal digest, @hole.archive_number
-    assert_equal digest, @hole.muskrats(true).first.archive_number
   end
 
   test "unarchive unarchives archival records" do
@@ -114,27 +102,6 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
 
     assert_equal 0, Hole.archived_from_archive_number(@hole.muskrats.first.archive_number).size
     assert_equal 1, Muskrat.archived_from_archive_number(@hole.muskrats.first.archive_number).size
-  end
-
-  test "archiving is transactional" do
-    ship = Ship.create(:name => "HMS Holly Hawk")
-    ship.rats << Rat.create(:name => "Pennyworth")
-    assert ship.is_archival?
-    assert ship.rats.first.is_archival?
-    ship.archive
-    assert_not ship.reload.archived?, "If this failed, you might be trying to test on a system that doesn't support nested transactions"
-    assert_not ship.rats(true).first.archived?
-  end
-
-  test "unarchiving is transactional" do
-    ship = Ship.create(:name => "HMS Holly Hawk")
-    ship.oranges << Orange.create(:name => "Pennyworth")
-    assert ship.is_archival?
-    assert ship.oranges.first.is_archival?
-    ship.archive
-    ship.unarchive
-    assert ship.reload.archived?
-    assert ship.oranges(true).first.archived?
   end
 
   test "archiving deeply nested items doesn't blow up" do

@@ -27,4 +27,15 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert archival.archived?
     assert plain.reload
   end
+
+  test "archive_number for associations uses the head object" do
+    archival = Archival.create!
+    child = archival.kids.create!
+    archival.archive
+
+    expected_digest = Digest::MD5.hexdigest("Archival#{archival.id}")
+    assert_equal expected_digest, archival.archive_number
+    # TODO apparently it doesn't archive properly if records exist
+    assert_equal archival.archive_number, child.reload.archive_number
+  end
 end
