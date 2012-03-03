@@ -65,7 +65,7 @@ end
 
 Because this plugin makes use of transactions we're testing it on MySQL instead of the more convenient sqlite. Running the tests should be as easy as
 
-```
+```  bash
 cd ./test/aaa_test_app/
 bundle
 script/db_setup -c      # makes the databases with the correct permissions
@@ -88,6 +88,6 @@ http://github.com/fastestforward/permanent_records
 * David Jones
 * Dave Woodward
 
--- Thanks, guys!
+Thanks, guys!
 
-Copyright (c) 2009-2012 Expected Behavior, LLC, released under the MIT license
+*Copyright (c) 2009-2012 Expected Behavior, LLC, released under the MIT license*
