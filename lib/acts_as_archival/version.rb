@@ -1,3 +1,3 @@
 module ActsAsArchival
-  VERSION = "4.0.0"
+  VERSION = "3.2.2"
 end

@@ -5,6 +5,7 @@ require "active_record"
 require "assertions"
 require "logger"
 require "pry"
+require "database_cleaner"
 
 require "acts_as_archival"
 
@@ -18,11 +19,11 @@ ActiveRecord::Base.logger = Logger.new(logfile)
 ActiveRecord::Base.establish_connection(dbconfig)
 load(schema_file) if File.exist?(schema_file)
 
-%w(hole mole muskrat squirrel kitty puppy ship rat orange flea snake beaver tick ixodidae).each do |test_class_file|
-  require_relative test_class_file
+%w(archival plain hole mole muskrat squirrel kitty puppy ship rat orange flea snake beaver tick ixodidae).each do |test_class_file|
+  require_relative "fixtures/#{test_class_file}"
 end
 
+DatabaseCleaner.strategy = :truncation
+
 class ActiveSupport::TestCase
-  use_transactional_fixtures = true
-  use_instantiated_fixtures  = false
 end

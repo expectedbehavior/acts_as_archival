@@ -3,6 +3,7 @@ require_relative "test_helper"
 class ActsAsArchivalTest < ActiveSupport::TestCase
   def setup
     super
+    DatabaseCleaner.clean
     @hole     = Hole.create(:number => 14)
     @readonly_hole = Hole.create(:number => 15)
     @readonly_hole.readonly!
@@ -13,70 +14,6 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     @readonly_archived = Hole.create(:number => 13)
     @readonly_archived.archive
     @readonly_archived.readonly!
-  end
-
-  test "including archival throws exceptions if the correct columns aren't in place" do
-    assert_raises(ExpectedBehavior::ActsAsArchival::MissingArchivalColumnError) { Kitty.create!(:name => "foo-foo")}
-    assert_raises(ExpectedBehavior::ActsAsArchival::MissingArchivalColumnError) { Puppy.create!(:name => "rover")}
-  end
-
-  test "archival class responds correctly to 'is_archival?'" do
-    assert @hole.class.is_archival?
-    assert_not Mole.is_archival?
-  end
-
-  test "archival object responds correctly to 'is_archival?'" do
-    mole = Mole.create(:name => "Mittens")
-    assert @hole.is_archival?
-    assert_not mole.is_archival?
-  end
-
-  test "archive on archived object doesn't alter the archive_number" do
-    assert @hole.is_archival?
-    @hole.archive
-    initial_number = @hole.archive_number
-    @hole.reload.archive
-    second_number = @hole.archive_number
-    assert_equal initial_number, second_number
-  end
-
-  test "archive sets archived_at" do
-    assert @hole.is_archival?
-    @hole.archive
-    assert_not_nil @hole.reload.archived_at
-  end
-
-  test "archive returns true on success, false on failure" do
-    assert @hole.archive
-    assert !@readonly_hole.archive
-  end
-
-  test "unarchive returns true on success, false on failure" do
-    assert @archived.unarchive
-    assert !@readonly_archived.unarchive
-  end
-
-  test "archive sets archived_at to the time of archiving" do
-    assert @hole.is_archival?
-    before = DateTime.now
-    sleep(0.001)
-    @hole.archive
-    sleep(0.001)
-    after = DateTime.now
-
-    assert_between before, after, @hole.archived_at.to_datetime
-  end
-
-  test "archive sets the archive number to the md5 hexdigest for the model and id that is archived" do
-    assert @hole.class.is_archival?
-    @hole.archive
-    assert_equal Digest::MD5.hexdigest("#{@hole.class.name}#{@hole.id}"), @hole.archive_number
-  end
-
-  test "archive archives the record" do
-    assert @hole.is_archival?
-    @hole.archive
-    assert @hole.archived?
   end
 
   test "archive archives 'has_' associated archival objects that are dependent destroy" do
@@ -185,7 +122,7 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     assert_equal 1, Muskrat.unarchived.size
     assert_equal 1, Muskrat.archived.size
 
-    @hole.archive
+    assert @hole.archive
     assert_equal 1, Hole.unarchived.size
     assert_equal 2, Hole.archived.size
     assert_equal 0, Muskrat.unarchived.size

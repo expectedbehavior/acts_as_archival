@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    acts_as_archival (4.0.0)
+    acts_as_archival (3.2.2)
       activerecord
 
 GEM
@@ -22,6 +22,7 @@ GEM
     assertions-eb (1.7.3)
     builder (3.0.0)
     coderay (1.0.5)
+    database_cleaner (0.7.1)
     highline (1.6.11)
     i18n (0.6.0)
     method_source (0.7.1)
@@ -42,6 +43,7 @@ DEPENDENCIES
   activesupport
   acts_as_archival!
   assertions-eb
+  database_cleaner
   highline
   mysql2
   pry
