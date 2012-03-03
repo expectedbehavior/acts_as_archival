@@ -87,6 +87,7 @@ http://github.com/fastestforward/permanent_records
 * Vojtech Salbaba
 * David Jones
 * Dave Woodward
+
 -- Thanks, guys!
 
 Copyright (c) 2009-2012 Expected Behavior, LLC, released under the MIT license
