@@ -6,6 +6,13 @@ ActiveRecord::Schema.define(:version => 1) do
     t.column :archived_at, :datetime
   end
 
+  create_table :kids, :force => true do |t|
+    t.column :name, :string
+    t.column :archival_id, :integer
+    t.column :archive_number, :string
+    t.column :archived_at, :datetime
+  end
+
   create_table :plains, :force => true do |t|
     t.column :name, :string
   end
