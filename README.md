@@ -82,10 +82,8 @@ MySQL instead of the more convenient sqlite. Running the tests should
 be as easy as:
 
 ```  bash
-cd ./test/aaa_test_app/
 bundle
-script/db_setup -c      # makes the databases with the correct permissions
-cd ../..                # back in the AAA root
+test/script/db_setup    # makes the databases with the correct permissions (for mySQL)
 rake
 ```
 

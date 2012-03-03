@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+require "bundler/setup"
+require "active_record"
+require "yaml"
+require 'highline/import'
+
+database_file = File.join(File.dirname(__FILE__), "/../", "database.yml")
+
+$DB_CONFIG = YAML.load(File.read(database_file))
+
+$ROOT_PW = ask("Provide root mySQL password to setup '#{$DB_CONFIG["database"]}': ") { |q| q.echo = false}
+if !$ROOT_PW || $ROOT_PW.empty?
+  puts "error reading password"
+  exit 4
+end
+
+password_check = "echo 'show databases;' | mysql -u root -p'#{$ROOT_PW}' > /dev/null"
+unless system password_check
+  puts "incorrect password"
+  exit 7
+end
+
+def execute_mysql(message, statement, user = nil, password = nil)
+  puts message
+  `echo '#{statement}' | mysql -u #{user} -p'#{password}'`
+end
+
+db   = $DB_CONFIG["database"]
+user = "root"
+pass = $ROOT_PW
+
+drop_statement   = "drop database if exists #{db};"
+create_statement =  "create database #{db};"
+grant_statement  =  "grant all on `#{db}`.* to `#{$DB_CONFIG["username"]}`@`localhost` identified by \"#{$DB_CONFIG["password"]}\";"
+
+execute_mysql("dropping #{db}", drop_statement, user, pass)
+
+execute_mysql("creating #{db}", create_statement, user, pass)
+
+execute_mysql("granting on #{db}", grant_statement, user, pass)
