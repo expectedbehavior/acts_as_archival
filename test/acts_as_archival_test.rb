@@ -16,15 +16,6 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
     @readonly_archived.readonly!
   end
 
-  test "archive does not archive 'has_' associated archival objects that are not dependent destroy" do
-    @hole.squirrels.create(:name => "Rocky")
-
-    @hole.archive
-
-    assert @hole.reload.archived?
-    assert_not @hole.squirrels(true).first.archived?
-  end
-
   test "unarchive retrieves 'has_' associated archival objects regardless of dependent destroy" do
     @hole.squirrels.create(:name => "Rocky")
 
