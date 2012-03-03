@@ -87,6 +87,11 @@ test/script/db_setup    # makes the databases with the correct permissions (for 
 rake
 ```
 
+## Help Wanted
+
+It would be cool if someone could check if this thing works on
+postgres and if not, submit a patch / let us know about it!
+
 ## Thanks
 
 ActsAsParanoid and PermanentRecords were both inspirations for this  
