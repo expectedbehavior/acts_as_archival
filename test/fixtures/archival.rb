@@ -6,6 +6,5 @@ class Archival < ActiveRecord::Base
 
   has_many :kids, :dependent => :destroy
   has_many :plains, :dependent => :destroy
-  has_many :explode_on_archive_kids, :dependent => :destroy
   has_many :independent_kids
 end

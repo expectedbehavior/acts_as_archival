@@ -29,6 +29,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "mysql2"
   gem.add_development_dependency "highline"
   gem.add_development_dependency "pry"
+  gem.add_development_dependency "rr"
   gem.add_development_dependency "database_cleaner"
 
   gem.description = %q{We had the problem that acts_as_paranoid and similar plugins/gems always work on a record by record basis and made it very difficult to restore records atomically (or archive them, for that matter).

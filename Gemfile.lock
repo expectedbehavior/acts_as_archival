@@ -33,6 +33,7 @@ GEM
       method_source (~> 0.7.1)
       slop (>= 2.4.4, < 3)
     rake (0.9.2.2)
+    rr (1.0.4)
     slop (2.4.4)
     tzinfo (0.3.31)
 
@@ -48,3 +49,4 @@ DEPENDENCIES
   mysql2
   pry
   rake
+  rr

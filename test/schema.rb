@@ -13,13 +13,6 @@ ActiveRecord::Schema.define(:version => 1) do
     t.column :archived_at, :datetime
   end
 
-  create_table :explode_on_archive_kids, :force => true do |t|
-    t.column :name, :string
-    t.column :archival_id, :integer
-    t.column :archive_number, :string
-    t.column :archived_at, :datetime
-  end
-
   create_table :independent_kids, :force => true do |t|
     t.column :name, :string
     t.column :archival_id, :integer
