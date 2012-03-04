@@ -14,13 +14,25 @@ ActiveRecord::Schema.define(:version => 1) do
     t.column :archived_at, :datetime
   end
 
+  create_table :exploders, :force => true do |t|
+    t.column :archival_id, :integer
+    t.column :archive_number, :string
+    t.column :archived_at, :datetime
+  end
+
   create_table :plains, :force => true do |t|
     t.column :name, :string
     t.column :archival_id, :integer
   end
 
-  create_table :exploders, :force => true do |t|
-    t.column :archival_id, :integer
+  create_table :mass_attribute_protecteds, :force => true do |t|
+    t.column :name, :string
+    t.column :archive_number, :string
+    t.column :archived_at, :datetime
+  end
+
+  create_table :readonly_when_archiveds, :force => true do |t|
+    t.column :name, :string
     t.column :archive_number, :string
     t.column :archived_at, :datetime
   end
