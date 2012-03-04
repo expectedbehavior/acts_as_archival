@@ -43,17 +43,18 @@ def require_test_classes
     inflect.irregular "poly", "polys"
   end
 
-  %W{archival
-     independent_archival
-     exploder
-     plain
-     mass_attribute_protected
-     readonly_when_archived
-     missing_archived_at
-     missing_archive_number
-     poly}.each do |test_class_file|
-    require_relative "fixtures/#{test_class_file}"
-  end
+  [:archival,
+   :archival_kid,
+   :archival_grandkid,
+   :independent_archival,
+   :exploder,
+   :plain,
+   :mass_attribute_protected,
+   :readonly_when_archived,
+   :missing_archived_at,
+   :missing_archive_number,
+   :poly
+  ].each {|test_class_file| require_relative "fixtures/#{test_class_file}"}
 end
 
 prepare_for_tests
