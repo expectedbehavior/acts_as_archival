@@ -34,7 +34,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport
   acts_as_archival!
   assertions-eb
   database_cleaner

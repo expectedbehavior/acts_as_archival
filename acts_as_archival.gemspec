@@ -23,7 +23,6 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "activerecord"
 
-  gem.add_development_dependency "activesupport"
   gem.add_development_dependency "assertions-eb"
   gem.add_development_dependency "rake"
   gem.add_development_dependency "mysql2"
