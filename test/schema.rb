@@ -47,6 +47,12 @@ ActiveRecord::Schema.define(:version => 1) do
     t.column :archived_at, :datetime
   end
 
+  create_table :polys, :force => true do |t|
+    t.references :archiveable, :polymorphic => true
+    t.column :archive_number, :string
+    t.column :archived_at, :datetime
+  end
+
   create_table :holes, :force => true do |t|
     t.column :number, :integer
     t.column :archive_number, :string

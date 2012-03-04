@@ -7,6 +7,7 @@ class Archival < ActiveRecord::Base
 
   has_many :archivals, :dependent => :destroy
   has_many :exploders, :dependent => :destroy
-  has_many :plains, :dependent => :destroy
+  has_many :plains,    :dependent => :destroy
+  has_many :polys,     :dependent => :destroy, :as => :archiveable
   has_many :independent_archivals
 end
