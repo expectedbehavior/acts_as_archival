@@ -1,6 +1,6 @@
 # ActsAsArchival
 
-Plugin for atomically archiving model records in activerecord models.
+Atomically archive object trees in your activerecord models.
 
 We had the problem that acts_as_paranoid and similar plugins/gems
 always work on a record by record basis and made it very difficult to
@@ -16,10 +16,13 @@ Additionally, other plugins generally screw with how
 to destroy records.
 
 ## Install
+Rails 3.2+ (maybe 3.1?)
 
-Rails 3:
+`gem install acts_as_archival`
 
-`rails plugin install http://github.com/expectedbehavior/acts_as_archival.git`
+Rails 3.0x:
+
+`rails plugin install http://github.com/expectedbehavior/acts_as_archival.git -r rails3.0x`
 
 Rails 2:
 
@@ -107,6 +110,6 @@ http://github.com/fastestforward/permanent_records
 * David Jones
 * Dave Woodward
 
-Thanks, guys!
+Thanks!
 
 *Copyright (c) 2009-2012 Expected Behavior, LLC, released under the MIT license*
