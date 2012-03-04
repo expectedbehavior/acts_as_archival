@@ -3,35 +3,57 @@ require "bundler/setup"
 require "test/unit"
 require "active_record"
 require "assertions"
-require "logger"
-require "pry"
 require "database_cleaner"
-
 require "acts_as_archival"
 
-database_config = File.dirname(__FILE__) + "/database.yml"
-logfile         = File.dirname(__FILE__) + "/debug.log"
-schema_file     = File.dirname(__FILE__) + "/schema.rb"
-
-dbconfig = YAML.load File.read(database_config)
-
-ActiveRecord::Base.logger = Logger.new(logfile)
-ActiveRecord::Base.establish_connection(dbconfig)
-load(schema_file) if File.exist?(schema_file)
-
-# ARec wants to make it "polies"
-ActiveSupport::Inflector.inflections do |inflect|
-  inflect.irregular "poly", "polys"
+def prepare_for_tests
+  setup_logging if ENV["LOGGING_ENABLED"]
+  setup_active_record
+  setup_database_cleaner
+  create_test_tables
+  require_test_classes
 end
 
-%w(archival independent_archival exploder plain mass_attribute_protected readonly_when_archived missing_archived_at missing_archive_number poly).each do |test_class_file|
-  require_relative "fixtures/#{test_class_file}"
+def setup_logging
+  require "logger"
+  logfile = File.dirname(__FILE__) + "/debug.log"
+  ActiveRecord::Base.logger = Logger.new(logfile)
 end
 
-DatabaseCleaner.strategy = :truncation
+def setup_active_record
+  dbconfig_file = File.dirname(__FILE__) + "/database.yml"
+  dbconfig = YAML.load File.read(dbconfig_file)
+  ActiveRecord::Base.establish_connection(dbconfig)
+end
 
-class ActiveSupport::TestCase
-  def setup
+def setup_database_cleaner
+  DatabaseCleaner.strategy = :truncation
+  ActiveSupport::TestCase.send(:setup) do
     DatabaseCleaner.clean
   end
 end
+
+def create_test_tables
+  schema_file   = File.dirname(__FILE__) + "/schema.rb"
+  load(schema_file) if File.exist?(schema_file)
+end
+
+def require_test_classes
+  ActiveSupport::Inflector.inflections do |inflect|
+    inflect.irregular "poly", "polys"
+  end
+
+  %W{archival
+     independent_archival
+     exploder
+     plain
+     mass_attribute_protected
+     readonly_when_archived
+     missing_archived_at
+     missing_archive_number
+     poly}.each do |test_class_file|
+    require_relative "fixtures/#{test_class_file}"
+  end
+end
+
+prepare_for_tests
