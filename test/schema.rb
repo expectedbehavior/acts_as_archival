@@ -117,7 +117,7 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 
   create_table :ixodidaes, :force => true do |t|
-    t.references :ticks
+    t.references :tick
     t.integer :warm_blooded_id
     t.string :warm_blooded_type
     t.string :archive_number
