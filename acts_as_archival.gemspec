@@ -15,7 +15,7 @@ Gem::Specification.new do |gem|
   gem.email       = ["joel@expectedbehavior.com",
                      "michael@expectedbehavior.com",
                      "matt@expectedbehavior.com"]
-  gem.homepage    = "http://expectedbehavior.com"
+  gem.homepage    = "http://github.com/expectedbehavior/acts_as_archival"
 
   gem.files         = `git ls-files`.split("\n")
   gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

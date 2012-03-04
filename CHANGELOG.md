@@ -1,4 +1,8 @@
 # Changes!
+
+## 0.4.2
+* Change homepage to the github repo
+
 ## 0.4.1
 * remove explicit activesupport gem'ing
 * update documentation for using plugin version with rails 3.0x
