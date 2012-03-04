@@ -28,13 +28,20 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "rake"
   gem.add_development_dependency "mysql2"
   gem.add_development_dependency "highline"
-  gem.add_development_dependency "pry"
   gem.add_development_dependency "rr"
   gem.add_development_dependency "database_cleaner"
 
-  gem.description = %q{We had the problem that acts_as_paranoid and similar plugins/gems always work on a record by record basis and made it very difficult to restore records atomically (or archive them, for that matter).
+  gem.description = <<-END
+We had the problem that acts_as_paranoid and similar plugins/gems always work on
+a record by record basis and made it very difficult to restore records
+atomically (or archive them, for that matter).
 
-Because the archive and unarchive methods are in transactions, and every archival record involved gets the same archive number upon archiving, you can easily restore or remove an entire set of records without having to worry about partial deletion or restoration.
+Because the archive and unarchive methods are in transactions, and every
+archival record involved gets the same archive number upon archiving, you can
+easily restore or remove an entire set of records without having to worry about
+partial deletion or restoration.
 
-Additionally, other plugins generally screw with how destroy/delete work.  We don't because we actually want to be able to destroy records.}
+Additionally, other plugins generally screw with how destroy/delete work.  We
+don't because we actually want to be able to destroy records.
+END
 end
