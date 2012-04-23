@@ -94,7 +94,10 @@ module ExpectedBehavior
             end
             run_callbacks :unarchive, :after
             return true
-          rescue
+          rescue => e
+            # output errors. Should not fail silently
+            puts e.message
+            puts e.backtrace
             raise ActiveRecord::Rollback
           end
         end
