@@ -74,7 +74,9 @@ module ExpectedBehavior
             end
             run_callbacks :archive, :after
             return true
-          rescue
+          rescue => e
+            ActiveRecord::Base.logger.try(:debug, e.message)
+            ActiveRecord::Base.logger.try(:debug, e.backtrace)
             raise ActiveRecord::Rollback
           end
         end
@@ -95,9 +97,8 @@ module ExpectedBehavior
             run_callbacks :unarchive, :after
             return true
           rescue => e
-            # output errors. Should not fail silently
-            puts e.message
-            puts e.backtrace
+            ActiveRecord::Base.logger.try(:debug, e.message)
+            ActiveRecord::Base.logger.try(:debug, e.backtrace)
             raise ActiveRecord::Rollback
           end
         end
