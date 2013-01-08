@@ -10,7 +10,7 @@ end
 
 def get_root_password
   $ROOT_PW = ask("Provide root mySQL password to setup '#{$DB_CONFIG["database"]}': ") { |q| q.echo = false}
-  if !$ROOT_PW || $ROOT_PW.empty?
+  if !$ROOT_PW || $ROOT_PW.nil?
     puts "error reading password"
     exit 4
   end
