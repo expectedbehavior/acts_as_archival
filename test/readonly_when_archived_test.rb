@@ -16,7 +16,7 @@ class ReadonlyWhenArchivedTest < ActiveSupport::TestCase
     archival.name = "updated"
 
     assert_not archival.save
-    assert_equal "Cannot modifify an archived record.",
+    assert_equal "Cannot modify an archived record.",
                  archival.errors.full_messages.first
   end
 end

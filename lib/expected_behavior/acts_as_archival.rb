@@ -46,7 +46,7 @@ module ExpectedBehavior
 
       def readonly_when_archived
         if self.archived? && self.changed? && !self.archived_at_changed? && !self.archive_number_changed?
-          self.errors.add(:base, "Cannot modifify an archived record.")
+          self.errors.add(:base, "Cannot modify an archived record.")
         end
       end
 

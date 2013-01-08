@@ -1,5 +1,8 @@
 # Changes!
 
+## 0.4.3
+* Fix spelling error
+
 ## 0.4.2
 * Change homepage to the github repo
 
