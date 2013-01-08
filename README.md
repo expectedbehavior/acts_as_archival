@@ -99,7 +99,7 @@ postgres and if not, submit a patch / let us know about it!
 
 ActsAsParanoid and PermanentRecords were both inspirations for this  
 http://github.com/technoweenie/acts_as_paranoid  
-http://github.com/fastestforward/permanent_records  
+http://github.com/fastestforward/permanent_records
 
 ## Contributors
 
@@ -109,6 +109,7 @@ http://github.com/fastestforward/permanent_records
 * Vojtech Salbaba
 * David Jones
 * Dave Woodward
+* Miles Sterrett
 
 Thanks!
 

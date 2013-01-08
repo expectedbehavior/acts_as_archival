@@ -1,5 +1,8 @@
 # Changes!
 
+## 0.4.4
+* Fix an error where callbacks were being called twice because of how we were defining them
+
 ## 0.4.3
 * Fix spelling error
 
