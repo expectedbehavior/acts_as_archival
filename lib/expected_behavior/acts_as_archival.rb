@@ -120,14 +120,9 @@ module ExpectedBehavior
         self.class.reflect_on_all_associations.each do |association|
           if (association.macro.to_s =~ /^has/ && association.klass.is_archival? &&
               options[:association_options].call(association) &&
-              association.options[:through].nil?) then
-
-            if association.respond_to? :foreign_key then
-              association_key = association.foreign_key
-            elsif association.respond_to? :primary_key_name then
-              association_key = association.primary_key_name
-            end
-              act_on_a_related_archival(association.klass, association_key, id, head_archive_number, options)
+              association.options[:through].nil?)
+            association_key = association.respond_to?(:foreign_key) ? association.foreign_key : association.primary_key_name
+            act_on_a_related_archival(association.klass, association_key, id, head_archive_number, options)
           end
         end
       end
