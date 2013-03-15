@@ -64,15 +64,15 @@ module ExpectedBehavior
       def archive(head_archive_number=nil)
         self.class.transaction do
           begin
-            run_callbacks :archive, :before
-            unless self.archived?
-              head_archive_number ||= Digest::MD5.hexdigest("#{self.class.name}#{self.id}")
-              self.archive_associations(head_archive_number)
-              self.archived_at = DateTime.now
-              self.archive_number = head_archive_number
-              self.save!
+            run_callbacks :archive do
+              unless self.archived?
+                head_archive_number ||= Digest::MD5.hexdigest("#{self.class.name}#{self.id}")
+                self.archive_associations(head_archive_number)
+                self.archived_at = DateTime.now
+                self.archive_number = head_archive_number
+                self.save!
+              end
             end
-            run_callbacks :archive, :after
             return true
           rescue => e
             ActiveRecord::Base.logger.try(:debug, e.message)
