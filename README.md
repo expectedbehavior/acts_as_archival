@@ -97,7 +97,7 @@ postgres and if not, submit a patch / let us know about it!
 
 ## Thanks
 
-ActsAsParanoid and PermanentRecords were both inspirations for this  
+ActsAsParanoid and PermanentRecords were both inspirations for this:  
 http://github.com/technoweenie/acts_as_paranoid  
 http://github.com/fastestforward/permanent_records
 
@@ -110,7 +110,8 @@ http://github.com/fastestforward/permanent_records
 * David Jones
 * Dave Woodward
 * Miles Sterrett
+* James Hill
 
 Thanks!
 
-*Copyright (c) 2009-2012 Expected Behavior, LLC, released under the MIT license*
+*Copyright (c) 2009-2013 Expected Behavior, LLC, released under the MIT license*

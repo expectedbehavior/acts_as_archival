@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    acts_as_archival (0.4.5)
+    acts_as_archival (0.5.0)
       activerecord
 
 GEM

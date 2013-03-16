@@ -1,5 +1,8 @@
 # Changes!
 
+## 0.5.0
+* Rails 4.0.0b1 support. Thanks, James Hill!
+
 ## 0.4.5
 * possibly allow rails 2&3 to work when dealing with associations
 * add some logging when archive/unarchive doesn't work
