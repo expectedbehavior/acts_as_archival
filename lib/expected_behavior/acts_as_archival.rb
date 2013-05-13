@@ -146,15 +146,17 @@ module ExpectedBehavior
           @model = model
           @head_archive_number = head_archive_number
           @options = options
+          @options[:association_options] ||= Proc.new { true }
         end
 
         def execute
+          return if options.length == 0
           act_on_all_archival_associations
         end
 
+        protected
+
         def act_on_all_archival_associations
-          return if options.length == 0
-          options[:association_options] ||= Proc.new { true }
           self.model.class.reflect_on_all_associations.each do |association|
             if should_act_on_association? association
               association_key = association.respond_to?(:foreign_key) ? association.foreign_key : association.primary_key_name
@@ -171,7 +173,7 @@ module ExpectedBehavior
         end
 
         def act_on_a_related_archival(klass, key_name)
-          return if options.length == 0 || (!options[:archive] && !options[:unarchive])
+          return if !options[:archive] && !options[:unarchive]
           if options[:archive]
             archive_association(klass, key_name)
           else
