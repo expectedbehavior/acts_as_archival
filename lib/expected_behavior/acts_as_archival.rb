@@ -158,25 +158,26 @@ module ExpectedBehavior
           self.model.class.reflect_on_all_associations.each do |association|
             if should_act_on_association? association
               association_key = association.respond_to?(:foreign_key) ? association.foreign_key : association.primary_key_name
-              act_on_a_related_archival(association.klass, association_key, model.id, head_archive_number, options)
+              act_on_a_related_archival(association.klass, association_key)
             end
           end
         end
 
         def should_act_on_association?(association)
-          association.macro.to_s =~ /^has/ && association.klass.is_archival? &&
+          association.macro.to_s =~ /^has/ &&
+            association.klass.is_archival? &&
             options[:association_options].call(association) &&
             association.options[:through].nil?
         end
 
-        def act_on_a_related_archival(klass, key_name, id, head_archive_number, options={})
+        def act_on_a_related_archival(klass, key_name)
           return if options.length == 0 || (!options[:archive] && !options[:unarchive])
           if options[:archive]
-            klass.unarchived.find(:all, :conditions => ["#{key_name} = ?", id]).each do |related_record|
+            klass.unarchived.find(:all, :conditions => ["#{key_name} = ?", model.id]).each do |related_record|
               raise ActiveRecord::Rollback unless related_record.archive(head_archive_number)
             end
           else
-            klass.archived.find(:all, :conditions => ["#{key_name} = ? AND archive_number = ?", id, head_archive_number]).each do |related_record|
+            klass.archived.find(:all, :conditions => ["#{key_name} = ? AND archive_number = ?", model.id, head_archive_number]).each do |related_record|
               raise ActiveRecord::Rollback unless related_record.unarchive(head_archive_number)
             end
           end
