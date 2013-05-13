@@ -149,20 +149,24 @@ module ExpectedBehavior
         end
 
         def execute
-         act_on_all_archival_associations
+          act_on_all_archival_associations
         end
 
         def act_on_all_archival_associations
           return if options.length == 0
           options[:association_options] ||= Proc.new { true }
           self.model.class.reflect_on_all_associations.each do |association|
-            if (association.macro.to_s =~ /^has/ && association.klass.is_archival? &&
-                options[:association_options].call(association) &&
-                association.options[:through].nil?)
-            association_key = association.respond_to?(:foreign_key) ? association.foreign_key : association.primary_key_name
-            act_on_a_related_archival(association.klass, association_key, model.id, head_archive_number, options)
+            if should_act_on_association? association
+              association_key = association.respond_to?(:foreign_key) ? association.foreign_key : association.primary_key_name
+              act_on_a_related_archival(association.klass, association_key, model.id, head_archive_number, options)
             end
           end
+        end
+
+        def should_act_on_association?(association)
+          association.macro.to_s =~ /^has/ && association.klass.is_archival? &&
+            options[:association_options].call(association) &&
+            association.options[:through].nil?
         end
 
         def act_on_a_related_archival(klass, key_name, id, head_archive_number, options={})
