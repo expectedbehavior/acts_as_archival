@@ -106,43 +106,79 @@ module ExpectedBehavior
       end
 
       def archive_associations(head_archive_number)
-        act_only_on_dependent_destroy_associations = Proc.new {|association| association.options[:dependent] == :destroy}
-        act_on_all_archival_associations(head_archive_number, :archive => true, :association_options => act_only_on_dependent_destroy_associations)
+        RelatedArchiveOperation.new(self, head_archive_number).execute
       end
 
       def unarchive_associations(head_archive_number)
-        act_on_all_archival_associations(head_archive_number, :unarchive => true)
+        RelatedUnarchiveOperation.new(self, head_archive_number).execute
       end
 
-      def act_on_all_archival_associations(head_archive_number, options={})
-        return if options.length == 0
-        options[:association_options] ||= Proc.new { true }
-        self.class.reflect_on_all_associations.each do |association|
-          if (association.macro.to_s =~ /^has/ && association.klass.is_archival? &&
-              options[:association_options].call(association) &&
-              association.options[:through].nil?)
+      class RelatedArchiveOperation
+        attr_reader :model, :head_archive_number
+        def initialize(model, head_archive_number)
+          @model = model
+          @head_archive_number = head_archive_number
+        end
+
+        def execute
+          act_only_on_dependent_destroy_associations = Proc.new {|association| association.options[:dependent] == :destroy}
+          options = { :archive => true, :association_options => act_only_on_dependent_destroy_associations }
+          RelatedArchivalOperation.new(model, head_archive_number, options).execute
+        end
+      end
+
+      class RelatedUnarchiveOperation
+        attr_reader :model, :head_archive_number
+        def initialize(model, head_archive_number)
+          @model = model
+          @head_archive_number = head_archive_number
+        end
+
+        def execute
+          RelatedArchivalOperation.new(model, head_archive_number, :unarchive => true).execute
+        end
+      end
+
+      class RelatedArchivalOperation
+        attr_reader :model, :head_archive_number, :options
+
+        def initialize(model, head_archive_number, options = {})
+          @model = model
+          @head_archive_number = head_archive_number
+          @options = options
+        end
+
+        def execute
+         act_on_all_archival_associations
+        end
+
+        def act_on_all_archival_associations
+          return if options.length == 0
+          options[:association_options] ||= Proc.new { true }
+          self.model.class.reflect_on_all_associations.each do |association|
+            if (association.macro.to_s =~ /^has/ && association.klass.is_archival? &&
+                options[:association_options].call(association) &&
+                association.options[:through].nil?)
             association_key = association.respond_to?(:foreign_key) ? association.foreign_key : association.primary_key_name
-            act_on_a_related_archival(association.klass, association_key, id, head_archive_number, options)
+            act_on_a_related_archival(association.klass, association_key, model.id, head_archive_number, options)
+            end
+          end
+        end
+
+        def act_on_a_related_archival(klass, key_name, id, head_archive_number, options={})
+          return if options.length == 0 || (!options[:archive] && !options[:unarchive])
+          if options[:archive]
+            klass.unarchived.find(:all, :conditions => ["#{key_name} = ?", id]).each do |related_record|
+              raise ActiveRecord::Rollback unless related_record.archive(head_archive_number)
+            end
+          else
+            klass.archived.find(:all, :conditions => ["#{key_name} = ? AND archive_number = ?", id, head_archive_number]).each do |related_record|
+              raise ActiveRecord::Rollback unless related_record.unarchive(head_archive_number)
+            end
           end
         end
       end
 
-      def act_on_a_related_archival(klass, key_name, id, head_archive_number, options={})
-        return if options.length == 0 || (!options[:archive] && !options[:unarchive])
-        if options[:archive]
-          klass.unarchived.find(:all, :conditions => ["#{key_name} = ?", id]).each do |related_record|
-            unless related_record.archive(head_archive_number)
-              raise ActiveRecord::Rollback
-            end
-          end
-        else
-          klass.archived.find(:all, :conditions => ["#{key_name} = ? AND archive_number = ?", id, head_archive_number]).each do |related_record|
-            unless related_record.unarchive(head_archive_number)
-              raise ActiveRecord::Rollback
-            end
-          end
-        end
-      end
     end
   end
 end
