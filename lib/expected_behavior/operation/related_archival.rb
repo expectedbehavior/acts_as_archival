@@ -8,7 +8,7 @@ module ExpectedBehavior
           @model = model
           @head_archive_number = head_archive_number
           @options = options
-          @options[:association_options] ||= Proc.new { true }
+          @options[:association_conditions] ||= Proc.new { true }
         end
 
         def execute
@@ -30,7 +30,7 @@ module ExpectedBehavior
         def should_act_on_association?(association)
           association.macro.to_s =~ /^has/ &&
             association.klass.is_archival? &&
-            options[:association_options].call(association) &&
+            options[:association_conditions].call(association) &&
             association.options[:through].nil?
         end
 

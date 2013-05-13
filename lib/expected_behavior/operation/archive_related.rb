@@ -6,7 +6,7 @@ module ExpectedBehavior
         def options
           {
             :archive => true,
-            :association_options => Proc.new { |association|
+            :association_conditions => Proc.new { |association|
               association.options[:dependent] == :destroy
             }
           }
