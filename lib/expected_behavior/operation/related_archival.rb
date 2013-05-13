@@ -35,10 +35,9 @@ module ExpectedBehavior
         end
 
         def act_on_a_related_archival(klass, key_name)
-          return if !options[:archive] && !options[:unarchive]
           if options[:archive]
             archive_association(klass, key_name)
-          else
+          elsif options[:unarchive]
             unarchive_association(klass, key_name)
           end
         end
