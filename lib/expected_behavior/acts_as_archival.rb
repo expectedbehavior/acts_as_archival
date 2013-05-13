@@ -173,13 +173,21 @@ module ExpectedBehavior
         def act_on_a_related_archival(klass, key_name)
           return if options.length == 0 || (!options[:archive] && !options[:unarchive])
           if options[:archive]
-            klass.unarchived.find(:all, :conditions => ["#{key_name} = ?", model.id]).each do |related_record|
-              raise ActiveRecord::Rollback unless related_record.archive(head_archive_number)
-            end
+            archive_association(klass, key_name)
           else
-            klass.archived.find(:all, :conditions => ["#{key_name} = ? AND archive_number = ?", model.id, head_archive_number]).each do |related_record|
-              raise ActiveRecord::Rollback unless related_record.unarchive(head_archive_number)
-            end
+            unarchive_association(klass, key_name)
+          end
+        end
+
+        def archive_association(klass, key_name)
+          klass.unarchived.find(:all, :conditions => ["#{key_name} = ?", model.id]).each do |related_record|
+            raise ActiveRecord::Rollback unless related_record.archive(head_archive_number)
+          end
+        end
+
+        def unarchive_association(klass, key_name)
+          klass.archived.find(:all, :conditions => ["#{key_name} = ? AND archive_number = ?", model.id, head_archive_number]).each do |related_record|
+            raise ActiveRecord::Rollback unless related_record.unarchive(head_archive_number)
           end
         end
       end
