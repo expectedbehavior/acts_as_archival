@@ -11,12 +11,14 @@ module ExpectedBehavior
         end
 
         def execute
+          return if options.length == 0
           RelatedArchival.new(model, head_archive_number, options).execute
         end
 
         def options
           {}
         end
+
       end
 
     end
