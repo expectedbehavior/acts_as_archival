@@ -1,8 +1,8 @@
 module ExpectedBehavior
   module ActsAsArchival
-    module Operation
+    module AssociationOperation
 
-      class ArchiveRelated < Base
+      class Archive < Base
         def options
           {
             :archive => true,

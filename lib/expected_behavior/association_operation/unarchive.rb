@@ -1,8 +1,8 @@
 module ExpectedBehavior
   module ActsAsArchival
-    module Operation
+    module AssociationOperation
 
-      class UnarchiveRelated < Base
+      class Unarchive < Base
         def options
           { :unarchive => true }
         end

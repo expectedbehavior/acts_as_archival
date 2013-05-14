@@ -1,6 +1,7 @@
 module ExpectedBehavior
   module ActsAsArchival
-    module Operation
+    module AssociationOperation
+
       class RelatedArchival
         attr_reader :model, :head_archive_number, :options
 

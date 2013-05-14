@@ -1,6 +1,6 @@
 module ExpectedBehavior
   module ActsAsArchival
-    module Operation
+    module AssociationOperation
 
       class Base
         attr_reader :model, :head_archive_number
@@ -11,7 +11,7 @@ module ExpectedBehavior
         end
 
         def execute
-          Operation::RelatedArchival.new(model, head_archive_number, options).execute
+          RelatedArchival.new(model, head_archive_number, options).execute
         end
 
         def options

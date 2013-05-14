@@ -106,11 +106,11 @@ module ExpectedBehavior
       end
 
       def archive_associations(head_archive_number)
-        Operation::ArchiveRelated.new(self, head_archive_number).execute
+        AssociationOperation::Archive.new(self, head_archive_number).execute
       end
 
       def unarchive_associations(head_archive_number)
-        Operation::UnarchiveRelated.new(self, head_archive_number).execute
+        AssociationOperation::Unarchive.new(self, head_archive_number).execute
       end
 
     end
