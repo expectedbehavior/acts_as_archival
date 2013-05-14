@@ -35,13 +35,14 @@ module ExpectedBehavior
         end
 
         def act_on_association(association)
-          association_key = association.respond_to?(:foreign_key) ? association.foreign_key : association.primary_key_name
-          association_scope = association.klass.where("#{association_key} = ?", model.id)
-          act_on_a_related_archival(association_scope)
+          key = association.respond_to?(:foreign_key) ? association.foreign_key : association.primary_key_name
+          scope = association.klass.where(key => model.id)
+          act_on_archivals(scope)
         end
 
-        def act_on_a_related_archival(klass, key_name)
-          raise NotImplementedError
+        def act_on_archivals(scope)
+          raise NotImplementedError,
+            "The #{self.class} hasn't implemented 'act_on_archivals(scope)'"
         end
       end
 
