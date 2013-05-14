@@ -1,7 +1,6 @@
 require "acts_as_archival/version"
 
 require "expected_behavior/association_operation/base"
-require "expected_behavior/association_operation/related_archival"
 require "expected_behavior/association_operation/archive"
 require "expected_behavior/association_operation/unarchive"
 
