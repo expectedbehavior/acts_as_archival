@@ -86,15 +86,15 @@ module ExpectedBehavior
       def unarchive(head_archive_number=nil)
         self.class.transaction do
           begin
-            run_callbacks :unarchive, :before
-            if self.archived?
-              head_archive_number ||= self.archive_number
-              self.archived_at = nil
-              self.archive_number = nil
-              self.save!
-              self.unarchive_associations(head_archive_number)
+            run_callbacks :unarchive do
+              if self.archived?
+                head_archive_number ||= self.archive_number
+                self.archived_at = nil
+                self.archive_number = nil
+                self.save!
+                self.unarchive_associations(head_archive_number)
+              end
             end
-            run_callbacks :unarchive, :after
             return true
           rescue => e
             ActiveRecord::Base.logger.try(:debug, e.message)
