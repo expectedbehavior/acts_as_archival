@@ -103,42 +103,11 @@ module ExpectedBehavior
       end
 
       def archive_associations(head_archive_number)
-        act_only_on_dependent_destroy_associations = Proc.new {|association| association.options[:dependent] == :destroy}
-        act_on_all_archival_associations(head_archive_number, :archive => true, :association_options => act_only_on_dependent_destroy_associations)
+        AssociationOperation::Archive.new(self, head_archive_number).execute
       end
 
       def unarchive_associations(head_archive_number)
-        act_on_all_archival_associations(head_archive_number, :unarchive => true)
-      end
-
-      def act_on_all_archival_associations(head_archive_number, options={})
-        return if options.length == 0
-        options[:association_options] ||= Proc.new { true }
-        self.class.reflect_on_all_associations.each do |association|
-          if (association.macro.to_s =~ /^has/ && association.klass.is_archival? &&
-              options[:association_options].call(association) &&
-              association.options[:through].nil?)
-            association_key = association.respond_to?(:foreign_key) ? association.foreign_key : association.primary_key_name
-            act_on_a_related_archival(association.klass, association_key, id, head_archive_number, options)
-          end
-        end
-      end
-
-      def act_on_a_related_archival(klass, key_name, id, head_archive_number, options={})
-        return if options.length == 0 || (!options[:archive] && !options[:unarchive])
-        if options[:archive]
-          klass.unarchived.where(["#{key_name} = ?", id]).each do |related_record|
-            unless related_record.archive(head_archive_number)
-              raise ActiveRecord::Rollback
-            end
-          end
-        else
-          klass.archived.where(["#{key_name} = ? AND archive_number = ?", id, head_archive_number]).each do |related_record|
-            unless related_record.unarchive(head_archive_number)
-              raise ActiveRecord::Rollback
-            end
-          end
-        end
+        AssociationOperation::Unarchive.new(self, head_archive_number).execute
       end
     end
   end
