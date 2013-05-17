@@ -21,13 +21,13 @@ GEM
     arel (3.0.2)
     assertions-eb (1.7.3)
     builder (3.0.4)
-    database_cleaner (0.7.1)
-    highline (1.6.11)
+    database_cleaner (1.0.1)
+    highline (1.6.19)
     i18n (0.6.1)
-    multi_json (1.7.2)
+    multi_json (1.7.3)
     mysql2 (0.3.11)
-    rake (0.9.2.2)
-    rr (1.0.4)
+    rake (10.0.4)
+    rr (1.0.5)
     tzinfo (0.3.37)
 
 PLATFORMS
