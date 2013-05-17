@@ -47,4 +47,9 @@ class ActsAsArchivalTest < ActiveSupport::TestCase
 
     assert_equal 1, Archival.archived_from_archive_number(archive_number).count
   end
+
+  test "table_name is set to 'legacy'" do
+    assert_equal "SELECT `legacy`.* FROM `legacy`  WHERE (legacy.archived_at IS NOT NULL AND legacy.archive_number IS NOT NULL)", ArchivalTableName.archived.to_sql
+    assert_equal "SELECT `legacy`.* FROM `legacy`  WHERE `legacy`.`archived_at` IS NULL AND `legacy`.`archive_number` IS NULL", ArchivalTableName.unarchived.to_sql
+  end
 end

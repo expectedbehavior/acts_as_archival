@@ -46,14 +46,15 @@ def require_test_classes
   [:archival,
    :archival_kid,
    :archival_grandkid,
-   :independent_archival,
+   :archival_table_name,
    :exploder,
-   :plain,
+   :independent_archival,
    :mass_attribute_protected,
-   :readonly_when_archived,
    :missing_archived_at,
    :missing_archive_number,
-   :poly
+   :plain,
+   :poly,
+   :readonly_when_archived
   ].each {|test_class_file| require_relative "fixtures/#{test_class_file}"}
 end
 

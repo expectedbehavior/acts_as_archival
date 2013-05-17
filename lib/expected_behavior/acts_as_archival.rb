@@ -2,7 +2,7 @@ module ExpectedBehavior
   module ActsAsArchival
     require 'digest/md5'
 
-    ARCHIVED_CONDITIONS = lambda { |zelf| %Q{#{zelf.to_s.tableize}.archived_at IS NOT NULL AND #{zelf.to_s.tableize}.archive_number IS NOT NULL} }
+    ARCHIVED_CONDITIONS = lambda { |zelf| %Q{#{zelf.table_name}.archived_at IS NOT NULL AND #{zelf.table_name}.archive_number IS NOT NULL} }
     UNARCHIVED_CONDITIONS = { :archived_at => nil, :archive_number => nil }
 
     MissingArchivalColumnError = Class.new(ActiveRecord::ActiveRecordError) unless defined?(MissingArchivalColumnError) == 'constant' && MissingArchivalColumnError.class == Class
