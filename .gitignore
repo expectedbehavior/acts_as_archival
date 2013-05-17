@@ -8,3 +8,4 @@ test/aaa_test_app/vendor/bundle
 *.gem
 Gemfile.lock
 pkg/*
+.DS_Store

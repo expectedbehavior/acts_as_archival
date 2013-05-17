@@ -1,9 +1,11 @@
 $:.unshift(File.dirname(__FILE__) + '/../lib')
 require "bundler/setup"
 require "test/unit"
+
 require "active_record"
 require "assertions"
 require "database_cleaner"
+
 require "acts_as_archival"
 
 def prepare_for_tests
@@ -43,18 +45,21 @@ def require_test_classes
     inflect.irregular "poly", "polys"
   end
 
-  [:archival,
+  fixtures = [:archival,
    :archival_kid,
    :archival_grandkid,
-   :independent_archival,
+   :archival_table_name,
    :exploder,
+   :independent_archival,
    :plain,
-   :mass_attribute_protected,
-   :readonly_when_archived,
    :missing_archived_at,
    :missing_archive_number,
-   :poly
-  ].each {|test_class_file| require_relative "fixtures/#{test_class_file}"}
+   :plain,
+   :poly,
+   :readonly_when_archived]
+  $require_mass_protection = ActiveModel.constants.include?(:MassAssignmentSecurity)
+  fixtures << :mass_attribute_protected if $require_mass_protection
+  fixtures.each {|test_class_file| require_relative "fixtures/#{test_class_file}"}
 end
 
 prepare_for_tests

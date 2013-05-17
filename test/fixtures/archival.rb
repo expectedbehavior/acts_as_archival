@@ -12,4 +12,6 @@ class Archival < ActiveRecord::Base
   has_many :plains,             :dependent => :destroy
   has_many :polys,              :dependent => :destroy, :as => :archiveable
   has_many :independent_archivals
+
+  scope :bobs, lambda { where(:name => ["Bob", "Bobby", "Robert"]) }
 end

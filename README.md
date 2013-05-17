@@ -16,9 +16,13 @@ Additionally, other plugins generally screw with how
 to destroy records.
 
 ## Install
-Rails 3.2+ (maybe 3.1?)
+Rails 3.2 and up
 
 `gem install acts_as_archival`
+
+or in your Gemfile
+
+`gem "acts_as_archival"`
 
 Rails 3.0x:
 

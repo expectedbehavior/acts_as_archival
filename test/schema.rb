@@ -64,4 +64,10 @@ ActiveRecord::Schema.define(:version => 1) do
     t.column :archive_number, :string
     t.column :archived_at, :datetime
   end
+
+  create_table :legacy, :force => true do |t|
+    t.column :name, :string
+    t.column :archive_number, :string
+    t.column :archived_at, :datetime
+  end
 end

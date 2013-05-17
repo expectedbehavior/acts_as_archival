@@ -1,7 +1,6 @@
 module ExpectedBehavior
   module ActsAsArchival
     module AssociationOperation
-
       class Archive < Base
 
         protected
@@ -15,8 +14,8 @@ module ExpectedBehavior
         def association_conditions_met?(association)
           association.options[:dependent] == :destroy
         end
-      end
 
+      end
     end
   end
 end

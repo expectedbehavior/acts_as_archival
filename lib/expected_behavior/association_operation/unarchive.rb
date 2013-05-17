@@ -1,7 +1,6 @@
 module ExpectedBehavior
   module ActsAsArchival
     module AssociationOperation
-
       class Unarchive < Base
 
         protected
@@ -13,7 +12,6 @@ module ExpectedBehavior
         end
 
       end
-
     end
   end
 end
