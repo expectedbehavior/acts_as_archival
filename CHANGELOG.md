@@ -1,5 +1,8 @@
 # Changes!
 
+## 0.5.3
+* Major refactoring of archiving/unarchiving logic into nice command classes instead of big ball of ARec voodoo. Thanks, Marten Claes!
+
 ## 0.5.2
 * More changes to support Rails 4
 * fix scoping combinations with relations for Rails 4

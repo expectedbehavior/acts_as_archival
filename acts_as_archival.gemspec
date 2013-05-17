@@ -13,10 +13,14 @@ Gem::Specification.new do |gem|
                      "David Jones",
                      "Dave Woodward",
                      "Miles Sterrett",
-                     "James Hill"]
+                     "James Hill",
+                     "Marten Claes"]
   gem.email       = ["joel@expectedbehavior.com",
                      "michael@expectedbehavior.com",
-                     "matt@expectedbehavior.com"]
+                     "matt@expectedbehavior.com",
+                     "jason@expectedbehavior.com",
+                     "tyler@expectedbehavior.com",
+                     "nathan@expectedbehavior.com"]
   gem.homepage    = "http://github.com/expectedbehavior/acts_as_archival"
 
   gem.files         = `git ls-files`.split("\n")
