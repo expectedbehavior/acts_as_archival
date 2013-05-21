@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # archiveable_id   - integer
 # archiveable_type - string
 # archive_number   - string
