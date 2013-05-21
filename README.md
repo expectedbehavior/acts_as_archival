@@ -116,7 +116,7 @@ end
 >> record.archive                               # => true
 >> record.foo = "I want this to work"
 >> record.save                                  # => false
->> record.errors.full_messages                  # => "Cannot modify an archived record."
+>> record.errors.full_messages.first            # => "Cannot modify an archived record."
 ```
 
 ## Help Wanted
