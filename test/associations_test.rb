@@ -1,6 +1,6 @@
 require_relative "test_helper"
 
-class ActsAsArchivalTest < ActiveSupport::TestCase
+class AssociationsTest < ActiveSupport::TestCase
   test "archive archives 'has_' associated archival objects that are dependent destroy" do
     archival = Archival.create!
     child = archival.archivals.create!
