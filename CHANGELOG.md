@@ -5,8 +5,8 @@
 
 ## 0.5.2
 * More changes to support Rails 4
-* fix scoping combinations with relations for Rails 4
-* BREAKING CHANGE (possibly): removed the scope constants, so if you were using them, you should stop
+* **BUGFIX** fix scoping combinations with relations for Rails 4
+* **BREAKING CHANGE** (possibly): removed the scope constants, so if you were using them, you should stop
 
 ## 0.5.1
 * update to use .table_name for archived scope
