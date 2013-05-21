@@ -3,33 +3,35 @@ require_relative "test_helper"
 class BasicTest < ActiveSupport::TestCase
   test "archive archives the record" do
     archival = Archival.create!
-
     archival.archive
-    assert archival.archived?
+    assert archival.reload.archived?
   end
 
   test "unarchive unarchives archival records" do
     archival = Archival.create!(:archived_at => Time.now, :archive_number => 1)
     archival.unarchive
-
-    assert_not archival.archived?
+    assert_not archival.reload.archived?
   end
 
-  test "archive returns true on success, false on failure" do
-    archival = Archival.create!
+  test "archive returns true on success" do
+    normal = Archival.create!
+    assert_equal true, normal.archive
+  end
+
+  test "archive returns false on failure" do
     readonly = Archival.create!
     readonly.readonly!
-
-    assert_equal true,  archival.archive
     assert_equal false, readonly.archive
   end
 
-  test "unarchive returns true on success, false on failure" do
-    archived = Archival.create!(:archived_at => Time.now, :archive_number => "1")
-    readonly = Archival.create!(:archived_at => Time.now, :archive_number => "2")
-    readonly.readonly!
+  test "unarchive returns true on success" do
+    normal = Archival.create!(:archived_at => Time.now, :archive_number => "1")
+    assert_equal true, normal.unarchive
+  end
 
-    assert_equal true,  archived.unarchive
+  test "unarchive returns false on failure" do
+    readonly = Archival.create!(:archived_at => Time.now, :archive_number => "1")
+    readonly.readonly!
     assert_equal false, readonly.unarchive
   end
 
@@ -47,7 +49,6 @@ class BasicTest < ActiveSupport::TestCase
   test "archive sets the archive number to the md5 hexdigest for the model and id that is archived" do
     archival = Archival.create!
     archival.archive
-
     expected_digest = Digest::MD5.hexdigest("#{archival.class.name}#{archival.id}")
     assert_equal expected_digest, archival.archive_number
   end
@@ -58,7 +59,6 @@ class BasicTest < ActiveSupport::TestCase
     initial_number = archived.archive_number
     archived.reload.archive
     second_number = archived.archive_number
-
     assert_equal initial_number, second_number
   end
 end
