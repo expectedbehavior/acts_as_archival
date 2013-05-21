@@ -49,15 +49,18 @@ class ScopeTest < ActiveSupport::TestCase
   end
 
   test "table_name is set to 'legacy'" do
-    assert_equal "SELECT `legacy`.* FROM `legacy`  WHERE (legacy.archived_at IS NOT NULL AND legacy.archive_number IS NOT NULL)", ArchivalTableName.archived.to_sql
-    assert_equal "SELECT `legacy`.* FROM `legacy`  WHERE `legacy`.`archived_at` IS NULL AND `legacy`.`archive_number` IS NULL", ArchivalTableName.unarchived.to_sql
+    archived_sql = "SELECT `legacy`.* FROM `legacy`  WHERE (legacy.archived_at IS NOT NULL AND legacy.archive_number IS NOT NULL)"
+    unarchived_sql = "SELECT `legacy`.* FROM `legacy`  WHERE `legacy`.`archived_at` IS NULL AND `legacy`.`archive_number` IS NULL"
+    assert_equal archived_sql, ArchivalTableName.archived.to_sql
+    assert_equal unarchived_sql, ArchivalTableName.unarchived.to_sql
   end
 
   test "combines with other scope properly" do
     Archival.create!(:name => "Robert")
     Archival.create!(:name => "Bobby")
     Archival.create!(:name => "Sue")
-    Archival.create!(:name => "Bob").archive
+    bob = Archival.create!(:name => "Bob")
+    bob.archive
     assert_equal 3, Archival.bobs.count
     assert_equal 3, Archival.unarchived.count
     assert_equal 2, Archival.bobs.unarchived.count
@@ -70,7 +73,8 @@ class ScopeTest < ActiveSupport::TestCase
     parent = Archival.create!
     parent.archivals.create!
     parent.archivals.create!
-    parent.archivals.create!.archive
+    child = parent.archivals.create!
+    child.archive
     assert_equal 3, parent.archivals.count
     assert_equal 1, parent.archivals.archived.count
     assert_equal 2, parent.archivals.unarchived.count
