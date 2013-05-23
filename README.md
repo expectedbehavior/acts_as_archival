@@ -102,6 +102,24 @@ h.is_archival?                   # => true
 Hole.is_archival?                # => true
 ```
 
+### Options
+
+When defining an AAA model, it is is possible to make it unmodifiable
+when it is archived by passing `:readonly_when_archived => true` to the
+`acts_as_archival` call in your model.
+
+``` ruby
+class CantTouchThis < ActiveRecord::Base
+  acts_as_archival :readonly_when_archived => true
+end
+
+record = CantTouchThis.create(:foo => "bar")
+record.archive                               # => true
+record.foo = "I want this to work"
+record.save                                  # => false
+record.errors.full_messages.first            # => "Cannot modify an archived record."
+```
+
 ## Caveats
 
 1. This will only work on associations that are dependent destroy. It
@@ -113,39 +131,19 @@ to conditionally add the functionality to older Rails installations.
 
 ## Testing
 
-Because this plugin makes use of transactions we're testing it (mostly) on
-sqlite. Running the tests should
-be as easy as:
+Because this plugin makes use of transactions we're testing it (mostly) on sqlite. Running the tests should be as easy as:
 
 ```  bash
-bundle
+bundle                               # if this fails you might need to install/configure some databases
 test/script/db_setup                 # makes the databases with the correct permissions (for mySQL)
 createuser -D -A -P archival_tester  # makes user for PostgreSQL; answer the password prompt with "perspicacious"
 createdb -O archival_tester aaa_test # makes db for PostgreSQL and sets owner to our test user
 rake
 ```
 
-## Options
-
-When defining an AAA model, it is is possible to make it unmodifiable
-when it is archived by passing `:readonly_when_archived => true` to the
-`acts_as_archival` call in your model.
-
-``` ruby
-class CantTouchThis < ActiveRecord::Base
-  acts_as_archival :readonly_when_archived => true
-end
-
->> record = CantTouchThis.create(:foo => "bar")
->> record.archive                               # => true
->> record.foo = "I want this to work"
->> record.save                                  # => false
->> record.errors.full_messages.first            # => "Cannot modify an archived record."
-```
-
 ## Help Wanted
 
-How do I write a postgresql script for setting up the db?
+We'd love to have your help making this better! If you have ideas for features this should implement or you think the code sucks, let us know. And PRs are greatly appreciated. :+1:
 
 ## Thanks
 
