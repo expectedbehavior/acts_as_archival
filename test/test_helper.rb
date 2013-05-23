@@ -37,6 +37,7 @@ end
 def create_test_tables
   schema_file = File.dirname(__FILE__) + "/schema.rb"
   ["pg", "mysql", "sqlite"].each do |db|
+    puts "** Loading schema for #{db}"
     ActiveRecord::Base.establish_connection($dbconfig[db])
     load(schema_file) if File.exist?(schema_file)
   end

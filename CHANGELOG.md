@@ -1,5 +1,9 @@
 # Changes!
 
+## 0.6.0
+* Officially support PostgreSQL
+* Switch default testing to use sqlite, mysql, and postgres instead of just mysql
+
 ## 0.5.3
 * Major refactoring of archiving/unarchiving logic into nice command classes instead of big ball of ARec voodoo. Thanks, Marten Claes!
 

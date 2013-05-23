@@ -86,13 +86,12 @@ should be trival to change that or make it optional.
 1. It will only work for Rails 2.2 and up, because we are using
 `named_scope`/`scope`. You can check out [permanent records](http://github.com/fastestforward/permanent_records) for a way
 to conditionally add the functionality to older Rails installations.
-1. This will only work (well) on databases with transactions (mysql,
-postgres, etc.).
+1. If you would like to work on this, you will need to setup sqlite, postgres, and mysql on your development machine. Alternately, you can disable specific dev dependencies in the gemspec and test_helper and ask for help.
 
 ## Testing
 
-Because this plugin makes use of transactions we're testing it on
-MySQL instead of the more convenient sqlite. Running the tests should
+Because this plugin makes use of transactions we're testing it (mostly) on
+sqlite. Running the tests should
 be as easy as:
 
 ```  bash
@@ -121,8 +120,7 @@ end
 
 ## Help Wanted
 
-It would be cool if someone could check if this thing works on
-postgres and if not, submit a patch / let us know about it!
+How do I write a postgresql script for setting up the db?
 
 ## Thanks
 
