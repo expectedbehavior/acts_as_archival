@@ -68,17 +68,6 @@ h.archive_number                 # => nil
 h.archived_at                    # => nil
 ```
 
-### Scopes
-
-``` ruby
-h = Hole.create
-Hole.archived.size               # => 0
-Hole.unarchived.size             # => 1
-h.archive
-Hole.archived.size               # => 1
-Hole.unarchived.size             # => 0
-```
-
 ### Associations
 
 ``` ruby
@@ -92,6 +81,17 @@ h.unarchive                      # => true
 h.archive_number                 # => nil
 r.archive_number                 # => nil
 r.archived?                      # => false
+```
+
+### Scopes
+
+``` ruby
+h = Hole.create
+Hole.archived.size               # => 0
+Hole.unarchived.size             # => 1
+h.archive
+Hole.archived.size               # => 1
+Hole.unarchived.size             # => 0
 ```
 
 ### Utility methods
