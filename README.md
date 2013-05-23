@@ -16,29 +16,16 @@ Additionally, other plugins generally screw with how
 to destroy records.
 
 ## Install
-Rails 3.2 and up
-
-`gem install acts_as_archival`
-
-or in your Gemfile
 
 `gem "acts_as_archival"`
 
-Rails 3.0x:
-
-`rails plugin install http://github.com/expectedbehavior/acts_as_archival.git -r rails3.0x`
-
-Rails 2:
-
-`script/plugin install http://github.com/expectedbehavior/acts_as_archival.git -r rails2`
-
-Any models you want to be archival should have the columns
-`archive_number`(String) and `archived_at` (DateTime).
+Any models you want to be archival should have the columns `archive_number` (String) and `archived_at` (DateTime).
 
 i.e. `rails g migration AddAAAToPost archive_number archived_at:datetime`
 
-Any dependent-destroy AAA model associated to an AAA model will be
-archived with its parent.
+Any dependent-destroy AAA model associated to an AAA model will be archived with its parent.
+
+_If you're stuck on Rails 3.0x/2, check out the available branches._
 
 ## Example
 
