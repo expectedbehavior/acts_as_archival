@@ -5,7 +5,7 @@ require 'highline/import'
 
 def read_database_config
   database_file = File.join(File.dirname(__FILE__), "/../", "database.yml")
-  $DB_CONFIG = YAML.load(File.read(database_file))
+  $DB_CONFIG = YAML.load(File.read(database_file))["mysql"]
 end
 
 def get_root_password

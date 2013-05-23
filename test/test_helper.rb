@@ -9,7 +9,7 @@ require "database_cleaner"
 require "acts_as_archival"
 
 def prepare_for_tests
-  setup_logging if ENV["LOGGING_ENABLED"]
+  setup_logging# if ENV["LOGGING_ENABLED"]
   setup_active_record
   setup_database_cleaner
   create_test_tables
@@ -24,8 +24,7 @@ end
 
 def setup_active_record
   dbconfig_file = File.dirname(__FILE__) + "/database.yml"
-  dbconfig = YAML.load File.read(dbconfig_file)
-  ActiveRecord::Base.establish_connection(dbconfig)
+  $dbconfig = YAML.load(File.read(dbconfig_file))
 end
 
 def setup_database_cleaner
@@ -36,8 +35,11 @@ def setup_database_cleaner
 end
 
 def create_test_tables
-  schema_file   = File.dirname(__FILE__) + "/schema.rb"
-  load(schema_file) if File.exist?(schema_file)
+  schema_file = File.dirname(__FILE__) + "/schema.rb"
+  ["pg", "mysql", "sqlite"].each do |db|
+    ActiveRecord::Base.establish_connection($dbconfig[db])
+    load(schema_file) if File.exist?(schema_file)
+  end
 end
 
 def require_test_classes
@@ -54,8 +56,12 @@ def require_test_classes
    :plain,
    :missing_archived_at,
    :missing_archive_number,
+   :mysql_archival,
+   :mysql_exploder,
    :plain,
    :poly,
+   :pg_archival,
+   :pg_exploder,
    :readonly_when_archived]
   $require_mass_protection = ActiveModel.constants.include?(:MassAssignmentSecurity)
   fixtures << :mass_attribute_protected if $require_mass_protection

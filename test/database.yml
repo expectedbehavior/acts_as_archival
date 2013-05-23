@@ -1,8 +1,26 @@
-adapter: mysql2
-encoding: utf8
-reconnect: false
-database: aaa_test
-pool: 5
-username: archival_tester
-password: perspicacious
-socket: /tmp/mysql.sock
+sqlite:
+  adapter: sqlite3
+  database: aaa_test.sqlite3
+  pool: 5
+  timeout: 5000
+
+mysql:
+  adapter: mysql2
+  pool: 5
+  timeout: 5000
+  encoding: utf8
+  reconnect: false
+  database: aaa_test
+  username: archival_tester
+  password: perspicacious
+  socket: /tmp/mysql.sock
+
+pg:
+  adapter: postgresql
+  pool: 5
+  timeout: 5000
+  encoding: utf8
+  database: aaa_test
+  username: archival_tester
+  password: perspicacious
+  min_messages: WARNING
