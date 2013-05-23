@@ -7,3 +7,4 @@ vendor/bundle
 Gemfile.lock
 pkg/*
 .DS_Store
+*.sqlite3
