@@ -17,6 +17,8 @@ to destroy records.
 
 ## Install
 
+Gemfile:
+
 `gem "acts_as_archival"`
 
 Any models you want to be archival should have the columns `archive_number` (String) and `archived_at` (DateTime).
