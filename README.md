@@ -37,7 +37,7 @@ Any models you want to be archival should have the columns
 
 i.e. `rails g migration AddAAAToPost archive_number archived_at:datetime`
 
-Any dependent-destroy model connected to an AAA model will be
+Any dependent-destroy AAA model associated to an AAA model will be
 archived with its parent.
 
 ## Example
