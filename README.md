@@ -53,30 +53,53 @@ class Rat < ActiveRecord::Base
 end
 ```
 
+### Simple interactions & scopes
+
 ``` ruby
->> Hole.archived.size               # => 0
->> Hole.is_archival?                # => true
->> hole = Hole.create
->> Hole.unarchived.size             # => 1
->> hole.is_archival?                # => true
->> hole.archived?                   # => false
+h = Hole.create                  #
+h.archived?                      # => false
+h.archive                        # => true
+h.archived?                      # => "b56876de48a5dcfe71b2c13eec15e4a2"
+h.archive_number                 # => "b56876de48a5dcfe71b2c13eec15e4a2"
+h.archived_at                    # => Thu, 01 Jan 2012 01:49:21 -0400
+h.unarchive                      # => true
+h.archived?                      # => false
+h.archive_number                 # => nil
+h.archived_at                    # => nil
+```
 
->> hole.rats.create
->> hole.archive                     # archive hole and rat
->> hole.archive_number              # => 8c9f03f9d....
->> hole.rats.first.archive_number   # => 8c9f03f9d....
->> hole.rats.first.archived?        # => 8c9f03f9d....
->> hole.archived?                   # => 8c9f03f9d....
->> Rat.archived.size                # => 1
->> Hole.archived.size               # => 1
+### Scopes
 
->> Hole.unarchived.size             # => 0
->> Rat.unarchived.size              # => 0
->> hole.unarchive
->> Hole.archived.size               # => 0
->> Hole.unarchived.size             # => 1
->> Rat.archived.size                # => 0
->> Rat.unarchived.size              # => 1
+``` ruby
+h = Hole.create
+Hole.archived.size               # => 0
+Hole.unarchived.size             # => 1
+h.archive
+Hole.archived.size               # => 1
+Hole.unarchived.size             # => 0
+```
+
+### Associations
+
+``` ruby
+h = Hole.create                  #
+r = h.rats.create                #
+h.archive                        # => true
+h.archive_number                 # => "b56876de48a5dcfe71b2c13eec15e4a2"
+r.archive_number                 # => "b56876de48a5dcfe71b2c13eec15e4a2"
+r.archived?                      # => "b56876de48a5dcfe71b2c13eec15e4a2"
+h.unarchive                      # => true
+h.archive_number                 # => nil
+r.archive_number                 # => nil
+r.archived?                      # => false
+```
+
+### Utility methods
+
+``` ruby
+h = Hole.create                  #
+h.is_archival?                   # => true
+Hole.is_archival?                # => true
 ```
 
 ## Caveats
@@ -96,7 +119,9 @@ be as easy as:
 
 ```  bash
 bundle
-test/script/db_setup    # makes the databases with the correct permissions (for mySQL)
+test/script/db_setup                 # makes the databases with the correct permissions (for mySQL)
+createuser -D -A -P archival_tester  # makes user for PostgreSQL; answer the password prompt with "perspicacious"
+createdb -O archival_tester aaa_test # makes db for PostgreSQL and sets owner to our test user
 rake
 ```
 
