@@ -1,16 +1,18 @@
 # Changes!
 
 ## 0.6.0
+* **BREAKING CHANGE** (possibly): Some refactoring to modern gem module idioms instead of old school plugins
 * Officially support PostgreSQL
 * Switch default testing to use sqlite, mysql, and postgres instead of just mysql
+* Major upgrades to test suite
 
 ## 0.5.3
 * Major refactoring of archiving/unarchiving logic into nice command classes instead of big ball of ARec voodoo. Thanks, Marten Claes!
 
 ## 0.5.2
-* More changes to support Rails 4
-* **BUGFIX** fix scoping combinations with relations for Rails 4
 * **BREAKING CHANGE** (possibly): removed the scope constants, so if you were using them, you should stop
+* **BUGFIX** fix scoping combinations with relations for Rails 4
+* More changes to support Rails 4
 
 ## 0.5.1
 * update to use .table_name for archived scope
