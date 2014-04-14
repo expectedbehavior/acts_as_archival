@@ -1,6 +1,6 @@
 $:.unshift(File.dirname(__FILE__) + '/../lib')
 require "bundler/setup"
-require "test/unit"
+require "minitest/autorun"
 
 require "active_record"
 require "assertions"
