@@ -14,7 +14,7 @@ Gem::Specification.new do |gem|
                      "Dave Woodward",
                      "Miles Sterrett",
                      "James Hill",
-                     "Marten Claes"]
+                     "Maarten Claes"]
   gem.email       = ["joel@expectedbehavior.com",
                      "michael@expectedbehavior.com",
                      "matt@expectedbehavior.com",

@@ -151,7 +151,7 @@ ActsAsParanoid and PermanentRecords were both inspirations for this:
 * Dave Woodward
 * Miles Sterrett
 * James Hill
-* Marten Claes
+* Maarten Claes
 
 Thanks!
 
