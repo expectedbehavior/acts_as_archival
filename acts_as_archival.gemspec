@@ -29,6 +29,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "activerecord"
 
+  gem.add_development_dependency "appraisal"
   gem.add_development_dependency "assertions-eb"
   gem.add_development_dependency "rake"
   gem.add_development_dependency "mysql2"
@@ -37,6 +38,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "highline"
   gem.add_development_dependency "rr"
   gem.add_development_dependency "database_cleaner"
+
 
   gem.description = <<-END
 *Atomic archiving/unarchiving for ActiveRecord-based apps*
