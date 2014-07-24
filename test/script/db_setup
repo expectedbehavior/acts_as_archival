@@ -41,7 +41,7 @@ def create_db(db, user)
 end
 
 def grant_permission_on_db(db, user)
-  grant_statement  =  "grant all on `#{db}`.* to `#{$DB_CONFIG["username"]}`@`localhost` identified by \"#{$DB_CONFIG["password"]}\";"
+  grant_statement  =  "grant all on `#{db}`.* to `#{$DB_CONFIG["username"]}` identified by \"#{$DB_CONFIG["password"]}\";"
   execute_mysql("granting on #{db}", grant_statement, user)
 end
 
