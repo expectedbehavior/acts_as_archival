@@ -10,14 +10,15 @@ end
 
 def get_root_password
   $ROOT_PW = ask("Provide root mySQL password to setup '#{$DB_CONFIG["database"]}': ") { |q| q.echo = false}
-  if !$ROOT_PW || $ROOT_PW.nil?
-    puts "error reading password"
-    exit 4
+  $ROOT_PW_AND_OPTION = if $ROOT_PW.to_s.size > 0
+    "-p'#{$ROOT_PW}'"
+  else
+    ""
   end
 end
 
 def check_root_password
-  password_check = "echo 'show databases;' | mysql -u root -p'#{$ROOT_PW}' > /dev/null"
+  password_check = "echo 'show databases;' | mysql -u root #{$ROOT_PW_AND_OPTION} > /dev/null"
   unless system password_check
     puts "incorrect password"
     exit 7
@@ -26,22 +27,22 @@ end
 
 def execute_mysql(message, statement, user = nil, password = nil)
   puts message
-  `echo '#{statement}' | mysql -u #{user} -p'#{password}'`
+  `echo '#{statement}' | mysql -u #{user} #{$ROOT_PW_AND_OPTION}`
 end
 
-def drop_existing(db, user, pass)
+def drop_existing(db, user)
   drop_statement   = "drop database if exists #{db};"
-  execute_mysql("dropping #{db}", drop_statement, user, pass)
+  execute_mysql("dropping #{db}", drop_statement, user)
 end
 
-def create_db(db, user, pass)
+def create_db(db, user)
   create_statement =  "create database #{db};"
-  execute_mysql("creating #{db}", create_statement, user, pass)
+  execute_mysql("creating #{db}", create_statement, user)
 end
 
-def grant_permission_on_db(db, user, pass)
+def grant_permission_on_db(db, user)
   grant_statement  =  "grant all on `#{db}`.* to `#{$DB_CONFIG["username"]}`@`localhost` identified by \"#{$DB_CONFIG["password"]}\";"
-  execute_mysql("granting on #{db}", grant_statement, user, pass)
+  execute_mysql("granting on #{db}", grant_statement, user)
 end
 
 read_database_config
@@ -52,6 +53,6 @@ db   = $DB_CONFIG["database"]
 user = "root"
 pass = $ROOT_PW
 
-drop_existing(db, user, pass)
-create_db(db, user, pass)
-grant_permission_on_db(db, user, pass)
+drop_existing(db, user)
+create_db(db, user)
+grant_permission_on_db(db, user)
