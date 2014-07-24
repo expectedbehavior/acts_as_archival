@@ -27,7 +27,7 @@ i.e. `rails g migration AddAAAToPost archive_number archived_at:datetime`
 
 Any dependent-destroy AAA model associated to an AAA model will be archived with its parent.
 
-_If you're stuck on Rails 3.0x/2, check out the available branches._
+_If you're stuck on Rails 3.0x/2, check out the available branches, which are no longer in active development._
 
 ## Example
 
@@ -153,4 +153,4 @@ ActsAsParanoid and PermanentRecords were both inspirations for this:
 
 Thanks!
 
-*Copyright (c) 2009-2013 Expected Behavior, LLC, released under the MIT license*
+*Copyright (c) 2009-2014 Expected Behavior, LLC, released under the MIT license*
