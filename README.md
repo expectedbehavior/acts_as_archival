@@ -124,9 +124,7 @@ Because this plugin makes use of transactions we're testing it (mostly) on sqlit
 
 ```  bash
 bundle                               # if this fails you might need to install/configure some databases
-test/script/db_setup                 # makes the databases with the correct permissions (for mySQL)
-createuser -D -A -P archival_tester  # makes user for PostgreSQL; answer the password prompt with "perspicacious"
-createdb -O archival_tester aaa_test # makes db for PostgreSQL and sets owner to our test user
+test/script/db_setup                 # makes the databases with the correct permissions
 rake
 ```
 

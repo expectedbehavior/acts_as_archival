@@ -56,3 +56,9 @@ pass = $ROOT_PW
 drop_existing(db, user)
 create_db(db, user)
 grant_permission_on_db(db, user)
+
+postgres_config = YAML.load(File.read(File.join(File.dirname(__FILE__), "/../", "database.yml")))["pg"]
+system(%Q{echo "DROP DATABASE IF EXISTS #{postgres_config["database"]}" | psql postgres})
+system(%Q{echo "DROP ROLE IF EXISTS #{postgres_config["username"]}" | psql postgres})
+system(%Q{echo "CREATE ROLE #{postgres_config["username"]} WITH PASSWORD '#{postgres_config["password"]}' LOGIN" | psql postgres})
+system(%Q{echo "CREATE DATABASE #{postgres_config["database"]} WITH OWNER #{postgres_config["username"]}" | psql postgres})
