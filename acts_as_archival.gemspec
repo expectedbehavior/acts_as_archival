@@ -35,7 +35,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "mysql2"
   gem.add_development_dependency "sqlite3"
   gem.add_development_dependency "pg"
-  gem.add_development_dependency "highline"
   gem.add_development_dependency "rr"
   gem.add_development_dependency "database_cleaner"
 
