@@ -120,11 +120,12 @@ to conditionally add the functionality to older Rails installations.
 
 ## Testing
 
-Because this plugin makes use of transactions we're testing it (mostly) on sqlite. Running the tests should be as easy as:
+Running the tests should be as easy as:
 
 ```  bash
 script/setup                 # bundles, makes databases with permissions
-rake
+rake                         # run tests on latest Rails
+appraisal rake               # run tests on all versions of Rails
 ```
 
 ## Help Wanted
