@@ -1,5 +1,10 @@
 # Changes!
 
+## 0.6.1
+* Fix deprecation warnings on Rails 4.1
+* Test suite now runs against multiple versions of Rails
+* Fully automated test suite setup
+
 ## 0.6.0
 * **BREAKING CHANGE** (possibly): Some refactoring to modern gem module idioms instead of old school plugins
 * Officially support PostgreSQL
