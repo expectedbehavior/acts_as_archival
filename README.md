@@ -123,8 +123,7 @@ to conditionally add the functionality to older Rails installations.
 Because this plugin makes use of transactions we're testing it (mostly) on sqlite. Running the tests should be as easy as:
 
 ```  bash
-bundle                               # if this fails you might need to install/configure some databases
-test/script/db_setup                 # makes the databases with the correct permissions
+script/setup                 # bundles, makes databases with permissions
 rake
 ```
 

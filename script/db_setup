@@ -1,0 +1,51 @@
+#!/usr/bin/env ruby
+require "bundler/setup"
+require "yaml"
+
+STDOUT.sync = true
+
+DB_CONFIG = YAML.load(File.read(File.join(File.dirname(__FILE__), "..", "test", "database.yml")))
+
+def execute_mysql(statement, password = nil)
+  password_option = if password.to_s.size > 0
+    "-p'#{password}'"
+  end
+  command = %Q{echo '#{statement}' | mysql -u root #{password_option}}
+  puts command
+  system(command)
+end
+
+def execute_postgres(statement)
+  command = %Q{echo "#{statement}" | psql postgres}
+  puts command
+  system(command)
+end
+
+def setup_mysql
+  mysql_root_password = nil
+  if !execute_mysql("SHOW DATABASES;", mysql_root_password)
+    loop do
+      print "MySQL root password to setup '#{DB_CONFIG["mysql"]["database"]}': "
+      mysql_root_password = gets.chomp
+      if execute_mysql("SHOW DATABASES;", mysql_root_password)
+        break
+      end
+    end
+  end
+
+  config = DB_CONFIG["mysql"]
+  execute_mysql("DROP DATABASE IF EXISTS #{config["database"]};", mysql_root_password)
+  execute_mysql("CREATE DATABASE #{config["database"]};", mysql_root_password)
+  execute_mysql(%Q{GRANT ALL ON `#{config["database"]}`.* TO `#{config["username"]}` IDENTIFIED BY "#{config["password"]}";}, mysql_root_password)
+end
+
+def setup_postgres
+  config = DB_CONFIG["pg"]
+  execute_postgres(%Q{DROP DATABASE IF EXISTS #{config["database"]};})
+  execute_postgres(%Q{DROP ROLE IF EXISTS #{config["username"]};})
+  execute_postgres(%Q{CREATE ROLE #{config["username"]} WITH PASSWORD '#{config["password"]}' LOGIN;})
+  execute_postgres(%Q{CREATE DATABASE #{config["database"]} WITH OWNER #{config["username"]};})
+end
+
+setup_mysql
+setup_postgres
