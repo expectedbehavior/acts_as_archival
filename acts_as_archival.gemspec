@@ -16,10 +16,8 @@ Gem::Specification.new do |gem|
                      "James Hill",
                      "Maarten Claes"]
   gem.email       = ["joel@expectedbehavior.com",
-                     "michael@expectedbehavior.com",
                      "matt@expectedbehavior.com",
                      "jason@expectedbehavior.com",
-                     "tyler@expectedbehavior.com",
                      "nathan@expectedbehavior.com"]
   gem.homepage    = "http://github.com/expectedbehavior/acts_as_archival"
 
