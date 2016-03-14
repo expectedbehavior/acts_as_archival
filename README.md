@@ -15,6 +15,10 @@ Additionally, other plugins generally screw with how
 `destroy`/`delete` work.  We don't because we actually want to be able
 to destroy records.
 
+## Maintenance
+
+You might read the commit logs and thing "This must be abandonware! This hasn't been updated in 2y!" But! This is a mature project that solves a specific problem in ActiveRecord. It tends to only be updated when a new major version of ActiveRecord comes out and hence the infrequent updates. 
+
 ## Install
 
 Gemfile:
@@ -153,4 +157,4 @@ ActsAsParanoid and PermanentRecords were both inspirations for this:
 
 Thanks!
 
-*Copyright (c) 2009-2014 Expected Behavior, LLC, released under the MIT license*
+*Copyright (c) 2009-2016 Expected Behavior, LLC, released under the MIT license*
