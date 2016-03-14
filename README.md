@@ -17,7 +17,7 @@ to destroy records.
 
 ## Maintenance
 
-You might read the commit logs and thing "This must be abandonware! This hasn't been updated in 2y!" But! This is a mature project that solves a specific problem in ActiveRecord. It tends to only be updated when a new major version of ActiveRecord comes out and hence the infrequent updates. 
+You might read the commit logs and think "This must be abandonware! This hasn't been updated in 2y!" But! This is a mature project that solves a specific problem in ActiveRecord. It tends to only be updated when a new major version of ActiveRecord comes out and hence the infrequent updates.
 
 ## Install
 
