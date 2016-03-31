@@ -113,6 +113,32 @@ record.save                                  # => false
 record.errors.full_messages.first            # => "Cannot modify an archived record."
 ```
 
+### Callbacks
+
+AAA models have four additional callbacks to do any necessary cleanup or other processing before and after archiving and unarchiving.
+
+``` ruby
+class Hole < ActiveRecord::Base
+  acts_as_archival
+  
+  before_archive do
+    # Run before archiving
+  end
+  
+  after_archive do
+    # Run after archiving
+  end
+  
+  before_unarchive do
+    # Run before unarchiving
+  end
+  
+  after_unarchive do
+    # Run after unarchiving
+  end
+end
+```
+
 ## Caveats
 
 1. This will only work on associations that are dependent destroy. It
