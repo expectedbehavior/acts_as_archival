@@ -120,19 +120,19 @@ AAA models have four additional callbacks to do any necessary cleanup or other p
 ``` ruby
 class Hole < ActiveRecord::Base
   acts_as_archival
-  
+
   before_archive do
     # Run before archiving
   end
-  
+
   after_archive do
     # Run after archiving
   end
-  
+
   before_unarchive do
     # Run before unarchiving
   end
-  
+
   after_unarchive do
     # Run after unarchiving
   end
@@ -155,6 +155,7 @@ Running the tests should be as easy as:
 ```  bash
 script/setup                 # bundles, makes databases with permissions
 rake                         # run tests on latest Rails
+appraisal bundle install     # get all the versions of gems necessary for appraisal
 appraisal rake               # run tests on all versions of Rails
 ```
 

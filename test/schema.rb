@@ -1,3 +1,11 @@
+# Rails 4.0 and before do not deal correctly with newer versions of mysql, so we're
+# gonna force a non-null primary ID for old versions of Rails just as new ones do.
+if (ActiveRecord.version <=> Gem::Version.new("4.1.0")) < 0
+  class ActiveRecord::ConnectionAdapters::Mysql2Adapter
+    NATIVE_DATABASE_TYPES[:primary_key] = "int(11) auto_increment PRIMARY KEY"
+  end
+end
+
 ActiveRecord::Schema.define(:version => 1) do
   create_table :archivals, :force => true do |t|
     t.column :name, :string

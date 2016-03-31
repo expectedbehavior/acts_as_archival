@@ -26,11 +26,15 @@ module ExpectedBehavior
           define_callbacks *[callbacks, {:terminator => lambda { |_, result| result == false }}].flatten
           callbacks.each do |callback|
             eval <<-end_callbacks
-              def before_#{callback}(*args, &blk)
-                set_callback(:#{callback}, :before, *args, &blk)
+              unless defined?(before_#{callback})
+                def before_#{callback}(*args, &blk)
+                  set_callback(:#{callback}, :before, *args, &blk)
+                end
               end
-              def after_#{callback}(*args, &blk)
-                set_callback(:#{callback}, :after, *args, &blk)
+              unless defined?(after_#{callback})
+                def after_#{callback}(*args, &blk)
+                  set_callback(:#{callback}, :after, *args, &blk)
+                end
               end
             end_callbacks
           end

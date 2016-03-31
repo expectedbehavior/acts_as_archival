@@ -8,6 +8,10 @@ require "database_cleaner"
 
 require "acts_as_archival"
 
+if ActiveSupport::TestCase.respond_to?(:test_order=)
+  ActiveSupport::TestCase.test_order = :random
+end
+
 def prepare_for_tests
   setup_logging# if ENV["LOGGING_ENABLED"]
   setup_active_record
