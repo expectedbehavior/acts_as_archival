@@ -155,9 +155,10 @@ Running the tests should be as easy as:
 ```  bash
 script/setup                 # bundles, makes databases with permissions
 rake                         # run tests on latest Rails
-appraisal bundle install     # get all the versions of gems necessary for appraisal
 appraisal rake               # run tests on all versions of Rails
 ```
+
+Check out [more on appraisal](https://github.com/thoughtbot/appraisal#usage) if you need to add new versions of things or run into a version bug.
 
 ## Help Wanted
 
