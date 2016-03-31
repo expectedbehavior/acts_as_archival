@@ -1,5 +1,12 @@
 # Changes!
 
+## Unreleased
+* obsolete mainline rails 3 support because: it's been forever
+* add rails 4.2 automated tests
+* add rails 5 support
+* remove a bunch of deprecations
+* improve compatibility with various new versions of software like mysql when testing
+
 ## 0.6.1
 * Fix deprecation warnings on Rails 4.1
 * Test suite now runs against multiple versions of Rails
