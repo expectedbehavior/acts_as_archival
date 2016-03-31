@@ -20,6 +20,10 @@ ActiveRecord::Schema.define(:version => 1) do
     t.column :archived_at, :datetime
   end
 
+  ###
+  # The classes above are used to test database-specific
+  # things in PG and MySQL, and we don't need to do all
+  # the tests there.
   if "SQLite" == ActiveRecord::Base.connection.adapter_name
     create_table :archival_kids, :force => true do |t|
       t.column :archival_id, :integer
@@ -75,6 +79,11 @@ ActiveRecord::Schema.define(:version => 1) do
 
     create_table :legacy, :force => true do |t|
       t.column :name, :string
+      t.column :archive_number, :string
+      t.column :archived_at, :datetime
+    end
+
+    create_table :application_record_rows, :force => true do |t|
       t.column :archive_number, :string
       t.column :archived_at, :datetime
     end

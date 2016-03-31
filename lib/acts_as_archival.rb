@@ -7,5 +7,11 @@ require "expected_behavior/association_operation/unarchive"
 require "expected_behavior/acts_as_archival"
 require "expected_behavior/acts_as_archival_active_record_methods"
 
-ActiveRecord::Base.send :include, ExpectedBehavior::ActsAsArchival
-ActiveRecord::Base.send :include, ExpectedBehavior::ActsAsArchivalActiveRecordMethods
+# This assumes a fully Rails 5 compatible set of ActiveRecord models
+if defined?(ApplicationRecord)
+  ApplicationRecord.send :include, ExpectedBehavior::ActsAsArchival
+  ApplicationRecord.send :include, ExpectedBehavior::ActsAsArchivalActiveRecordMethods
+else
+  ActiveRecord::Base.send :include, ExpectedBehavior::ActsAsArchival
+  ActiveRecord::Base.send :include, ExpectedBehavior::ActsAsArchivalActiveRecordMethods
+end
