@@ -1,5 +1,8 @@
 # Changes!
 
+## Unreleased
+* make `#archived?` return an actual boolean value
+
 ## 0.6.1
 * Fix deprecation warnings on Rails 4.1
 * Test suite now runs against multiple versions of Rails

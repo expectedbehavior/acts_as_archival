@@ -31,7 +31,7 @@ i.e. `rails g migration AddAAAToPost archive_number archived_at:datetime`
 
 Any dependent-destroy AAA model associated to an AAA model will be archived with its parent.
 
-_If you're stuck on Rails 3.0x/2, check out the available branches, which are no longer in active development._
+_If you're stuck on Rails 3x/2x, check out the available branches, which are no longer in active development._
 
 ## Example
 
@@ -52,7 +52,7 @@ end
 h = Hole.create                  #
 h.archived?                      # => false
 h.archive                        # => true
-h.archived?                      # => "b56876de48a5dcfe71b2c13eec15e4a2"
+h.archived?                      # => true
 h.archive_number                 # => "b56876de48a5dcfe71b2c13eec15e4a2"
 h.archived_at                    # => Thu, 01 Jan 2012 01:49:21 -0400
 h.unarchive                      # => true
@@ -69,7 +69,7 @@ r = h.rats.create                #
 h.archive                        # => true
 h.archive_number                 # => "b56876de48a5dcfe71b2c13eec15e4a2"
 r.archive_number                 # => "b56876de48a5dcfe71b2c13eec15e4a2"
-r.archived?                      # => "b56876de48a5dcfe71b2c13eec15e4a2"
+r.archived?                      # => true
 h.unarchive                      # => true
 h.archive_number                 # => nil
 r.archive_number                 # => nil
