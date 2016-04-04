@@ -6,6 +6,7 @@
 * add rails 5 support
 * remove a bunch of deprecations
 * improve compatibility with various new versions of software like mysql when testing
+* make `#archived?` return an actual boolean value
 
 ## 0.6.1
 * Fix deprecation warnings on Rails 4.1

@@ -59,7 +59,7 @@ module ExpectedBehavior
       end
 
       def archived?
-        self.archived_at? && self.archive_number
+        !!(self.archived_at? && self.archive_number)
       end
 
       def archive(head_archive_number=nil)
