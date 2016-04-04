@@ -23,7 +23,11 @@ module ExpectedBehavior
           scope :archived_from_archive_number, lambda { |head_archive_number| where(['archived_at IS NOT NULL AND archive_number = ?', head_archive_number]) }
 
           callbacks = ['archive','unarchive']
-          define_callbacks *[callbacks, {:terminator => lambda { |_, result| result == false }}].flatten
+          if ActiveSupport::VERSION::STRING >= '5'
+            define_callbacks *[callbacks].flatten
+          elsif ActiveSupport::VERSION::STRING >= '4.1'
+            define_callbacks *[callbacks, {:terminator => -> (_, result) { result == false }}].flatten
+          end
           callbacks.each do |callback|
             eval <<-end_callbacks
               unless defined?(before_#{callback})
