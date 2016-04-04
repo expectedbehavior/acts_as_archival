@@ -69,7 +69,7 @@ module ExpectedBehavior
       def archive(head_archive_number=nil)
         self.class.transaction do
           begin
-            run_callbacks :archive do
+            return run_callbacks(:archive) do
               unless self.archived?
                 head_archive_number ||= Digest::MD5.hexdigest("#{self.class.name}#{self.id}")
                 self.archive_associations(head_archive_number)
@@ -78,7 +78,6 @@ module ExpectedBehavior
                 self.save!
               end
             end
-            return true
           rescue => e
             ActiveRecord::Base.logger.try(:debug, e.message)
             ActiveRecord::Base.logger.try(:debug, e.backtrace)
@@ -91,7 +90,7 @@ module ExpectedBehavior
       def unarchive(head_archive_number=nil)
         self.class.transaction do
           begin
-            run_callbacks :unarchive do
+            return run_callbacks(:unarchive) do
               if self.archived?
                 head_archive_number ||= self.archive_number
                 self.archived_at = nil
@@ -100,7 +99,6 @@ module ExpectedBehavior
                 self.unarchive_associations(head_archive_number)
               end
             end
-            return true
           rescue => e
             ActiveRecord::Base.logger.try(:debug, e.message)
             ActiveRecord::Base.logger.try(:debug, e.backtrace)
