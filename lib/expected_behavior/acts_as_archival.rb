@@ -25,7 +25,7 @@ module ExpectedBehavior
           callbacks = ['archive','unarchive']
           if ActiveSupport::VERSION::STRING >= '5'
             define_callbacks *[callbacks].flatten
-          elsif ActiveSupport::VERSION::STRING >= '4.1'
+          elsif ActiveSupport::VERSION::STRING >= '4'
             define_callbacks *[callbacks, {:terminator => -> (_, result) { result == false }}].flatten
           end
           callbacks.each do |callback|
