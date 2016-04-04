@@ -115,37 +115,33 @@ record.errors.full_messages.first            # => "Cannot modify an archived rec
 
 ### Callbacks
 
-AAA models have four additional callbacks to do any necessary cleanup or other processing before and after archiving and unarchiving.
+AAA models have four additional callbacks to do any necessary cleanup or other processing before and after archiving and unarchiving, and can additionally halt the archive callback chain.
 
 ``` ruby
 class Hole < ActiveRecord::Base
   acts_as_archival
 
-  before_archive do
-    # Run before archiving
-  end
+  before_archive :some_method_before_archiving
 
-  after_archive do
-    # Run after archiving
-  end
+  after_archive :some_method_after_archiving
 
-  before_unarchive do
-    # Run before unarchiving
-  end
+  before_unarchive :some_method_before_unarchiving
 
-  after_unarchive do
-    # Run after unarchiving
-  end
+  after_unarchive :some_method_before_unarchiving
+
+  # ... implement those methods
 end
 ```
+
+#### Halting the callback chain
+
+* Rails 4x - the callback method should return a `false`/`nil` value.
+* Rails 5x - the callback should `throw(:abort)`/`raise(:abort)`.
 
 ## Caveats
 
 1. This will only work on associations that are dependent destroy. It
 should be trival to change that or make it optional.
-1. It will only work for Rails 2.2 and up, because we are using
-`named_scope`/`scope`. You can check out [permanent records](http://github.com/fastestforward/permanent_records) for a way
-to conditionally add the functionality to older Rails installations.
 1. If you would like to work on this, you will need to setup sqlite, postgres, and mysql on your development machine. Alternately, you can disable specific dev dependencies in the gemspec and test_helper and ask for help.
 
 ## Testing
