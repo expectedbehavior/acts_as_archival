@@ -1,7 +1,7 @@
-# Changes!
+# CHANGELOG
 
-## Unreleased
-* make `#archived?` return an actual boolean value
+## 1.0.0
+* **BREAKING CHANGE** make `#archived?` return an actual boolean value
 
 ## 0.6.1
 * Fix deprecation warnings on Rails 4.1
