@@ -115,29 +115,27 @@ record.errors.full_messages.first            # => "Cannot modify an archived rec
 
 ### Callbacks
 
-AAA models have four additional callbacks to do any necessary cleanup or other processing before and after archiving and unarchiving.
+AAA models have four additional callbacks to do any necessary cleanup or other processing before and after archiving and unarchiving, and can additionally halt the archive callback chain.
 
 ``` ruby
 class Hole < ActiveRecord::Base
   acts_as_archival
-  
-  before_archive do
-    # Run before archiving
-  end
-  
-  after_archive do
-    # Run after archiving
-  end
-  
-  before_unarchive do
-    # Run before unarchiving
-  end
-  
-  after_unarchive do
-    # Run after unarchiving
-  end
+
+  before_archive :some_method_before_archiving
+
+  after_archive :some_method_after_archiving
+
+  before_unarchive :some_method_before_unarchiving
+
+  after_unarchive :some_method_before_unarchiving
+
+  # ... implement those methods
 end
 ```
+
+#### Halting the callback chain
+
+The callback method should return a `false` value.
 
 ## Caveats
 
