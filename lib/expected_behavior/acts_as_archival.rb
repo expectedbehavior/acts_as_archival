@@ -24,9 +24,9 @@ module ExpectedBehavior
 
           callbacks = ['archive','unarchive']
           if ActiveSupport::VERSION::STRING >= '5'
-            define_callbacks *[callbacks].flatten
+            define_callbacks(*[callbacks].flatten)
           elsif ActiveSupport::VERSION::STRING >= '4'
-            define_callbacks *[callbacks, {:terminator => -> (_, result) { result == false }}].flatten
+            define_callbacks(*[callbacks, {:terminator => -> (_, result) { result == false }}].flatten)
           end
           callbacks.each do |callback|
             eval <<-end_callbacks
@@ -69,7 +69,7 @@ module ExpectedBehavior
       def archive(head_archive_number=nil)
         self.class.transaction do
           begin
-            return run_callbacks(:archive) do
+            success = run_callbacks(:archive) do
               unless self.archived?
                 head_archive_number ||= Digest::MD5.hexdigest("#{self.class.name}#{self.id}")
                 self.archive_associations(head_archive_number)
@@ -78,6 +78,7 @@ module ExpectedBehavior
                 self.save!
               end
             end
+            return !!success
           rescue => e
             ActiveRecord::Base.logger.try(:debug, e.message)
             ActiveRecord::Base.logger.try(:debug, e.backtrace)
@@ -90,7 +91,7 @@ module ExpectedBehavior
       def unarchive(head_archive_number=nil)
         self.class.transaction do
           begin
-            return run_callbacks(:unarchive) do
+            success = run_callbacks(:unarchive) do
               if self.archived?
                 head_archive_number ||= self.archive_number
                 self.archived_at = nil
@@ -99,6 +100,7 @@ module ExpectedBehavior
                 self.unarchive_associations(head_archive_number)
               end
             end
+            return !!success
           rescue => e
             ActiveRecord::Base.logger.try(:debug, e.message)
             ActiveRecord::Base.logger.try(:debug, e.backtrace)

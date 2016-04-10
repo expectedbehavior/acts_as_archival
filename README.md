@@ -31,7 +31,7 @@ i.e. `rails g migration AddAAAToPost archive_number archived_at:datetime`
 
 Any dependent-destroy AAA model associated to an AAA model will be archived with its parent.
 
-_If you're stuck on Rails 3x/2x, check out the available branches, which are no longer in active development._
+_If you're stuck on Rails 4.0x/3x/2x, check out the older tags/branches, which are no longer in active development._
 
 ## Example
 
@@ -135,7 +135,7 @@ end
 
 #### Halting the callback chain
 
-* Rails 4x - the callback method should return a `false`/`nil` value.
+* Rails 4.1/4.2 - the callback method should return a `false`/`nil` value.
 * Rails 5x - the callback should `throw(:abort)`/`raise(:abort)`.
 
 ## Caveats
