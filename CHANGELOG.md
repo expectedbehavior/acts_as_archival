@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 1.1.1 - April 10, 2016
+* Update the way the `::unarchived` scope is generated using `::not` instead of manually building SQL, which should be better for complex queries
+
 ## 1.1.0 - April 10, 2016
 * **BREAKING CHANGE** obsolete mainline rails 3 and rails 4.0.x support because: they are EOL'ed for > 1y
 * add rails 4.2 automated tests
