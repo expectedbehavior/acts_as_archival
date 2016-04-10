@@ -31,7 +31,7 @@ i.e. `rails g migration AddAAAToPost archive_number archived_at:datetime`
 
 Any dependent-destroy AAA model associated to an AAA model will be archived with its parent.
 
-_If you're stuck on Rails 3x/2x, check out the available branches, which are no longer in active development._
+_If you're stuck on Rails 4.0x/3x/2x, check out the older tags/branches, which are no longer in active development._
 
 ## Example
 
@@ -135,15 +135,13 @@ end
 
 #### Halting the callback chain
 
-The callback method should return a `false` value.
+* Rails 4.1/4.2 - the callback method should return a `false`/`nil` value.
+* Rails 5x - the callback should `throw(:abort)`/`raise(:abort)`.
 
 ## Caveats
 
 1. This will only work on associations that are dependent destroy. It
 should be trival to change that or make it optional.
-1. It will only work for Rails 2.2 and up, because we are using
-`named_scope`/`scope`. You can check out [permanent records](http://github.com/fastestforward/permanent_records) for a way
-to conditionally add the functionality to older Rails installations.
 1. If you would like to work on this, you will need to setup sqlite, postgres, and mysql on your development machine. Alternately, you can disable specific dev dependencies in the gemspec and test_helper and ask for help.
 
 ## Testing
@@ -155,6 +153,8 @@ script/setup                 # bundles, makes databases with permissions
 rake                         # run tests on latest Rails
 appraisal rake               # run tests on all versions of Rails
 ```
+
+Check out [more on appraisal](https://github.com/thoughtbot/appraisal#usage) if you need to add new versions of things or run into a version bug.
 
 ## Help Wanted
 

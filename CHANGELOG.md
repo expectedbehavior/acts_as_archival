@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Unreleased
+* **BREAKING CHANGE** obsolete mainline rails 3 and rails 4.0.x support because: they are EOL'ed for > 1y
+* add rails 4.2 automated tests
+* add rails 5 support
+* remove a bunch of deprecations
+* improve compatibility with various new versions of software like mysql when testing
+
 ## 1.0.0
 * **BREAKING CHANGE** make `#archived?` return an actual boolean value
 
