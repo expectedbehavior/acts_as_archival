@@ -68,11 +68,11 @@ h = Hole.create                  #
 r = h.rats.create                #
 h.archive                        # => true
 h.archive_number                 # => "b56876de48a5dcfe71b2c13eec15e4a2"
-r.archive_number                 # => "b56876de48a5dcfe71b2c13eec15e4a2"
+r.archived_at                    # => Thu, 01 Jan 2012 01:52:12 -0400
 r.archived?                      # => true
 h.unarchive                      # => true
 h.archive_number                 # => nil
-r.archive_number                 # => nil
+r.archived_at                    # => nil
 r.archived?                      # => false
 ```
 
