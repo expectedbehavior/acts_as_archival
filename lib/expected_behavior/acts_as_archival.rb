@@ -23,14 +23,22 @@ module ExpectedBehavior
           scope :archived_from_archive_number, lambda { |head_archive_number| where(['archived_at IS NOT NULL AND archive_number = ?', head_archive_number]) }
 
           callbacks = ['archive','unarchive']
-          define_callbacks *[callbacks, {:terminator => lambda { |_, result| result == false }}].flatten
+          if ActiveSupport::VERSION::STRING >= '5'
+            define_callbacks(*[callbacks].flatten)
+          elsif ActiveSupport::VERSION::STRING >= '4'
+            define_callbacks(*[callbacks, {:terminator => -> (_, result) { result == false }}].flatten)
+          end
           callbacks.each do |callback|
             eval <<-end_callbacks
-              def before_#{callback}(*args, &blk)
-                set_callback(:#{callback}, :before, *args, &blk)
+              unless defined?(before_#{callback})
+                def before_#{callback}(*args, &blk)
+                  set_callback(:#{callback}, :before, *args, &blk)
+                end
               end
-              def after_#{callback}(*args, &blk)
-                set_callback(:#{callback}, :after, *args, &blk)
+              unless defined?(after_#{callback})
+                def after_#{callback}(*args, &blk)
+                  set_callback(:#{callback}, :after, *args, &blk)
+                end
               end
             end_callbacks
           end
@@ -55,13 +63,13 @@ module ExpectedBehavior
       end
 
       def archived?
-        self.archived_at? && self.archive_number
+        !!(self.archived_at? && self.archive_number)
       end
 
       def archive(head_archive_number=nil)
         self.class.transaction do
           begin
-            run_callbacks :archive do
+            success = run_callbacks(:archive) do
               unless self.archived?
                 head_archive_number ||= Digest::MD5.hexdigest("#{self.class.name}#{self.id}")
                 self.archive_associations(head_archive_number)
@@ -70,7 +78,7 @@ module ExpectedBehavior
                 self.save!
               end
             end
-            return true
+            return !!success
           rescue => e
             ActiveRecord::Base.logger.try(:debug, e.message)
             ActiveRecord::Base.logger.try(:debug, e.backtrace)
@@ -83,7 +91,7 @@ module ExpectedBehavior
       def unarchive(head_archive_number=nil)
         self.class.transaction do
           begin
-            run_callbacks :unarchive do
+            success = run_callbacks(:unarchive) do
               if self.archived?
                 head_archive_number ||= self.archive_number
                 self.archived_at = nil
@@ -92,7 +100,7 @@ module ExpectedBehavior
                 self.unarchive_associations(head_archive_number)
               end
             end
-            return true
+            return !!success
           rescue => e
             ActiveRecord::Base.logger.try(:debug, e.message)
             ActiveRecord::Base.logger.try(:debug, e.backtrace)

@@ -21,7 +21,7 @@ class AssociationsTest < ActiveSupport::TestCase
 
   test "archive does not act on already archived objects" do
     archival = Archival.create!
-    child = archival.archivals.create!
+    archival.archivals.create!
     prearchived_child = archival.archivals.create!
     prearchived_child.archive
     archival.archive

@@ -31,7 +31,7 @@ i.e. `rails g migration AddAAAToPost archive_number archived_at:datetime`
 
 Any dependent-destroy AAA model associated to an AAA model will be archived with its parent.
 
-_If you're stuck on Rails 3.0x/2, check out the available branches, which are no longer in active development._
+_If you're stuck on Rails 4.0x/3x/2x, check out the older tags/branches, which are no longer in active development._
 
 ## Example
 
@@ -52,7 +52,7 @@ end
 h = Hole.create                  #
 h.archived?                      # => false
 h.archive                        # => true
-h.archived?                      # => "b56876de48a5dcfe71b2c13eec15e4a2"
+h.archived?                      # => true
 h.archive_number                 # => "b56876de48a5dcfe71b2c13eec15e4a2"
 h.archived_at                    # => Thu, 01 Jan 2012 01:49:21 -0400
 h.unarchive                      # => true
@@ -69,7 +69,7 @@ r = h.rats.create                #
 h.archive                        # => true
 h.archive_number                 # => "b56876de48a5dcfe71b2c13eec15e4a2"
 r.archive_number                 # => "b56876de48a5dcfe71b2c13eec15e4a2"
-r.archived?                      # => "b56876de48a5dcfe71b2c13eec15e4a2"
+r.archived?                      # => true
 h.unarchive                      # => true
 h.archive_number                 # => nil
 r.archive_number                 # => nil
@@ -115,37 +115,33 @@ record.errors.full_messages.first            # => "Cannot modify an archived rec
 
 ### Callbacks
 
-AAA models have four additional callbacks to do any necessary cleanup or other processing before and after archiving and unarchiving.
+AAA models have four additional callbacks to do any necessary cleanup or other processing before and after archiving and unarchiving, and can additionally halt the archive callback chain.
 
 ``` ruby
 class Hole < ActiveRecord::Base
   acts_as_archival
-  
-  before_archive do
-    # Run before archiving
-  end
-  
-  after_archive do
-    # Run after archiving
-  end
-  
-  before_unarchive do
-    # Run before unarchiving
-  end
-  
-  after_unarchive do
-    # Run after unarchiving
-  end
+
+  before_archive :some_method_before_archiving
+
+  after_archive :some_method_after_archiving
+
+  before_unarchive :some_method_before_unarchiving
+
+  after_unarchive :some_method_before_unarchiving
+
+  # ... implement those methods
 end
 ```
+
+#### Halting the callback chain
+
+* Rails 4.1/4.2 - the callback method should return a `false`/`nil` value.
+* Rails 5x - the callback should `throw(:abort)`/`raise(:abort)`.
 
 ## Caveats
 
 1. This will only work on associations that are dependent destroy. It
 should be trival to change that or make it optional.
-1. It will only work for Rails 2.2 and up, because we are using
-`named_scope`/`scope`. You can check out [permanent records](http://github.com/fastestforward/permanent_records) for a way
-to conditionally add the functionality to older Rails installations.
 1. If you would like to work on this, you will need to setup sqlite, postgres, and mysql on your development machine. Alternately, you can disable specific dev dependencies in the gemspec and test_helper and ask for help.
 
 ## Testing
@@ -157,6 +153,8 @@ script/setup                 # bundles, makes databases with permissions
 rake                         # run tests on latest Rails
 appraisal rake               # run tests on all versions of Rails
 ```
+
+Check out [more on appraisal](https://github.com/thoughtbot/appraisal#usage) if you need to add new versions of things or run into a version bug.
 
 ## Help Wanted
 
@@ -180,6 +178,7 @@ ActsAsParanoid and PermanentRecords were both inspirations for this:
 * Miles Sterrett
 * James Hill
 * Maarten Claes
+* Aaron Milam
 
 Thanks!
 

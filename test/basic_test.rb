@@ -4,13 +4,13 @@ class BasicTest < ActiveSupport::TestCase
   test "archive archives the record" do
     archival = Archival.create!
     archival.archive
-    assert archival.reload.archived?
+    assert_equal true, archival.reload.archived?
   end
 
   test "unarchive unarchives archival records" do
     archival = Archival.create!(:archived_at => Time.now, :archive_number => 1)
     archival.unarchive
-    assert_not archival.reload.archived?
+    assert_equal false, archival.reload.archived?
   end
 
   test "archive returns true on success" do

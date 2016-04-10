@@ -49,8 +49,14 @@ class ScopeTest < ActiveSupport::TestCase
   end
 
   test "table_name is set to 'legacy'" do
-    archived_sql = %Q{SELECT "legacy".* FROM "legacy"  WHERE ("legacy"."archived_at" IS NOT NULL) AND ("legacy"."archive_number" IS NOT NULL)}
-    unarchived_sql = %Q{SELECT "legacy".* FROM "legacy"  WHERE "legacy"."archived_at" IS NULL AND "legacy"."archive_number" IS NULL}
+    # ActiveRecord 4.2 changed the output by one space (╯°□°）╯︵ ┻━┻
+    spaces = if (ActiveRecord.version <=> Gem::Version.new("4.2.0")) >= 0
+               " "
+             else
+               "  "
+             end
+    archived_sql = %Q{SELECT "legacy".* FROM "legacy"#{spaces}WHERE ("legacy"."archived_at" IS NOT NULL) AND ("legacy"."archive_number" IS NOT NULL)}
+    unarchived_sql = %Q{SELECT "legacy".* FROM "legacy"#{spaces}WHERE "legacy"."archived_at" IS NULL AND "legacy"."archive_number" IS NULL}
     assert_equal archived_sql, ArchivalTableName.archived.to_sql
     assert_equal unarchived_sql, ArchivalTableName.unarchived.to_sql
   end

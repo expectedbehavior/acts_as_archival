@@ -8,6 +8,10 @@ require "database_cleaner"
 
 require "acts_as_archival"
 
+if ActiveSupport::TestCase.respond_to?(:test_order=)
+  ActiveSupport::TestCase.test_order = :random
+end
+
 def prepare_for_tests
   setup_logging# if ENV["LOGGING_ENABLED"]
   setup_active_record
@@ -48,22 +52,31 @@ def require_test_classes
     inflect.irregular "poly", "polys"
   end
 
-  fixtures = [:archival,
-   :archival_kid,
-   :archival_grandkid,
-   :archival_table_name,
-   :exploder,
-   :independent_archival,
-   :plain,
-   :missing_archived_at,
-   :missing_archive_number,
-   :mysql_archival,
-   :mysql_exploder,
-   :plain,
-   :poly,
-   :pg_archival,
-   :pg_exploder,
-   :readonly_when_archived]
+  fixtures = []
+  $require_application_record = ActiveRecord.version >= Gem::Version.new("4.99.99")
+  if $require_application_record
+    fixtures += [:application_record, :application_record_row, :callback_archival_5]
+  else
+    fixtures += [:callback_archival_4]
+  end
+
+  fixtures += [
+    :archival,
+    :archival_kid,
+    :archival_grandkid,
+    :archival_table_name,
+    :exploder,
+    :independent_archival,
+    :missing_archived_at,
+    :missing_archive_number,
+    :mysql_archival,
+    :mysql_exploder,
+    :plain,
+    :poly,
+    :pg_archival,
+    :pg_exploder,
+    :readonly_when_archived
+  ]
   $require_mass_protection = ActiveModel.constants.include?(:MassAssignmentSecurity)
   fixtures << :mass_attribute_protected if $require_mass_protection
   fixtures.each {|test_class_file| require_relative "fixtures/#{test_class_file}"}

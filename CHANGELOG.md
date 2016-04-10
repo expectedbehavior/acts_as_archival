@@ -1,17 +1,28 @@
-# Changes!
+# CHANGELOG
 
-## 0.6.1
+## 1.1.0 - April 10, 2016
+* **BREAKING CHANGE** obsolete mainline rails 3 and rails 4.0.x support because: they are EOL'ed for > 1y
+* add rails 4.2 automated tests
+* add rails 5 support
+* test and document callbacks better - Thanks, Aaron Milam
+* **BUGFIX** remove a bunch of deprecations
+* **BUGFIX** improve compatibility with various new versions of software like mysql when testing
+
+## 1.0.0 - April 5, 2016
+* **BREAKING CHANGE** make `#archived?` return an actual boolean value
+
+## 0.6.1 - July 24, 2014
 * Fix deprecation warnings on Rails 4.1
 * Test suite now runs against multiple versions of Rails
 * Fully automated test suite setup
 
-## 0.6.0
+## 0.6.0 - April 14, 2014
 * **BREAKING CHANGE** (possibly): Some refactoring to modern gem module idioms instead of old school plugins
 * Officially support PostgreSQL
 * Switch default testing to use sqlite, mysql, and postgres instead of just mysql
 * Major upgrades to test suite
 
-## 0.5.3
+## 0.5.3 - May 17, 2013
 * Major refactoring of archiving/unarchiving logic into nice command classes instead of big ball of ARec voodoo. Thanks, Marten Claes!
 
 ## 0.5.2
