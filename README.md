@@ -178,6 +178,7 @@ ActsAsParanoid and PermanentRecords were both inspirations for this:
 * Miles Sterrett
 * James Hill
 * Maarten Claes
+* Anthony Panozzo
 * Aaron Milam
 
 Thanks!
