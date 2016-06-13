@@ -24,12 +24,11 @@ class AssociationsTest < ActiveSupport::TestCase
     children = [archival.archivals.create!, archival.archivals.create!]
     archival.archive(nil, false)
 
-    # assert_equal true, archival.archived?, 'owner is archived'
-    # assert_equal true, children.all?(&:archived?), 'children are archived'
-    archival.save!
+    assert_equal true, archival.archived?, 'owner is archived'
+    assert_equal true, children.all?(&:archived?), 'children are archived'
 
-    assert_equal true, archival.reload.archived?, 'owner archiving not persisted'
-    assert_equal true, children.map(&:reload).all?(&:archived?), 'children archiving not persisted'
+    assert_equal false, archival.reload.archived?, 'owner archiving not persisted'
+    assert_equal false, children.map(&:reload).all?(&:archived?), 'children archiving not persisted'
   end
 
   test "archive does not act on already archived objects" do
