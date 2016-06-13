@@ -5,9 +5,10 @@ module ExpectedBehavior
       class Base
         attr_reader :model, :head_archive_number
 
-        def initialize(model, head_archive_number)
+        def initialize(model, head_archive_number, persist)
           @model = model
           @head_archive_number = head_archive_number
+          @persist = persist
         end
 
         def execute

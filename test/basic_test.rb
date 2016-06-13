@@ -7,6 +7,13 @@ class BasicTest < ActiveSupport::TestCase
     assert_equal true, archival.reload.archived?
   end
 
+  test "archive(nil, false) archives the record without persisting" do
+    archival = Archival.create!
+    archival.archive(nil, false)
+    assert_equal true, archival.archived?
+    assert_equal false, archival.reload.archived?
+  end
+
   test "unarchive unarchives archival records" do
     archival = Archival.create!(:archived_at => Time.now, :archive_number => 1)
     archival.unarchive
