@@ -127,7 +127,7 @@ class Hole < ActiveRecord::Base
 
   before_unarchive :some_method_before_unarchiving
 
-  after_unarchive :some_method_before_unarchiving
+  after_unarchive :some_method_after_unarchiving
 
   # ... implement those methods
 end
