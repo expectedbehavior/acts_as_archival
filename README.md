@@ -180,7 +180,8 @@ ActsAsParanoid and PermanentRecords were both inspirations for this:
 * Maarten Claes
 * Anthony Panozzo
 * Aaron Milam
+* Anton Rieder
 
 Thanks!
 
-*Copyright (c) 2009-2016 Expected Behavior, LLC, released under the MIT license*
+*Copyright (c) 2009-2017 Expected Behavior, LLC, released under the MIT license*
