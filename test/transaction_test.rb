@@ -2,7 +2,6 @@ require_relative "test_helper"
 require "rr"
 
 class TransactionTest < ActiveSupport::TestCase
-
   test "sqlite archiving is transactional" do
     archival = Archival.create!
     exploder = archival.exploders.create!
@@ -55,9 +54,9 @@ class TransactionTest < ActiveSupport::TestCase
   end
 
   test "postgres archiving is transactional" do
-    archival = MysqlArchival.create!
+    archival = PgArchival.create!
     exploder = archival.exploders.create!
-    any_instance_of(MysqlExploder) do |canary|
+    any_instance_of(PgArchival) do |canary|
       stub(canary).unarchive { raise "Rollback Imminent" }
     end
     archival.archive
@@ -68,9 +67,9 @@ class TransactionTest < ActiveSupport::TestCase
   end
 
   test "postgres unarchiving is transactional" do
-    archival = MysqlArchival.create!
+    archival = PgArchival.create!
     exploder = archival.exploders.create!
-    any_instance_of(MysqlExploder) do |canary|
+    any_instance_of(PgArchival) do |canary|
       stub(canary).unarchive { raise "Rollback Imminent" }
     end
     archival.archive
