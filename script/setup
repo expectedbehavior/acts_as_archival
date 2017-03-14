@@ -5,8 +5,5 @@ cd "`dirname \"$0\"`/.."
 echo "\n---=== Bundling ===---"
 bundle install
 
-echo "\n---=== Setting up test databases ===---"
-script/db_setup
-
 echo "\n---=== Setting up various rails versions for testing ===---"
 bundle exec appraisal install

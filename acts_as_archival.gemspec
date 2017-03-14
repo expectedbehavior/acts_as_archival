@@ -30,8 +30,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "appraisal"
   gem.add_development_dependency "assertions-eb"
   gem.add_development_dependency "database_cleaner"
-  gem.add_development_dependency "mysql2"
-  gem.add_development_dependency "pg"
   gem.add_development_dependency "rake"
   gem.add_development_dependency "rr"
   gem.add_development_dependency "sqlite3"
