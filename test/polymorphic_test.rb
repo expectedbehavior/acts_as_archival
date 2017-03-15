@@ -12,8 +12,8 @@ class PolymorphicTest < ActiveSupport::TestCase
 
   test "unarchive item with polymorphic association" do
     archive_attributes = {
-      :archive_number => "test",
-      :archived_at    => Time.now
+      archive_number: "test",
+      archived_at: Time.now
     }
     archival = Archival.create!(archive_attributes)
     poly = archival.polys.create!(archive_attributes)

@@ -62,10 +62,10 @@ class ScopeTest < ActiveSupport::TestCase
   end
 
   test "combines with other scope properly" do
-    Archival.create!(:name => "Robert")
-    Archival.create!(:name => "Bobby")
-    Archival.create!(:name => "Sue")
-    bob = Archival.create!(:name => "Bob")
+    Archival.create!(name: "Robert")
+    Archival.create!(name: "Bobby")
+    Archival.create!(name: "Sue")
+    bob = Archival.create!(name: "Bob")
     bob.archive
     assert_equal 3, Archival.bobs.count
     assert_equal 3, Archival.unarchived.count

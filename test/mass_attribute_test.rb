@@ -3,14 +3,14 @@ require_relative "test_helper"
 class MassAttributeTest < ActiveSupport::TestCase
   if $require_mass_protection
     test "archive works when attr_accessible present" do
-      archival = MassAttributeProtected.create(:color => "pink")
+      archival = MassAttributeProtected.create(color: "pink")
       archival.archive
 
       assert archival.reload.archived?
     end
 
     test "unarchive works when attr_accessible present" do
-      archival = MassAttributeProtected.create(:color => "pink")
+      archival = MassAttributeProtected.create(color: "pink")
       archival.archive
       archival.unarchive
 
