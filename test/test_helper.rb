@@ -40,11 +40,9 @@ end
 
 def create_test_tables
   schema_file = File.dirname(__FILE__) + "/schema.rb"
-  ["pg", "mysql", "sqlite"].each do |db|
-    puts "** Loading schema for #{db}"
-    ActiveRecord::Base.establish_connection($dbconfig[db])
-    load(schema_file) if File.exist?(schema_file)
-  end
+  puts "** Loading schema for SQLite"
+  ActiveRecord::Base.establish_connection($dbconfig['sqlite'])
+  load(schema_file) if File.exist?(schema_file)
 end
 
 def require_test_classes
@@ -69,12 +67,8 @@ def require_test_classes
     :independent_archival,
     :missing_archived_at,
     :missing_archive_number,
-    :mysql_archival,
-    :mysql_exploder,
     :plain,
     :poly,
-    :pg_archival,
-    :pg_exploder,
     :readonly_when_archived
   ]
   $require_mass_protection = ActiveModel.constants.include?(:MassAssignmentSecurity)
