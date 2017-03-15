@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # archiveable_id   - integer
 # archiveable_type - string
 # archive_number   - string

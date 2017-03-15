@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # archival_id     - integer
 # archive_number  - string
 # archived_at     - datetime
