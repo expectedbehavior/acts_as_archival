@@ -51,13 +51,11 @@ def require_test_classes
     inflect.irregular 'poly', 'polys'
   end
 
-  fixtures = []
-  $require_application_record = ActiveRecord.version >= Gem::Version.new('4.99.99')
-  if $require_application_record
-    fixtures += [:application_record, :application_record_row, :callback_archival_5]
-  else
-    fixtures += [:callback_archival_4]
-  end
+  fixtures = if ActiveRecord::VERSION::MAJOR >= 4
+               [:application_record, :application_record_row, :callback_archival_5]
+             else
+               [:callback_archival_4]
+             end
 
   fixtures += [
     :archival,
