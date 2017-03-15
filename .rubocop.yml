@@ -1,7 +1,7 @@
 inherit_from: .rubocop_todo.yml
 
 AllCops:
-  Excludes:
+  Exclude:
     - vendor/**/*
     - gemfiles/**/*
 
