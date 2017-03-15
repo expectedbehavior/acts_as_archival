@@ -23,9 +23,9 @@ module ExpectedBehavior
           scope :archived_from_archive_number, ->(head_archive_number) { where(["archived_at IS NOT NULL AND archive_number = ?", head_archive_number]) }
 
           callbacks = ["archive", "unarchive"]
-          if ActiveSupport::VERSION::STRING >= "5"
+          if ActiveSupport::VERSION::MAJOR >= 5
             define_callbacks(*[callbacks].flatten)
-          elsif ActiveSupport::VERSION::STRING >= "4"
+          elsif ActiveSupport::VERSION::MAJOR >= 4
             define_callbacks(*[callbacks, {terminator: -> (_, result) { result == false }}].flatten)
           end
           callbacks.each do |callback|
