@@ -1,12 +1,12 @@
 $:.unshift(File.dirname(__FILE__) + '/../lib')
-require "bundler/setup"
-require "minitest/autorun"
+require 'bundler/setup'
+require 'minitest/autorun'
 
-require "active_record"
-require "assertions"
-require "database_cleaner"
+require 'active_record'
+require 'assertions'
+require 'database_cleaner'
 
-require "acts_as_archival"
+require 'acts_as_archival'
 
 if ActiveSupport::TestCase.respond_to?(:test_order=)
   ActiveSupport::TestCase.test_order = :random
@@ -21,13 +21,13 @@ def prepare_for_tests
 end
 
 def setup_logging
-  require "logger"
-  logfile = File.dirname(__FILE__) + "/debug.log"
+  require 'logger'
+  logfile = File.dirname(__FILE__) + '/debug.log'
   ActiveRecord::Base.logger = Logger.new(logfile)
 end
 
 def setup_active_record
-  dbconfig_file = File.dirname(__FILE__) + "/database.yml"
+  dbconfig_file = File.dirname(__FILE__) + '/database.yml'
   $dbconfig = YAML.load(File.read(dbconfig_file))
 end
 
@@ -39,19 +39,19 @@ def setup_database_cleaner
 end
 
 def create_test_tables
-  schema_file = File.dirname(__FILE__) + "/schema.rb"
-  puts "** Loading schema for SQLite"
+  schema_file = File.dirname(__FILE__) + '/schema.rb'
+  puts '** Loading schema for SQLite'
   ActiveRecord::Base.establish_connection($dbconfig['sqlite'])
   load(schema_file) if File.exist?(schema_file)
 end
 
 def require_test_classes
   ActiveSupport::Inflector.inflections do |inflect|
-    inflect.irregular "poly", "polys"
+    inflect.irregular 'poly', 'polys'
   end
 
   fixtures = []
-  $require_application_record = ActiveRecord.version >= Gem::Version.new("4.99.99")
+  $require_application_record = ActiveRecord.version >= Gem::Version.new('4.99.99')
   if $require_application_record
     fixtures += [:application_record, :application_record_row, :callback_archival_5]
   else

@@ -148,28 +148,6 @@ Style/GuardClause:
   Exclude:
     - 'lib/expected_behavior/acts_as_archival.rb'
 
-# Offense count: 58
-# Cop supports --auto-correct.
-# Configuration parameters: SupportedStyles, UseHashRocketsWithSymbolValues, PreferHashRocketsForNonAlnumEndingSymbols.
-# SupportedStyles: ruby19, hash_rockets, no_mixed_keys, ruby19_no_mixed_keys
-Style/HashSyntax:
-  EnforcedStyle: hash_rockets
-
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: line_count_dependent, lambda, literal
-Style/Lambda:
-  Exclude:
-    - 'lib/expected_behavior/acts_as_archival.rb'
-    - 'test/fixtures/archival.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/MutableConstant:
-  Exclude:
-    - 'lib/acts_as_archival/version.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 # Configuration parameters: AllowSafeAssignment.
@@ -210,12 +188,6 @@ Style/RedundantSelf:
     - 'lib/expected_behavior/acts_as_archival.rb'
     - 'lib/expected_behavior/acts_as_archival_active_record_methods.rb'
     - 'lib/expected_behavior/association_operation/base.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/SpaceAfterComma:
-  Exclude:
-    - 'lib/expected_behavior/acts_as_archival.rb'
 
 # Offense count: 2
 # Cop supports --auto-correct.
@@ -272,13 +244,6 @@ Style/SpaceInsideHashLiteralBraces:
 Style/SpecialGlobalVars:
   Exclude:
     - 'test/test_helper.rb'
-
-# Offense count: 148
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, ConsistentQuotesInMultiline.
-# SupportedStyles: single_quotes, double_quotes
-Style/StringLiterals:
-  Enabled: false
 
 # Offense count: 1
 # Cop supports --auto-correct.

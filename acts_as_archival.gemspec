@@ -1,39 +1,39 @@
 # -*- encoding: utf-8 -*-
-$LOAD_PATH.push File.expand_path("../lib", __FILE__)
-require "acts_as_archival/version"
+$LOAD_PATH.push File.expand_path('../lib', __FILE__)
+require 'acts_as_archival/version'
 
 Gem::Specification.new do |gem|
-  gem.name        = "acts_as_archival"
+  gem.name        = 'acts_as_archival'
   gem.summary     = %q{Atomic archiving/unarchiving for ActiveRecord-based apps}
   gem.version     = ActsAsArchival::VERSION
-  gem.authors     = ["Joel Meador",
-                     "Michael Kuehl",
-                     "Matthew Gordon",
-                     "Vojtech Salbaba",
-                     "David Jones",
-                     "Dave Woodward",
-                     "Miles Sterrett",
-                     "James Hill",
-                     "Maarten Claes"]
-  gem.email       = ["joel@expectedbehavior.com",
-                     "matt@expectedbehavior.com",
-                     "jason@expectedbehavior.com",
-                     "nathan@expectedbehavior.com"]
-  gem.homepage    = "http://github.com/expectedbehavior/acts_as_archival"
+  gem.authors     = ['Joel Meador',
+                     'Michael Kuehl',
+                     'Matthew Gordon',
+                     'Vojtech Salbaba',
+                     'David Jones',
+                     'Dave Woodward',
+                     'Miles Sterrett',
+                     'James Hill',
+                     'Maarten Claes']
+  gem.email       = ['joel@expectedbehavior.com',
+                     'matt@expectedbehavior.com',
+                     'jason@expectedbehavior.com',
+                     'nathan@expectedbehavior.com']
+  gem.homepage    = 'http://github.com/expectedbehavior/acts_as_archival'
 
   gem.files         = `git ls-files`.split("\n")
   gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  gem.require_paths = ["lib"]
+  gem.require_paths = ['lib']
 
-  gem.add_dependency "activerecord"
+  gem.add_dependency 'activerecord'
 
-  gem.add_development_dependency "appraisal"
-  gem.add_development_dependency "assertions-eb"
-  gem.add_development_dependency "database_cleaner"
-  gem.add_development_dependency "rake"
-  gem.add_development_dependency "rr"
-  gem.add_development_dependency "sqlite3"
-  gem.add_development_dependency "rubocop", "~> 0.47.1"
+  gem.add_development_dependency 'appraisal'
+  gem.add_development_dependency 'assertions-eb'
+  gem.add_development_dependency 'database_cleaner'
+  gem.add_development_dependency 'rake'
+  gem.add_development_dependency 'rr'
+  gem.add_development_dependency 'sqlite3'
+  gem.add_development_dependency 'rubocop', '~> 0.47.1'
 
   gem.description = <<-END
 *Atomic archiving/unarchiving for ActiveRecord-based apps*

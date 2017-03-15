@@ -1,21 +1,21 @@
-require_relative "test_helper"
+require_relative 'test_helper'
 
 class ScopeTest < ActiveSupport::TestCase
-  test "simple unarchived scope" do
+  test 'simple unarchived scope' do
     Archival.create!
     Archival.create!
 
     assert_equal 2, Archival.unarchived.count
   end
 
-  test "simple archived scope" do
+  test 'simple archived scope' do
     Archival.create!.archive
     Archival.create!.archive
 
     assert_equal 2, Archival.archived.count
   end
 
-  test "mixed scopes" do
+  test 'mixed scopes' do
     Archival.create!
     Archival.create!.archive
 
@@ -23,25 +23,25 @@ class ScopeTest < ActiveSupport::TestCase
     assert_equal 1, Archival.unarchived.count
   end
 
-  test "simple archived_from_archive_number" do
-    archive_number = "TEST-IT"
+  test 'simple archived_from_archive_number' do
+    archive_number = 'TEST-IT'
     Archival.create!.archive(archive_number)
     Archival.create!.archive(archive_number)
 
     assert_equal 2, Archival.archived_from_archive_number(archive_number).count
   end
 
-  test "negative archived_from_archive_number" do
-    archive_number = "TEST-IT"
-    bogus_number = "BROKE-IT"
+  test 'negative archived_from_archive_number' do
+    archive_number = 'TEST-IT'
+    bogus_number = 'BROKE-IT'
     Archival.create!.archive(archive_number)
     Archival.create!.archive(archive_number)
 
     assert_equal 0, Archival.archived_from_archive_number(bogus_number).count
   end
 
-  test "mixed archived_from_archive_number" do
-    archive_number = "TEST-IT"
+  test 'mixed archived_from_archive_number' do
+    archive_number = 'TEST-IT'
     Archival.create!.archive(archive_number)
     Archival.create!.archive
 
@@ -50,10 +50,10 @@ class ScopeTest < ActiveSupport::TestCase
 
   test "table_name is set to 'legacy'" do
     # ActiveRecord 4.2 changed the output by one space (╯°□°）╯︵ ┻━┻
-    spaces = if (ActiveRecord.version <=> Gem::Version.new("4.2.0")) >= 0
-               " "
+    spaces = if (ActiveRecord.version <=> Gem::Version.new('4.2.0')) >= 0
+               ' '
              else
-               "  "
+               '  '
              end
     archived_sql = %Q{SELECT "legacy".* FROM "legacy"#{spaces}WHERE ("legacy"."archived_at" IS NOT NULL) AND ("legacy"."archive_number" IS NOT NULL)}
     unarchived_sql = %Q{SELECT "legacy".* FROM "legacy"#{spaces}WHERE "legacy"."archived_at" IS NULL AND "legacy"."archive_number" IS NULL}
@@ -61,11 +61,11 @@ class ScopeTest < ActiveSupport::TestCase
     assert_equal unarchived_sql, ArchivalTableName.unarchived.to_sql
   end
 
-  test "combines with other scope properly" do
-    Archival.create!(name: "Robert")
-    Archival.create!(name: "Bobby")
-    Archival.create!(name: "Sue")
-    bob = Archival.create!(name: "Bob")
+  test 'combines with other scope properly' do
+    Archival.create!(name: 'Robert')
+    Archival.create!(name: 'Bobby')
+    Archival.create!(name: 'Sue')
+    bob = Archival.create!(name: 'Bob')
     bob.archive
     assert_equal 3, Archival.bobs.count
     assert_equal 3, Archival.unarchived.count
@@ -75,7 +75,7 @@ class ScopeTest < ActiveSupport::TestCase
     assert_equal 1, Archival.archived.bobs.count
   end
 
-  test "scopes combine with relations correctly" do
+  test 'scopes combine with relations correctly' do
     parent = Archival.create!
     parent.archivals.create!
     parent.archivals.create!

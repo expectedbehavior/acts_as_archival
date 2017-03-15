@@ -1,4 +1,4 @@
-require_relative "test_helper"
+require_relative 'test_helper'
 
 class AssociationsTest < ActiveSupport::TestCase
   test "archive archives 'has_' associated archival objects that are dependent destroy" do
@@ -19,7 +19,7 @@ class AssociationsTest < ActiveSupport::TestCase
     assert children.map(&:reload).all?(&:archived?)
   end
 
-  test "archive does not act on already archived objects" do
+  test 'archive does not act on already archived objects' do
     archival = Archival.create!
     archival.archivals.create!
     prearchived_child = archival.archivals.create!
@@ -47,7 +47,7 @@ class AssociationsTest < ActiveSupport::TestCase
     assert plain.reload
   end
 
-  test "archive sets the object hierarchy to all have the same archive_number" do
+  test 'archive sets the object hierarchy to all have the same archive_number' do
     archival = Archival.create!
     child = archival.archivals.create!
     archival.archive
@@ -57,7 +57,7 @@ class AssociationsTest < ActiveSupport::TestCase
     assert_equal expected_digest, child.reload.archive_number
   end
 
-  test "unarchive acts on child objects" do
+  test 'unarchive acts on child objects' do
     archival = Archival.create!
     child = archival.archivals.create!
     archival.archive
@@ -67,7 +67,7 @@ class AssociationsTest < ActiveSupport::TestCase
     assert_not child.reload.archived?
   end
 
-  test "unarchive does not act on already archived objects" do
+  test 'unarchive does not act on already archived objects' do
     archival = Archival.create!
     child = archival.archivals.create!
     prearchived_child = archival.archivals.create!
