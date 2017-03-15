@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/expectedbehavior/acts_as_archival.svg?branch=master)](https://travis-ci.org/expectedbehavior/acts_as_archival)
+
 # ActsAsArchival
 
 Atomically archive object trees in your activerecord models.
