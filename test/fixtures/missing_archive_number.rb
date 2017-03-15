@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 # name           - string
 # archived_at    - datetime
 class MissingArchiveNumber < ActiveRecord::Base

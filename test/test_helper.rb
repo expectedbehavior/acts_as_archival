@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 $:.unshift(File.dirname(__FILE__) + "/../lib")
 require "bundler/setup"
 require "minitest/autorun"

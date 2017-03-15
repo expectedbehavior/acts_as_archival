@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 # name           - string
 # archival_id    - integer
 # archive_number - string

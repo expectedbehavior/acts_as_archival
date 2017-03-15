@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 module ExpectedBehavior
   module ActsAsArchival
     require "digest/md5"

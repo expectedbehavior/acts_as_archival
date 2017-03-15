@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class CallbackArchival4 < ActiveRecord::Base
   acts_as_archival
 

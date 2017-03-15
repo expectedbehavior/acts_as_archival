@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require_relative "test_helper"
 
 # Rails 5 introduced a new base class, and this is gonna test that

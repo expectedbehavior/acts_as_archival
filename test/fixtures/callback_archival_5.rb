@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 # necessary for ApplicationRecord
 if defined?(ApplicationRecord)
   class CallbackArchival5 < ApplicationRecord

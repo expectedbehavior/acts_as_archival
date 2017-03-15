@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require "acts_as_archival/version"
 
 require "expected_behavior/association_operation/base"
