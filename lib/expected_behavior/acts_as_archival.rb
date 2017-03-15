@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 module ExpectedBehavior
   module ActsAsArchival
-    require 'digest/md5'
+    require "digest/md5"
 
-    MissingArchivalColumnError = Class.new(ActiveRecord::ActiveRecordError) unless defined?(MissingArchivalColumnError) == 'constant' && MissingArchivalColumnError.class == Class
-    CouldNotArchiveError = Class.new(ActiveRecord::ActiveRecordError) unless defined?(CouldNotArchiveError) == 'constant' && CouldNotArchiveError.class == Class
-    CouldNotUnarchiveError = Class.new(ActiveRecord::ActiveRecordError) unless defined?(CouldNotUnarchiveError) == 'constant' && CouldNotUnarchiveError.class == Class
+    MissingArchivalColumnError = Class.new(ActiveRecord::ActiveRecordError) unless defined?(MissingArchivalColumnError) == "constant" && MissingArchivalColumnError.class == Class
+    CouldNotArchiveError = Class.new(ActiveRecord::ActiveRecordError) unless defined?(CouldNotArchiveError) == "constant" && CouldNotArchiveError.class == Class
+    CouldNotUnarchiveError = Class.new(ActiveRecord::ActiveRecordError) unless defined?(CouldNotUnarchiveError) == "constant" && CouldNotUnarchiveError.class == Class
 
     def self.included(base)
       base.extend ActMethods
@@ -21,12 +21,12 @@ module ExpectedBehavior
 
           scope :archived, -> { where.not(archived_at: nil, archive_number: nil) }
           scope :unarchived, -> { where(archived_at: nil, archive_number: nil) }
-          scope :archived_from_archive_number, ->(head_archive_number) { where(['archived_at IS NOT NULL AND archive_number = ?', head_archive_number]) }
+          scope :archived_from_archive_number, ->(head_archive_number) { where(["archived_at IS NOT NULL AND archive_number = ?", head_archive_number]) }
 
-          callbacks = ['archive', 'unarchive']
-          if ActiveSupport::VERSION::STRING >= '5'
+          callbacks = ["archive", "unarchive"]
+          if ActiveSupport::VERSION::STRING >= "5"
             define_callbacks(*[callbacks].flatten)
-          elsif ActiveSupport::VERSION::STRING >= '4'
+          elsif ActiveSupport::VERSION::STRING >= "4"
             define_callbacks(*[callbacks, {terminator: -> (_, result) { result == false }}].flatten)
           end
           callbacks.each do |callback|
@@ -52,14 +52,14 @@ module ExpectedBehavior
 
       def readonly_when_archived
         if self.archived? && self.changed? && !self.archived_at_changed? && !self.archive_number_changed?
-          self.errors.add(:base, 'Cannot modify an archived record.')
+          self.errors.add(:base, "Cannot modify an archived record.")
         end
       end
 
       def raise_if_not_archival
         missing_columns = []
-        missing_columns << 'archive_number' unless self.respond_to?(:archive_number)
-        missing_columns << 'archived_at' unless self.respond_to?(:archived_at)
+        missing_columns << "archive_number" unless self.respond_to?(:archive_number)
+        missing_columns << "archived_at" unless self.respond_to?(:archived_at)
         raise MissingArchivalColumnError.new("Add '#{missing_columns.join "', '"}' column(s) to '#{self.class.name}' to make it archival") unless missing_columns.blank?
       end
 

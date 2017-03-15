@@ -1,8 +1,8 @@
 # frozen_string_literal: true
-require_relative 'test_helper'
+require_relative "test_helper"
 
 class AmbiguousTableTest < ActiveSupport::TestCase
-  test 'no ambiguous table problem' do
+  test "no ambiguous table problem" do
     archival = Archival.create!
     child = archival.archivals.create!
     child.archive

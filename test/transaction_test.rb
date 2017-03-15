@@ -1,14 +1,14 @@
 # frozen_string_literal: true
-require_relative 'test_helper'
-require 'rr'
+require_relative "test_helper"
+require "rr"
 
 class TransactionTest < ActiveSupport::TestCase
 
-  test 'archiving is transactional' do
+  test "archiving is transactional" do
     archival = Archival.create!
     exploder = archival.exploders.create!
     any_instance_of(Exploder) do |canary|
-      stub(canary).archive { raise 'Rollback Imminent' }
+      stub(canary).archive { raise "Rollback Imminent" }
     end
     archival.archive
 
@@ -16,11 +16,11 @@ class TransactionTest < ActiveSupport::TestCase
     assert_not exploder.reload.archived?
   end
 
-  test 'unarchiving is transactional' do
+  test "unarchiving is transactional" do
     archival = Archival.create!
     exploder = archival.exploders.create!
     any_instance_of(Exploder) do |canary|
-      stub(canary).unarchive { raise 'Rollback Imminent' }
+      stub(canary).unarchive { raise "Rollback Imminent" }
     end
     archival.archive
     archival.unarchive

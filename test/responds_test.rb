@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative 'test_helper'
+require_relative "test_helper"
 
 class RespondsTest < ActiveSupport::TestCase
   test "archival class responds correctly to 'is_archival?'" do

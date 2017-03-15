@@ -14,5 +14,5 @@ class Archival < ActiveRecord::Base
   has_many :polys,              dependent: :destroy, as: :archiveable
   has_many :independent_archivals
 
-  scope :bobs, -> { where(name: ['Bob', 'Bobby', 'Robert']) }
+  scope :bobs, -> { where(name: ["Bob", "Bobby", "Robert"]) }
 end

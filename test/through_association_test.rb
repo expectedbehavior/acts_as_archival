@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative 'test_helper'
+require_relative "test_helper"
 
 class ThroughAssociationTest < ActiveSupport::TestCase
   test "archive a through associated object whose 'bridge' is archival" do

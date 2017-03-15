@@ -12,3 +12,6 @@ Style/FrozenStringLiteralComment:
 
 Style/HashSyntax:
   EnforcedStyle: ruby19
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
