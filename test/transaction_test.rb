@@ -3,7 +3,7 @@ require "rr"
 
 class TransactionTest < ActiveSupport::TestCase
 
-  test "sqlite archiving is transactional" do
+  test "archiving is transactional" do
     archival = Archival.create!
     exploder = archival.exploders.create!
     any_instance_of(Exploder) do |canary|
@@ -15,7 +15,7 @@ class TransactionTest < ActiveSupport::TestCase
     assert_not exploder.reload.archived?
   end
 
-  test "sqlite unarchiving is transactional" do
+  test "unarchiving is transactional" do
     archival = Archival.create!
     exploder = archival.exploders.create!
     any_instance_of(Exploder) do |canary|
