@@ -14,6 +14,7 @@ gemfile:
   - gemfiles/rails_4.1.gemfile
   - gemfiles/rails_4.2.gemfile
   - gemfiles/rails_5.0.gemfile
+  - gemfiles/rails_5.1.beta.gemfile
 
 before_install:
   - gem update --system
@@ -22,8 +23,12 @@ before_install:
 
 matrix:
   fast_finish: true
+  allow_failures:
+    - gemfile: gemfiles/rails_5.1.beta.gemfile
   exclude:
     - rvm: 2.1
       gemfile: gemfiles/rails_5.0.gemfile
+    - rvm: 2.1
+      gemfile: gemfiles/rails_5.1.beta.gemfile
     - rvm: 2.4
       gemfile: gemfiles/rails_4.1.gemfile
