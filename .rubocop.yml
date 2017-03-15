@@ -3,6 +3,7 @@ inherit_from: .rubocop_todo.yml
 AllCops:
   Excludes:
     - vendor/**/*
+    - gemfiles/**/*
 
 Style/Documentation:
   Enabled: false
