@@ -66,20 +66,26 @@ module ExpectedBehavior
         !!(self.archived_at? && self.archive_number)
       end
 
-      def archive(head_archive_number=nil)
+      def archived=(value)
+        value ? archive(nil, false) : unarchive(nil, false)
+      end
+
+      def archive(head_archive_number=nil, persist = true)
         self.class.transaction do
           begin
             success = run_callbacks(:archive) do
               unless self.archived?
                 head_archive_number ||= Digest::MD5.hexdigest("#{self.class.name}#{self.id}")
-                self.archive_associations(head_archive_number)
+                self.archive_associations(head_archive_number, persist)
                 self.archived_at = DateTime.now
                 self.archive_number = head_archive_number
-                self.save!
+                persist ? self.save! : true
               end
             end
             return !!success
           rescue => e
+            puts e.message.inspect
+            puts e.backtrace.inspect
             ActiveRecord::Base.logger.try(:debug, e.message)
             ActiveRecord::Base.logger.try(:debug, e.backtrace)
             raise ActiveRecord::Rollback
@@ -88,7 +94,7 @@ module ExpectedBehavior
         false
       end
 
-      def unarchive(head_archive_number=nil)
+      def unarchive(head_archive_number=nil, persist = true)
         self.class.transaction do
           begin
             success = run_callbacks(:unarchive) do
@@ -96,8 +102,8 @@ module ExpectedBehavior
                 head_archive_number ||= self.archive_number
                 self.archived_at = nil
                 self.archive_number = nil
-                self.save!
-                self.unarchive_associations(head_archive_number)
+                self.save! if persist
+                self.unarchive_associations(head_archive_number, persist)
               end
             end
             return !!success
@@ -110,12 +116,12 @@ module ExpectedBehavior
         false
       end
 
-      def archive_associations(head_archive_number)
-        AssociationOperation::Archive.new(self, head_archive_number).execute
+      def archive_associations(head_archive_number, persist)
+        AssociationOperation::Archive.new(self, head_archive_number, persist).execute
       end
 
-      def unarchive_associations(head_archive_number)
-        AssociationOperation::Unarchive.new(self, head_archive_number).execute
+      def unarchive_associations(head_archive_number, persist)
+        AssociationOperation::Unarchive.new(self, head_archive_number, persist).execute
       end
     end
   end
