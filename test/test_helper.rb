@@ -54,8 +54,8 @@ def require_test_classes
   end
 
   fixtures = []
-  $require_application_record = ActiveRecord.version >= Gem::Version.new("4.99.99")
-  if $require_application_record
+  application_record_is_required = ActiveRecord.version >= Gem::Version.new("4.99.99")
+  if application_record_is_required
     fixtures += [:application_record, :application_record_row, :callback_archival_5]
   else
     fixtures += [:callback_archival_4]
