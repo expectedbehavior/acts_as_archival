@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 1) do
     t.column :archival_id, :integer
   end
 
-  create_table :readonly_when_archiveds, :force => true do |t|
+  create_table :readonly_when_archiveds, force: true do |t|
     t.column :name, :string
     t.column :archive_number, :string
     t.column :archived_at, :datetime
