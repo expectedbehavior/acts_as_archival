@@ -71,9 +71,7 @@ def require_test_classes
     :poly,
     :readonly_when_archived
   ]
-  $require_mass_protection = ActiveModel.constants.include?(:MassAssignmentSecurity)
-  fixtures << :mass_attribute_protected if $require_mass_protection
-  fixtures.each {|test_class_file| require_relative "fixtures/#{test_class_file}"}
+  fixtures.each { |test_class_file| require_relative "fixtures/#{test_class_file}" }
 end
 
 prepare_for_tests
