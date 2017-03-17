@@ -1,10 +1,16 @@
 module ExpectedBehavior
   module ActsAsArchival
-    require 'digest/md5'
+    require "digest/md5"
 
-    MissingArchivalColumnError = Class.new(ActiveRecord::ActiveRecordError) unless defined?(MissingArchivalColumnError) == 'constant' && MissingArchivalColumnError.class == Class
-    CouldNotArchiveError = Class.new(ActiveRecord::ActiveRecordError) unless defined?(CouldNotArchiveError) == 'constant' && CouldNotArchiveError.class == Class
-    CouldNotUnarchiveError = Class.new(ActiveRecord::ActiveRecordError) unless defined?(CouldNotUnarchiveError) == 'constant' && CouldNotUnarchiveError.class == Class
+    unless defined?(MissingArchivalColumnError) == "constant" && MissingArchivalColumnError.class == Class
+      MissingArchivalColumnError = Class.new(ActiveRecord::ActiveRecordError)
+    end
+    unless defined?(CouldNotArchiveError) == "constant" && CouldNotArchiveError.class == Class
+      CouldNotArchiveError = Class.new(ActiveRecord::ActiveRecordError)
+    end
+    unless defined?(CouldNotUnarchiveError) == "constant" && CouldNotUnarchiveError.class == Class
+      CouldNotUnarchiveError = Class.new(ActiveRecord::ActiveRecordError)
+    end
 
     def self.included(base)
       base.extend ActMethods
@@ -18,15 +24,17 @@ module ExpectedBehavior
           before_validation :raise_if_not_archival
           validate :readonly_when_archived if options[:readonly_when_archived]
 
-          scope :archived, lambda { where.not(:archived_at => nil, :archive_number => nil) }
-          scope :unarchived, lambda { where(:archived_at => nil, :archive_number => nil) }
-          scope :archived_from_archive_number, lambda { |head_archive_number| where(['archived_at IS NOT NULL AND archive_number = ?', head_archive_number]) }
+          scope :archived, -> { where.not(archived_at: nil, archive_number: nil) }
+          scope :unarchived, -> { where(archived_at: nil, archive_number: nil) }
+          scope :archived_from_archive_number, (lambda do |head_archive_number|
+            where(["archived_at IS NOT NULL AND archive_number = ?", head_archive_number])
+          end)
 
-          callbacks = ['archive','unarchive']
-          if ActiveSupport::VERSION::STRING >= '5'
+          callbacks = ["archive", "unarchive"]
+          if ActiveSupport::VERSION::MAJOR >= 5
             define_callbacks(*[callbacks].flatten)
-          elsif ActiveSupport::VERSION::STRING >= '4'
-            define_callbacks(*[callbacks, {:terminator => -> (_, result) { result == false }}].flatten)
+          elsif ActiveSupport::VERSION::MAJOR >= 4
+            define_callbacks(*[callbacks, {terminator: -> (_, result) { result == false }}].flatten)
           end
           callbacks.each do |callback|
             eval <<-end_callbacks
@@ -59,7 +67,9 @@ module ExpectedBehavior
         missing_columns = []
         missing_columns << "archive_number" unless self.respond_to?(:archive_number)
         missing_columns << "archived_at" unless self.respond_to?(:archived_at)
-        raise MissingArchivalColumnError.new("Add '#{missing_columns.join "', '"}' column(s) to '#{self.class.name}' to make it archival") unless missing_columns.blank?
+        unless missing_columns.blank?
+          raise MissingArchivalColumnError.new("Add '#{missing_columns.join "', '"}' column(s) to '#{self.class.name}' to make it archival")
+        end
       end
 
       def archived?

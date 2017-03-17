@@ -1,0 +1,25 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  Exclude:
+    - vendor/**/*
+    - gemfiles/**/*
+
+Metrics/LineLength:
+  Max: 140
+
+# ¯\_(ツ)_/¯
+Style/AsciiComments:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
+
+Style/HashSyntax:
+  EnforcedStyle: ruby19
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes

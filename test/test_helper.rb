@@ -1,4 +1,4 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__) + '/../lib')
+$LOAD_PATH.unshift(File.dirname(__FILE__) + "/../lib")
 require "bundler/setup"
 require "minitest/autorun"
 
@@ -53,13 +53,11 @@ def require_test_classes
     inflect.irregular "poly", "polys"
   end
 
-  fixtures = []
-  application_record_is_required = ActiveRecord.version >= Gem::Version.new("4.99.99")
-  if application_record_is_required
-    fixtures += [:application_record, :application_record_row, :callback_archival_5]
-  else
-    fixtures += [:callback_archival_4]
-  end
+  fixtures = if ActiveRecord::VERSION::MAJOR >= 4
+               [:application_record, :application_record_row, :callback_archival_5]
+             else
+               [:callback_archival_4]
+             end
 
   fixtures += [
     :archival,

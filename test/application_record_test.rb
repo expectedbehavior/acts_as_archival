@@ -10,7 +10,7 @@ if defined?(ApplicationRecord)
     end
 
     test "unarchive unarchives archival records" do
-      archival = ApplicationRecordRow.create!(:archived_at => Time.now, :archive_number => 1)
+      archival = ApplicationRecordRow.create!(archived_at: Time.now, archive_number: 1)
       archival.unarchive
       assert_not archival.reload.archived?
     end

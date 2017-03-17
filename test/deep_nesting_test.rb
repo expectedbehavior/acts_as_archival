@@ -15,8 +15,8 @@ class DeepNestingTest < ActiveSupport::TestCase
 
   test "unarchiving deeply nested items doesn't blow up" do
     archival_attributes = {
-      :archived_at => Time.now,
-      :archive_number => "test"
+      archived_at: Time.now,
+      archive_number: "test"
     }
     archival   = Archival.create!(archival_attributes)
     child      = archival.archivals.create!(archival_attributes)
