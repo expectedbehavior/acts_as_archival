@@ -8,6 +8,11 @@ AllCops:
 Metrics/LineLength:
   Max: 140
 
+# Can't do without a little table-flip there ;)
+Style/AsciiComments:
+  Exclude:
+    - 'test/scope_test.rb'
+
 Style/Documentation:
   Enabled: false
 
