@@ -2,7 +2,7 @@ language: ruby
 sudo: false
 dist: trusty
 cache: bundler
-script: "bundle exec rake test"
+script: "bundle exec rake"
 
 rvm:
   - 2.1.10
