@@ -11,7 +11,7 @@ class CallbacksTest < ActiveSupport::TestCase
     end
 
     test "can be halted" do
-      archival = archival = CallbackArchival5.create
+      archival = CallbackArchival5.create
       archival.set_this_value = "a test string"
       archival.pass_callback = false
       assert_nil archival.settable_field
@@ -28,7 +28,7 @@ class CallbacksTest < ActiveSupport::TestCase
     end
 
     test "can be halted" do
-      archival = archival = CallbackArchival4.create
+      archival = CallbackArchival4.create
       archival.set_this_value = "a test string"
       archival.pass_callback = false
       assert_nil archival.settable_field
