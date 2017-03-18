@@ -14,7 +14,8 @@ if defined?(ApplicationRecord)
     end
 
     private def conditional_callback_passer
-      throw(:abort) unless (pass_callback || pass_callback.nil?)
+      # we want to throw only for the value false
+      throw(:abort) unless pass_callback || pass_callback.nil?
     end
   end
 end
