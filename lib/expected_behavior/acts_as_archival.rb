@@ -18,38 +18,38 @@ module ExpectedBehavior
 
     module ActMethods
       def acts_as_archival(options = {})
-        unless included_modules.include? InstanceMethods
-          include InstanceMethods
+        return if included_modules.include?(InstanceMethods)
 
-          before_validation :raise_if_not_archival
-          validate :readonly_when_archived if options[:readonly_when_archived]
+        include InstanceMethods
 
-          scope :archived, -> { where.not(archived_at: nil, archive_number: nil) }
-          scope :unarchived, -> { where(archived_at: nil, archive_number: nil) }
-          scope :archived_from_archive_number, (lambda do |head_archive_number|
-            where(["archived_at IS NOT NULL AND archive_number = ?", head_archive_number])
-          end)
+        before_validation :raise_if_not_archival
+        validate :readonly_when_archived if options[:readonly_when_archived]
 
-          callbacks = ["archive", "unarchive"]
-          if ActiveSupport::VERSION::MAJOR >= 5
-            define_callbacks(*[callbacks].flatten)
-          elsif ActiveSupport::VERSION::MAJOR >= 4
-            define_callbacks(*[callbacks, { terminator: ->(_, result) { result == false } }].flatten)
-          end
-          callbacks.each do |callback|
-            eval <<-end_callbacks
-              unless defined?(before_#{callback})
-                def before_#{callback}(*args, &blk)
-                  set_callback(:#{callback}, :before, *args, &blk)
-                end
+        scope :archived, -> { where.not(archived_at: nil, archive_number: nil) }
+        scope :unarchived, -> { where(archived_at: nil, archive_number: nil) }
+        scope :archived_from_archive_number, (lambda do |head_archive_number|
+          where(["archived_at IS NOT NULL AND archive_number = ?", head_archive_number])
+        end)
+
+        callbacks = ["archive", "unarchive"]
+        if ActiveSupport::VERSION::MAJOR >= 5
+          define_callbacks(*[callbacks].flatten)
+        elsif ActiveSupport::VERSION::MAJOR >= 4
+          define_callbacks(*[callbacks, { terminator: ->(_, result) { result == false } }].flatten)
+        end
+        callbacks.each do |callback|
+          eval <<-end_callbacks
+            unless defined?(before_#{callback})
+              def before_#{callback}(*args, &blk)
+                set_callback(:#{callback}, :before, *args, &blk)
               end
-              unless defined?(after_#{callback})
-                def after_#{callback}(*args, &blk)
-                  set_callback(:#{callback}, :after, *args, &blk)
-                end
+            end
+            unless defined?(after_#{callback})
+              def after_#{callback}(*args, &blk)
+                set_callback(:#{callback}, :after, *args, &blk)
               end
-            end_callbacks
-          end
+            end
+          end_callbacks
         end
       end
 
@@ -58,18 +58,19 @@ module ExpectedBehavior
     module InstanceMethods
 
       def readonly_when_archived
-        if self.archived? && self.changed? && !self.archived_at_changed? && !self.archive_number_changed?
-          self.errors.add(:base, "Cannot modify an archived record.")
-        end
+        readonly_attributes_changed = self.archived? && self.changed? && !self.archived_at_changed? && !self.archive_number_changed?
+        return unless readonly_attributes_changed
+
+        self.errors.add(:base, "Cannot modify an archived record.")
       end
 
       def raise_if_not_archival
         missing_columns = []
         missing_columns << "archive_number" unless self.respond_to?(:archive_number)
         missing_columns << "archived_at" unless self.respond_to?(:archived_at)
-        unless missing_columns.blank?
-          raise MissingArchivalColumnError.new("Add '#{missing_columns.join "', '"}' column(s) to '#{self.class.name}' to make it archival")
-        end
+        return if missing_columns.blank?
+
+        raise MissingArchivalColumnError.new("Add '#{missing_columns.join "', '"}' column(s) to '#{self.class.name}' to make it archival")
       end
 
       def archived?
