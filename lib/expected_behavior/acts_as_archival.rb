@@ -17,7 +17,7 @@ module ExpectedBehavior
     end
 
     module ActMethods
-      def acts_as_archival(options = { })
+      def acts_as_archival(options = {})
         unless included_modules.include? InstanceMethods
           include InstanceMethods
 
@@ -34,7 +34,7 @@ module ExpectedBehavior
           if ActiveSupport::VERSION::MAJOR >= 5
             define_callbacks(*[callbacks].flatten)
           elsif ActiveSupport::VERSION::MAJOR >= 4
-            define_callbacks(*[callbacks, {terminator: -> (_, result) { result == false }}].flatten)
+            define_callbacks(*[callbacks, { terminator: ->(_, result) { result == false } }].flatten)
           end
           callbacks.each do |callback|
             eval <<-end_callbacks
