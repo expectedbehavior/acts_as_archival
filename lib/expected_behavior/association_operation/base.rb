@@ -30,7 +30,7 @@ module ExpectedBehavior
             association.options[:through].nil?
         end
 
-        def association_conditions_met?(association)
+        def association_conditions_met?(_association)
           true
         end
 
@@ -40,7 +40,7 @@ module ExpectedBehavior
           act_on_archivals(scope)
         end
 
-        def act_on_archivals(scope)
+        def act_on_archivals(_scope)
           raise NotImplementedError,
             "The #{self.class} hasn't implemented 'act_on_archivals(scope)'"
         end
