@@ -1,6 +1,7 @@
 require_relative "test_helper"
 
 class CallbacksTest < ActiveSupport::TestCase
+
   if defined?(ApplicationRecord)
     test "can set a value as part of archiving" do
       archival = CallbackArchival5.create
@@ -36,4 +37,5 @@ class CallbacksTest < ActiveSupport::TestCase
       assert_nil archival.reload.settable_field
     end
   end
+
 end

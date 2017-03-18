@@ -3,6 +3,7 @@
 # archive_number - string
 # archived_at    - datetime
 class Archival < ActiveRecord::Base
+
   acts_as_archival
 
   has_many :archivals,          dependent: :destroy
@@ -14,4 +15,5 @@ class Archival < ActiveRecord::Base
   has_many :independent_archivals
 
   scope :bobs, -> { where(name: ["Bob", "Bobby", "Robert"]) }
+
 end

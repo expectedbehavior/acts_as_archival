@@ -1,6 +1,7 @@
 require_relative "test_helper"
 
 class ThroughAssociationTest < ActiveSupport::TestCase
+
   test "archive a through associated object whose 'bridge' is archival" do
     archival = Archival.create!
     bridge   = archival.archival_kids.create!
@@ -22,4 +23,5 @@ class ThroughAssociationTest < ActiveSupport::TestCase
   #   assert archival.reload.archived?
   #   assert through.reload.archived?
   # end
+
 end

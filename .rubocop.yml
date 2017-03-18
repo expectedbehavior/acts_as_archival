@@ -29,6 +29,12 @@ Style/Documentation:
 Style/DoubleNegation:
   Enabled: false
 
+Style/EmptyLinesAroundClassBody:
+  EnforcedStyle: empty_lines_except_namespace
+
+Style/EmptyLinesAroundModuleBody:
+  EnforcedStyle: empty_lines_except_namespace
+
 Style/FrozenStringLiteralComment:
   EnforcedStyle: never
 

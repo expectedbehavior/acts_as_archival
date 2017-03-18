@@ -1,6 +1,7 @@
 require_relative "test_helper"
 
 class BasicTest < ActiveSupport::TestCase
+
   test "archive archives the record" do
     archival = Archival.create!
     archival.archive
@@ -61,4 +62,5 @@ class BasicTest < ActiveSupport::TestCase
     second_number = archived.archive_number
     assert_equal initial_number, second_number
   end
+
 end

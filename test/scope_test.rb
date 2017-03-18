@@ -1,6 +1,7 @@
 require_relative "test_helper"
 
 class ScopeTest < ActiveSupport::TestCase
+
   test "simple unarchived scope" do
     Archival.create!
     Archival.create!
@@ -87,4 +88,5 @@ class ScopeTest < ActiveSupport::TestCase
     assert_equal 1, parent.archivals.archived.count
     assert_equal 2, parent.archivals.unarchived.count
   end
+
 end

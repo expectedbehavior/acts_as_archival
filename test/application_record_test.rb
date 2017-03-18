@@ -3,6 +3,7 @@ require_relative "test_helper"
 # Rails 5 introduced a new base class, and this is gonna test that
 if defined?(ApplicationRecord)
   class ApplicationRecordTest < ActiveSupport::TestCase
+
     test "archive archives the record" do
       archival = ApplicationRecordRow.create!
       archival.archive
@@ -14,5 +15,6 @@ if defined?(ApplicationRecord)
       archival.unarchive
       assert_not archival.reload.archived?
     end
+
   end
 end

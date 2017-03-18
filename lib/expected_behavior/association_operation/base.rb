@@ -1,8 +1,8 @@
 module ExpectedBehavior
   module ActsAsArchival
     module AssociationOperation
-
       class Base
+
         attr_reader :model, :head_archive_number
 
         def initialize(model, head_archive_number)
@@ -43,8 +43,8 @@ module ExpectedBehavior
         def act_on_archivals(_scope)
           raise NotImplementedError.new("The #{self.class} hasn't implemented 'act_on_archivals(scope)'")
         end
-      end
 
+      end
     end
   end
 end

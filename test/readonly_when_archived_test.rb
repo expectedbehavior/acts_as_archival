@@ -1,6 +1,7 @@
 require_relative "test_helper"
 
 class ReadonlyWhenArchivedTest < ActiveSupport::TestCase
+
   test "acts_as_archival objects can normally be altered after archive" do
     archival = Archival.create!(name: "original")
     archival.archive
@@ -19,4 +20,5 @@ class ReadonlyWhenArchivedTest < ActiveSupport::TestCase
     assert_equal "Cannot modify an archived record.",
                  archival.errors.full_messages.first
   end
+
 end

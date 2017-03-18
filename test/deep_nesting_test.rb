@@ -1,6 +1,7 @@
 require_relative "test_helper"
 
 class DeepNestingTest < ActiveSupport::TestCase
+
   test "archiving deeply nested items" do
     archival   = Archival.create!
     child      = archival.archivals.create!
@@ -26,4 +27,5 @@ class DeepNestingTest < ActiveSupport::TestCase
     assert_not child.reload.archived?
     assert_not grandchild.reload.archived?
   end
+
 end

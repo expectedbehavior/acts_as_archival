@@ -1,6 +1,7 @@
 require_relative "test_helper"
 
 class AmbiguousTableTest < ActiveSupport::TestCase
+
   test "no ambiguous table problem" do
     archival = Archival.create!
     child = archival.archivals.create!
@@ -11,4 +12,5 @@ class AmbiguousTableTest < ActiveSupport::TestCase
     # generated
     assert_equal 1, Archival.unarchived.joins(:archivals).count
   end
+
 end

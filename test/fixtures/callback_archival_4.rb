@@ -1,4 +1,5 @@
 class CallbackArchival4 < ActiveRecord::Base
+
   acts_as_archival
 
   attr_accessor :set_this_value,
@@ -14,4 +15,5 @@ class CallbackArchival4 < ActiveRecord::Base
   private def conditional_callback_passer
     pass_callback || pass_callback.nil?
   end
+
 end

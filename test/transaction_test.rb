@@ -27,4 +27,5 @@ class TransactionTest < ActiveSupport::TestCase
     assert archival.reload.archived?
     assert exploder.reload.archived?
   end
+
 end

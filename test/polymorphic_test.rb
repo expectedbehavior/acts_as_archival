@@ -1,6 +1,7 @@
 require_relative "test_helper"
 
 class PolymorphicTest < ActiveSupport::TestCase
+
   test "archive item with polymorphic association" do
     archival = Archival.create!
     poly = archival.polys.create!
@@ -22,4 +23,5 @@ class PolymorphicTest < ActiveSupport::TestCase
     assert_not archival.reload.archived?
     assert_not poly.reload.archived?
   end
+
 end

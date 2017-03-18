@@ -1,5 +1,6 @@
 module ExpectedBehavior
   module ActsAsArchival
+
     require "digest/md5"
 
     unless defined?(MissingArchivalColumnError) == "constant" && MissingArchivalColumnError.class == Class
@@ -17,6 +18,7 @@ module ExpectedBehavior
     end
 
     module ActMethods
+
       # rubocop:disable Metrics/MethodLength
       def acts_as_archival(options = {})
         return if included_modules.include?(InstanceMethods)
@@ -130,6 +132,8 @@ module ExpectedBehavior
       def unarchive_associations(head_archive_number)
         AssociationOperation::Unarchive.new(self, head_archive_number).execute
       end
+
     end
+
   end
 end
