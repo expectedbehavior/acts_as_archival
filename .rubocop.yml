@@ -25,3 +25,8 @@ Style/HashSyntax:
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+
+Metrics/BlockLength:
+  Exclude:
+    - 'test/schema.rb'
+    - '*.gemspec'
