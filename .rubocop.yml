@@ -5,6 +5,10 @@ AllCops:
     - vendor/**/*
     - gemfiles/**/*
 
+
+################
+# Code Metrics #
+################
 Metrics/BlockLength:
   Exclude:
     - 'test/schema.rb'
@@ -16,6 +20,13 @@ Metrics/LineLength:
 Metrics/MethodLength:
   Max: 10
   CountComments: false
+
+
+###############
+# Style Rules #
+###############
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
 
 # ¯\_(ツ)_/¯
 # ʕノ•ᴥ•ʔノ ︵ ┻━┻

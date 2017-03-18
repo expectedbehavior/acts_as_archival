@@ -8,17 +8,21 @@ module ExpectedBehavior
 
     module ARClassMethods
 
-      def is_archival?
+      def archival?
         included_modules.include?(ExpectedBehavior::ActsAsArchival::InstanceMethods)
       end
+
+      alias_method :is_archival?, :archival?
 
     end
 
     module ARInstanceMethods
 
-      def is_archival?
+      def archival?
         self.class.is_archival?
       end
+
+      alias_method :is_archival?, :archival?
 
     end
 
