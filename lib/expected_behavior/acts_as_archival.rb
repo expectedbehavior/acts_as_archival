@@ -39,6 +39,7 @@ module ExpectedBehavior
           define_callbacks(*[callbacks, { terminator: ->(_, result) { result == false } }].flatten)
         end
         callbacks.each do |callback|
+          # rubocop:disable Security/Eval
           eval <<-end_callbacks
             unless defined?(before_#{callback})
               def before_#{callback}(*args, &blk)
