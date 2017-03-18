@@ -17,6 +17,7 @@ module ExpectedBehavior
     end
 
     module ActMethods
+      # rubocop:disable Metrics/MethodLength
       def acts_as_archival(options = {})
         return if included_modules.include?(InstanceMethods)
 

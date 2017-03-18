@@ -48,30 +48,42 @@ def create_test_tables
   load(schema_file) if File.exist?(schema_file)
 end
 
+BASE_FIXTURE_CLASSES = [
+  :archival,
+  :archival_kid,
+  :archival_grandkid,
+  :archival_table_name,
+  :exploder,
+  :independent_archival,
+  :missing_archived_at,
+  :missing_archive_number,
+  :plain,
+  :poly,
+  :readonly_when_archived
+].freeze
+
+RAILS_4_FIXTURE_CLASSES = [
+  :callback_archival_4
+].freeze
+
+RAILS_5_FIXTURE_CLASSES = [
+  :application_record,
+  :application_record_row,
+  :callback_archival_5
+].freeze
+
 def require_test_classes
   ActiveSupport::Inflector.inflections do |inflect|
     inflect.irregular "poly", "polys"
   end
 
   fixtures = if ActiveRecord::VERSION::MAJOR >= 4
-               [:application_record, :application_record_row, :callback_archival_5]
+               RAILS_5_FIXTURE_CLASSES + BASE_FIXTURE_CLASSES
              else
-               [:callback_archival_4]
+               RAILS_4_FIXTURE_CLASSES + BASE_FIXTURE_CLASSES
              end
 
-  fixtures += [
-    :archival,
-    :archival_kid,
-    :archival_grandkid,
-    :archival_table_name,
-    :exploder,
-    :independent_archival,
-    :missing_archived_at,
-    :missing_archive_number,
-    :plain,
-    :poly,
-    :readonly_when_archived
-  ]
+  fixtures += BASE_FIXTURE_CLASSES
   fixtures.each { |test_class_file| require_relative "fixtures/#{test_class_file}" }
 end
 

@@ -13,6 +13,10 @@ Metrics/BlockLength:
 Metrics/LineLength:
   Max: 140
 
+Metrics/MethodLength:
+  Max: 10
+  CountComments: false
+
 # ¯\_(ツ)_/¯
 # ʕノ•ᴥ•ʔノ ︵ ┻━┻
 # ( ͡° ͜ʖ ͡°)
