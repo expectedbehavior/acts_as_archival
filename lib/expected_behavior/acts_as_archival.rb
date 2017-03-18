@@ -19,21 +19,32 @@ module ExpectedBehavior
 
     module ActMethods
 
-      # rubocop:disable Metrics/MethodLength
       def acts_as_archival(options = {})
         return if included_modules.include?(InstanceMethods)
 
         include InstanceMethods
 
+        setup_validations(options)
+
+        setup_scopes
+
+        setup_callbacks
+      end
+
+      private def setup_validations(options)
         before_validation :raise_if_not_archival
         validate :readonly_when_archived if options[:readonly_when_archived]
+      end
 
+      private def setup_scopes
         scope :archived, -> { where.not(archived_at: nil, archive_number: nil) }
         scope :unarchived, -> { where(archived_at: nil, archive_number: nil) }
         scope :archived_from_archive_number, (lambda do |head_archive_number|
           where(["archived_at IS NOT NULL AND archive_number = ?", head_archive_number])
         end)
+      end
 
+      def setup_callbacks
         callbacks = %w[archive unarchive]
         if ActiveSupport::VERSION::MAJOR >= 5
           define_callbacks(*[callbacks].flatten)

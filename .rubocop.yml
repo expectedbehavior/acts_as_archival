@@ -14,6 +14,9 @@ Metrics/BlockLength:
     - 'test/schema.rb'
     - '*.gemspec'
 
+Metrics/AbcSize:
+  Max: 25
+
 Metrics/LineLength:
   Max: 140
 
@@ -52,6 +55,9 @@ Style/FrozenStringLiteralComment:
 Style/HashSyntax:
   EnforcedStyle: ruby19
 
+# TODO: replace the [] below with default once a new version of
+#       rubocop comes out, since there is a PR for it:
+#       https://github.com/bbatsov/rubocop/pull/4038
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     '%':  '{}'
