@@ -43,12 +43,12 @@ ActiveRecord::Schema.define(version: 1) do
   end
 
   create_table :missing_archived_ats, force: true do |t|
-    t.column :name,   :string
+    t.column :name, :string
     t.column :archive_number, :string
   end
 
   create_table :missing_archive_numbers, force: true do |t|
-    t.column :name,   :string
+    t.column :name, :string
     t.column :archived_at, :datetime
   end
 
