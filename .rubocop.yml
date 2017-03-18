@@ -52,6 +52,19 @@ Style/FrozenStringLiteralComment:
 Style/HashSyntax:
   EnforcedStyle: ruby19
 
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%':  '{}'
+    '%i': '[]'
+    '%I': '[]'
+    '%q': '{}'
+    '%Q': '{}'
+    '%r': '{}'
+    '%s': '[]'
+    '%w': '[]'
+    '%W': '[]'
+    '%x': '[]'
+
 Style/RaiseArgs:
   EnforcedStyle: compact
 

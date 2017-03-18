@@ -34,7 +34,7 @@ module ExpectedBehavior
           where(["archived_at IS NOT NULL AND archive_number = ?", head_archive_number])
         end)
 
-        callbacks = ["archive", "unarchive"]
+        callbacks = %w[archive unarchive]
         if ActiveSupport::VERSION::MAJOR >= 5
           define_callbacks(*[callbacks].flatten)
         elsif ActiveSupport::VERSION::MAJOR >= 4
