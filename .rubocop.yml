@@ -35,6 +35,9 @@ Style/FrozenStringLiteralComment:
 Style/HashSyntax:
   EnforcedStyle: ruby19
 
+Style/RaiseArgs:
+  EnforcedStyle: compact
+
 Style/SpaceInsideHashLiteralBraces:
   EnforcedStyle: space
 
