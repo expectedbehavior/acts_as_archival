@@ -19,7 +19,7 @@ module ExpectedBehavior
         protected
 
         def each_archivable_association
-          self.model.class.reflect_on_all_associations.each do |association|
+          model.class.reflect_on_all_associations.each do |association|
             yield(association) if archivable_association?(association)
           end
         end
