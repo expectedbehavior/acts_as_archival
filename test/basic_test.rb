@@ -43,7 +43,7 @@ class BasicTest < ActiveSupport::TestCase
     sleep(0.001)
     after = DateTime.now
     assert before < archival.archived_at.to_datetime
-    assert after  > archival.archived_at.to_datetime
+    assert after > archival.archived_at.to_datetime
   end
 
   test "archive sets the archive number to the md5 hexdigest for the model and id that is archived" do
