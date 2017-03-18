@@ -76,7 +76,7 @@ module ExpectedBehavior
         !!(self.archived_at? && self.archive_number)
       end
 
-      def archive(head_archive_number=nil)
+      def archive(head_archive_number = nil)
         self.class.transaction do
           begin
             success = run_callbacks(:archive) do
@@ -98,7 +98,7 @@ module ExpectedBehavior
         false
       end
 
-      def unarchive(head_archive_number=nil)
+      def unarchive(head_archive_number = nil)
         self.class.transaction do
           begin
             success = run_callbacks(:unarchive) do
