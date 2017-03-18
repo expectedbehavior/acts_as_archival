@@ -12,7 +12,7 @@ class ThroughAssociationTest < ActiveSupport::TestCase
     assert through.reload.archived?
   end
 
-  # TODO Make something like this pass
+  # TODO: Make something like this pass
   # test "archive a through associated object whose 'bridge' is not archival" do
   #   archival = Archival.create!
   #   bridge   = archival.independent_archival_kids.create!
