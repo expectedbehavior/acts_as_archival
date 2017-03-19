@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.2.0 - March 19, 2017
+* **BREAKING CHANGE** the utility instance and class method `is_archival?` is now `archival?`. `is_archival?` is deprecated and will be removed
+* hard dependency on rails 4.1+ – this shouldn't break anything since it was de facto before, but worth mentioning
+* minor refactoring through most code
+* much work done to make automatic checks worthwhile (travis/rubocop)
+* general test cleanup
+* drop hard dependency on mysql and postresql in tests
+
 ## 1.1.1 - April 10, 2016
 * Update the way the `::unarchived` scope is generated using `::not` instead of manually building SQL, which should be better for complex queries
 
