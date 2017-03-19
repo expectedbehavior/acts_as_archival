@@ -94,8 +94,10 @@ Hole.unarchived.size             # => 0
 
 ``` ruby
 h = Hole.create                  #
-h.is_archival?                   # => true
-Hole.is_archival?                # => true
+h.archival?                   # => true
+h.is_archival?                # => true # deprecated
+Hole.archival?                # => true
+Hole.is_archival?             # => true # deprecated
 ```
 
 ### Options

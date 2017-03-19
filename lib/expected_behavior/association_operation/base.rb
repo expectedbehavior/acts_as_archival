@@ -26,7 +26,7 @@ module ExpectedBehavior
 
         def archivable_association?(association)
           association.macro.to_s =~ /^has/ &&
-            association.klass.is_archival? &&
+            association.klass.archival? &&
             association.options[:through].nil?
         end
 
