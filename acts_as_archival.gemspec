@@ -25,7 +25,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   gem.require_paths = ["lib"]
 
-  gem.add_dependency "activerecord"
+  gem.add_dependency "activerecord", ">= 4.1"
 
   gem.add_development_dependency "appraisal"
   gem.add_development_dependency "assertions-eb"
