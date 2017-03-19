@@ -44,28 +44,40 @@ module ExpectedBehavior
         end)
       end
 
-      def setup_callbacks
-        callbacks = %w[archive unarchive]
+      private def setup_callbacks
+        callbackable_actions = %w[archive unarchive]
+
+        setup_activerecord_callbacks(callbackable_actions)
+
+        define_callback_dsl_methods(callbackable_actions)
+      end
+
+      private def setup_activerecord_callbacks(callbackable_actions)
         if ActiveSupport::VERSION::MAJOR >= 5
-          define_callbacks(*[callbacks].flatten)
+          define_callbacks(*[callbackable_actions].flatten)
         elsif ActiveSupport::VERSION::MAJOR >= 4
-          define_callbacks(*[callbacks, { terminator: ->(_, result) { result == false } }].flatten)
+          define_callbacks(*[callbackable_actions, { terminator: ->(_, result) { result == false } }].flatten)
         end
-        callbacks.each do |callback|
-          # rubocop:disable Security/Eval
-          eval <<-end_callbacks
-            unless defined?(before_#{callback})
-              def before_#{callback}(*args, &blk)
-                set_callback(:#{callback}, :before, *args, &blk)
-              end
-            end
-            unless defined?(after_#{callback})
-              def after_#{callback}(*args, &blk)
-                set_callback(:#{callback}, :after, *args, &blk)
-              end
-            end
-          end_callbacks
+      end
+
+      private def define_callback_dsl_methods(callbackable_actions)
+        callbackable_actions.each do |action|
+          %w[before after].each do |callbackable_type|
+            define_callback_dsl_method(callbackable_type, action)
+          end
         end
+      end
+
+      private def define_callback_dsl_method(callbackable_type, action)
+        # rubocop:disable Security/Eval
+        eval <<-end_callbacks
+          unless defined?(#{callbackable_type}_#{action})
+            def #{callbackable_type}_#{action}(*args, &blk)
+              set_callback(:#{action}, :#{callbackable_type}, *args, &blk)
+            end
+          end
+        end_callbacks
+        # rubocop:enable Security/Eval
       end
 
     end
@@ -93,47 +105,27 @@ module ExpectedBehavior
       end
 
       def archive(head_archive_number = nil)
-        self.class.transaction do
-          begin
-            success = run_callbacks(:archive) do
-              unless archived?
-                head_archive_number ||= Digest::MD5.hexdigest("#{self.class.name}#{id}")
-                archive_associations(head_archive_number)
-                self.archived_at = DateTime.now
-                self.archive_number = head_archive_number
-                save!
-              end
-            end
-            return !!success
-          rescue => e
-            ActiveRecord::Base.logger.try(:debug, e.message)
-            ActiveRecord::Base.logger.try(:debug, e.backtrace)
-            raise ActiveRecord::Rollback
+        execute_archival_action(:archive) do
+          unless archived?
+            head_archive_number ||= Digest::MD5.hexdigest("#{self.class.name}#{id}")
+            archive_associations(head_archive_number)
+            self.archived_at = DateTime.now
+            self.archive_number = head_archive_number
+            save!
           end
         end
-        false
       end
 
       def unarchive(head_archive_number = nil)
-        self.class.transaction do
-          begin
-            success = run_callbacks(:unarchive) do
-              if archived?
-                head_archive_number ||= archive_number
-                self.archived_at = nil
-                self.archive_number = nil
-                save!
-                unarchive_associations(head_archive_number)
-              end
-            end
-            return !!success
-          rescue => e
-            ActiveRecord::Base.logger.try(:debug, e.message)
-            ActiveRecord::Base.logger.try(:debug, e.backtrace)
-            raise ActiveRecord::Rollback
+        execute_archival_action(:unarchive) do
+          if archived?
+            head_archive_number ||= archive_number
+            self.archived_at = nil
+            self.archive_number = nil
+            save!
+            unarchive_associations(head_archive_number)
           end
         end
-        false
       end
 
       def archive_associations(head_archive_number)
@@ -142,6 +134,24 @@ module ExpectedBehavior
 
       def unarchive_associations(head_archive_number)
         AssociationOperation::Unarchive.new(self, head_archive_number).execute
+      end
+
+      private def execute_archival_action(action)
+        self.class.transaction do
+          begin
+            success = run_callbacks(action) { yield }
+            return !!success
+          rescue => e
+            handle_archival_action_exception(e)
+          end
+        end
+        false
+      end
+
+      private def handle_archival_action_exception(exception)
+        ActiveRecord::Base.logger.try(:debug, exception.message)
+        ActiveRecord::Base.logger.try(:debug, exception.backtrace)
+        raise ActiveRecord::Rollback
       end
 
     end
