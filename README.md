@@ -41,7 +41,7 @@ _If you're stuck on Rails 4.0x/3x/2x, check out the older tags/branches, which a
 ``` ruby
 class Hole < ActiveRecord::Base
   acts_as_archival
-  has_many :rats, :dependent => :destroy
+  has_many :rats, dependent: :destroy
 end
 
 class Rat < ActiveRecord::Base
@@ -103,15 +103,15 @@ Hole.is_archival?             # => true # deprecated
 ### Options
 
 When defining an AAA model, it is is possible to make it unmodifiable
-when it is archived by passing `:readonly_when_archived => true` to the
+when it is archived by passing `readonly_when_archived: true` to the
 `acts_as_archival` call in your model.
 
 ``` ruby
 class CantTouchThis < ActiveRecord::Base
-  acts_as_archival :readonly_when_archived => true
+  acts_as_archival readonly_when_archived: true
 end
 
-record = CantTouchThis.create(:foo => "bar")
+record = CantTouchThis.create(foo: "bar")
 record.archive                               # => true
 record.foo = "I want this to work"
 record.save                                  # => false
