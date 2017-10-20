@@ -105,6 +105,14 @@ module ExpectedBehavior
       end
 
       def archive(head_archive_number = nil)
+        ActiveSupport::Deprecation.warn <<-EOS.strip_heredoc.gsub(/\s+/, " ")
+          '.archive' is deprecated and will be removed in future versions of acts_as_archival.
+          Please use '.archive!' instead.
+        EOS
+        archive!(head_archive_number)
+      end
+
+      def archive!(head_archive_number = nil)
         execute_archival_action(:archive) do
           unless archived?
             head_archive_number ||= Digest::MD5.hexdigest("#{self.class.name}#{id}")
@@ -117,6 +125,14 @@ module ExpectedBehavior
       end
 
       def unarchive(head_archive_number = nil)
+        ActiveSupport::Deprecation.warn <<-EOS.strip_heredoc.gsub(/\s+/, " ")
+          '.unarchive' is deprecated and will be removed in future versions of acts_as_archival.
+          Please use '.unarchive!' instead.
+        EOS
+        unarchive!(head_archive_number)
+      end
+
+      def unarchive!(head_archive_number = nil)
         execute_archival_action(:unarchive) do
           if archived?
             head_archive_number ||= archive_number

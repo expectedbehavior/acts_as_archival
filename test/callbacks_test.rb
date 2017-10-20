@@ -7,7 +7,7 @@ class CallbacksTest < ActiveSupport::TestCase
       archival = CallbackArchival5.create
       archival.set_this_value = "a test string"
       assert_nil archival.settable_field
-      archival.archive
+      archival.archive!
       assert_equal "a test string", archival.reload.settable_field
     end
 
@@ -16,7 +16,7 @@ class CallbacksTest < ActiveSupport::TestCase
       archival.set_this_value = "a test string"
       archival.pass_callback = false
       assert_nil archival.settable_field
-      archival.archive
+      archival.archive!
       assert_nil archival.reload.settable_field
     end
   else
@@ -24,7 +24,7 @@ class CallbacksTest < ActiveSupport::TestCase
       archival = CallbackArchival4.create
       archival.set_this_value = "a test string"
       assert_nil archival.settable_field
-      archival.archive
+      archival.archive!
       assert_equal "a test string", archival.reload.settable_field
     end
 
@@ -33,7 +33,7 @@ class CallbacksTest < ActiveSupport::TestCase
       archival.set_this_value = "a test string"
       archival.pass_callback = false
       assert_nil archival.settable_field
-      archival.archive
+      archival.archive!
       assert_nil archival.reload.settable_field
     end
   end
