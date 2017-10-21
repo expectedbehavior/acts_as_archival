@@ -7,9 +7,9 @@ class TransactionTest < ActiveSupport::TestCase
     archival = Archival.create!
     exploder = archival.exploders.create!
     any_instance_of(Exploder) do |canary|
-      stub(canary).archive { raise "Rollback Imminent" }
+      stub(canary).archive! { raise "Rollback Imminent" }
     end
-    archival.archive
+    archival.archive!
 
     assert_not archival.archived?, "If this failed, you might be trying to test on a system that doesn't support nested transactions"
     assert_not exploder.reload.archived?
@@ -19,10 +19,10 @@ class TransactionTest < ActiveSupport::TestCase
     archival = Archival.create!
     exploder = archival.exploders.create!
     any_instance_of(Exploder) do |canary|
-      stub(canary).unarchive { raise "Rollback Imminent" }
+      stub(canary).unarchive! { raise "Rollback Imminent" }
     end
-    archival.archive
-    archival.unarchive
+    archival.archive!
+    archival.unarchive!
 
     assert archival.reload.archived?
     assert exploder.reload.archived?

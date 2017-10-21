@@ -6,7 +6,7 @@ class DeepNestingTest < ActiveSupport::TestCase
     archival   = Archival.create!
     child      = archival.archivals.create!
     grandchild = child.archivals.create!
-    archival.archive
+    archival.archive!
     assert archival.reload.archived?
     assert child.reload.archived?
     assert grandchild.reload.archived?
@@ -22,7 +22,7 @@ class DeepNestingTest < ActiveSupport::TestCase
     archival   = Archival.create!(archival_attributes)
     child      = archival.archivals.create!(archival_attributes)
     grandchild = child.archivals.create!(archival_attributes)
-    archival.unarchive
+    archival.unarchive!
     assert_not archival.reload.archived?
     assert_not child.reload.archived?
     assert_not grandchild.reload.archived?

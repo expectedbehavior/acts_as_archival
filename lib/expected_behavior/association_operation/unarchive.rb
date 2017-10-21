@@ -7,7 +7,7 @@ module ExpectedBehavior
 
         def act_on_archivals(scope)
           scope.archived.where(archive_number: head_archive_number).find_each do |related_record|
-            raise ActiveRecord::Rollback unless related_record.unarchive(head_archive_number)
+            raise ActiveRecord::Rollback unless related_record.unarchive!(head_archive_number)
           end
         end
 

@@ -5,7 +5,7 @@ class PolymorphicTest < ActiveSupport::TestCase
   test "archive item with polymorphic association" do
     archival = Archival.create!
     poly = archival.polys.create!
-    archival.archive
+    archival.archive!
 
     assert archival.reload.archived?
     assert poly.reload.archived?
@@ -18,7 +18,7 @@ class PolymorphicTest < ActiveSupport::TestCase
     }
     archival = Archival.create!(archive_attributes)
     poly = archival.polys.create!(archive_attributes)
-    archival.unarchive
+    archival.unarchive!
 
     assert_not archival.reload.archived?
     assert_not poly.reload.archived?

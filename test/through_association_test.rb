@@ -6,7 +6,7 @@ class ThroughAssociationTest < ActiveSupport::TestCase
     archival = Archival.create!
     bridge   = archival.archival_kids.create!
     through  = bridge.archival_grandkids.create!
-    archival.archive
+    archival.archive!
 
     assert archival.reload.archived?
     assert bridge.reload.archived?

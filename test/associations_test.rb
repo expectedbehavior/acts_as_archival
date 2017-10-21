@@ -5,7 +5,7 @@ class AssociationsTest < ActiveSupport::TestCase
   test "archive archives 'has_' associated archival objects that are dependent destroy" do
     archival = Archival.create!
     child = archival.archivals.create!
-    archival.archive
+    archival.archive!
 
     assert archival.reload.archived?
     assert child.reload.archived?
@@ -14,7 +14,7 @@ class AssociationsTest < ActiveSupport::TestCase
   test "archive acts on all objects in the 'has_' relationship" do
     archival = Archival.create!
     children = [archival.archivals.create!, archival.archivals.create!]
-    archival.archive
+    archival.archive!
 
     assert archival.reload.archived?
     assert children.map(&:reload).all?(&:archived?)
@@ -24,8 +24,8 @@ class AssociationsTest < ActiveSupport::TestCase
     archival = Archival.create!
     archival.archivals.create!
     prearchived_child = archival.archivals.create!
-    prearchived_child.archive
-    archival.archive
+    prearchived_child.archive!
+    archival.archive!
 
     assert_not_equal archival.archive_number, prearchived_child.reload.archive_number
   end
@@ -33,7 +33,7 @@ class AssociationsTest < ActiveSupport::TestCase
   test "archive does not archive 'has_' associated archival objects that are not dependent destroy" do
     archival = Archival.create!
     non_dependent_child = archival.independent_archivals.create!
-    archival.archive
+    archival.archive!
 
     assert     archival.reload.archived?
     assert_not non_dependent_child.reload.archived?
@@ -42,7 +42,7 @@ class AssociationsTest < ActiveSupport::TestCase
   test "archive doesn't do anything to associated dependent destroy models that are non-archival" do
     archival = Archival.create!
     plain = archival.plains.create!
-    archival.archive
+    archival.archive!
 
     assert archival.archived?
     assert plain.reload
@@ -51,7 +51,7 @@ class AssociationsTest < ActiveSupport::TestCase
   test "archive sets the object hierarchy to all have the same archive_number" do
     archival = Archival.create!
     child = archival.archivals.create!
-    archival.archive
+    archival.archive!
     expected_digest = Digest::MD5.hexdigest("Archival#{archival.id}")
 
     assert_equal expected_digest, archival.archive_number
@@ -61,8 +61,8 @@ class AssociationsTest < ActiveSupport::TestCase
   test "unarchive acts on child objects" do
     archival = Archival.create!
     child = archival.archivals.create!
-    archival.archive
-    archival.unarchive
+    archival.archive!
+    archival.unarchive!
 
     assert_not archival.archived?
     assert_not child.reload.archived?
@@ -72,9 +72,9 @@ class AssociationsTest < ActiveSupport::TestCase
     archival = Archival.create!
     child = archival.archivals.create!
     prearchived_child = archival.archivals.create!
-    prearchived_child.archive
-    archival.archive
-    archival.unarchive
+    prearchived_child.archive!
+    archival.archive!
+    archival.unarchive!
 
     assert_not archival.archived?
     assert_not child.reload.archived?
@@ -84,9 +84,9 @@ class AssociationsTest < ActiveSupport::TestCase
   test "unarchive acts on 'has_' associated non-dependent_destroy objects" do
     archival = Archival.create!
     independent = archival.independent_archivals.create!
-    archival.archive
-    independent.archive(archival.archive_number)
-    archival.unarchive
+    archival.archive!
+    independent.archive!(archival.archive_number)
+    archival.unarchive!
 
     assert_not archival.reload.archived?
     assert_not independent.reload.archived?
@@ -95,8 +95,8 @@ class AssociationsTest < ActiveSupport::TestCase
   test "unarchive doesn't unarchive associated objects if the head object is already unarchived" do
     archival = Archival.create!
     prearchived_child = archival.archivals.create!
-    prearchived_child.archive
-    archival.unarchive
+    prearchived_child.archive!
+    archival.unarchive!
 
     assert prearchived_child.reload.archived?
   end

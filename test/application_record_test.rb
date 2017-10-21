@@ -6,13 +6,13 @@ if defined?(ApplicationRecord)
 
     test "archive archives the record" do
       archival = ApplicationRecordRow.create!
-      archival.archive
+      archival.archive!
       assert archival.reload.archived?
     end
 
     test "unarchive unarchives archival records" do
       archival = ApplicationRecordRow.create!(archived_at: Time.now, archive_number: 1)
-      archival.unarchive
+      archival.unarchive!
       assert_not archival.reload.archived?
     end
 
