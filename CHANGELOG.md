@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 1.3.0 - October 21, 2017
+* deprecate `#archive` and `#unarchive` in favor of `#archive!` and `#unarchive!` [#36](https://github.com/expectedbehavior/acts_as_archival/pull/36)
+
 ## 1.2.0 - March 19, 2017
 * **BREAKING CHANGE** the utility instance and class method `is_archival?` is now `archival?`. `is_archival?` is deprecated and will be removed
 * hard dependency on rails 4.1+ – this shouldn't break anything since it was de facto before, but worth mentioning

@@ -54,11 +54,11 @@ end
 ``` ruby
 h = Hole.create                  #
 h.archived?                      # => false
-h.archive                        # => true
+h.archive!                       # => true
 h.archived?                      # => true
 h.archive_number                 # => "b56876de48a5dcfe71b2c13eec15e4a2"
 h.archived_at                    # => Thu, 01 Jan 2012 01:49:21 -0400
-h.unarchive                      # => true
+h.unarchive!                     # => true
 h.archived?                      # => false
 h.archive_number                 # => nil
 h.archived_at                    # => nil
@@ -69,11 +69,11 @@ h.archived_at                    # => nil
 ``` ruby
 h = Hole.create                  #
 r = h.rats.create                #
-h.archive                        # => true
+h.archive!                       # => true
 h.archive_number                 # => "b56876de48a5dcfe71b2c13eec15e4a2"
 r.archived_at                    # => Thu, 01 Jan 2012 01:52:12 -0400
 r.archived?                      # => true
-h.unarchive                      # => true
+h.unarchive!                     # => true
 h.archive_number                 # => nil
 r.archived_at                    # => nil
 r.archived?                      # => false
@@ -85,7 +85,7 @@ r.archived?                      # => false
 h = Hole.create
 Hole.archived.size               # => 0
 Hole.unarchived.size             # => 1
-h.archive
+h.archive!
 Hole.archived.size               # => 1
 Hole.unarchived.size             # => 0
 ```
@@ -112,7 +112,7 @@ class CantTouchThis < ActiveRecord::Base
 end
 
 record = CantTouchThis.create(foo: "bar")
-record.archive                               # => true
+record.archive!                              # => true
 record.foo = "I want this to work"
 record.save                                  # => false
 record.errors.full_messages.first            # => "Cannot modify an archived record."
@@ -126,12 +126,16 @@ AAA models have four additional callbacks to do any necessary cleanup or other p
 class Hole < ActiveRecord::Base
   acts_as_archival
 
+  # runs before #archive!
   before_archive :some_method_before_archiving
 
+  # runs after #archive!
   after_archive :some_method_after_archiving
 
+  # runs before #unarchive!
   before_unarchive :some_method_before_unarchiving
 
+  # runs after #unarchive!
   after_unarchive :some_method_after_unarchiving
 
   # ... implement those methods
