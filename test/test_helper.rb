@@ -50,6 +50,7 @@ def create_test_tables
 end
 
 BASE_FIXTURE_CLASSES = [
+  :another_polys_holder,
   :archival,
   :archival_kid,
   :archival_grandkid,
@@ -79,9 +80,9 @@ def require_test_classes
   end
 
   fixtures = if ActiveRecord::VERSION::MAJOR >= 4
-               RAILS_5_FIXTURE_CLASSES + BASE_FIXTURE_CLASSES
+               RAILS_5_FIXTURE_CLASSES
              else
-               RAILS_4_FIXTURE_CLASSES + BASE_FIXTURE_CLASSES
+               RAILS_4_FIXTURE_CLASSES
              end
 
   fixtures += BASE_FIXTURE_CLASSES

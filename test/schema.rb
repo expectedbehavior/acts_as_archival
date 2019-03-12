@@ -1,4 +1,11 @@
 ActiveRecord::Schema.define(version: 1) do
+  create_table :another_polys_holders, force: true do |t|
+    t.column :name, :string
+    t.column :archival_id, :integer
+    t.column :archive_number, :string
+    t.column :archived_at, :datetime
+  end
+
   create_table :archivals, force: true do |t|
     t.column :name, :string
     t.column :archival_id, :integer
