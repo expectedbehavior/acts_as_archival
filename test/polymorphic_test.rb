@@ -13,7 +13,7 @@ class PolymorphicTest < ActiveSupport::TestCase
 
   test "does not archive polymorphic association of different item with same id" do
     archival = Archival.create!
-    another_polys_holder = AnotherPolysHolder.create! id: archival.id
+    another_polys_holder = AnotherPolysHolder.create!(id: archival.id)
     poly = another_polys_holder.polys.create!
     archival.archive!
 
