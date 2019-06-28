@@ -15,3 +15,5 @@ else
   ActiveRecord::Base.send :include, ExpectedBehavior::ActsAsArchival
   ActiveRecord::Base.send :include, ExpectedBehavior::ActsAsArchivalActiveRecordMethods
 end
+
+ActiveRecord::Relation.send :include, ExpectedBehavior::ActsAsArchivalActiveRecordMethods::ARRelationMethods

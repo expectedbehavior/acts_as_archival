@@ -79,6 +79,25 @@ r.archived_at                    # => nil
 r.archived?                      # => false
 ```
 
+### Relations
+
+```ruby
+Hole.create!
+Hole.create!
+Hole.create!
+
+holes = Hole.all
+
+# All records in the relation will be archived with the same archive_number.
+# Dependent/Destroy relationships will be archived, and callbacks will still be honored.
+holes.archive_all!              # => [array of Hole records in the relation]
+
+holes.first.archive_number      # => "b56876de48a5dcfe71b2c13eec15e4a2"
+holes.last.archive_number       # => "b56876de48a5dcfe71b2c13eec15e4a2"
+
+holes.unarchive_all!            # => [array of Hole records in the relation]
+```
+
 ### Scopes
 
 ``` ruby
@@ -190,6 +209,7 @@ ActsAsParanoid and PermanentRecords were both inspirations for this:
 * Anthony Panozzo
 * Aaron Milam
 * Anton Rieder
+* Josh Menden
 
 Thanks!
 
