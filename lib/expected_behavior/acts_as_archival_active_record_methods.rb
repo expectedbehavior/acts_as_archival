@@ -43,7 +43,7 @@ module ExpectedBehavior
         raise NotImplementedError.new(error_message) unless archival?
 
         head_archive_number = Digest::MD5.hexdigest("#{klass}#{Time.now.utc.to_i}")
-        each {|record| record.archive!(head_archive_number)}.tap { reset }
+        each { |record| record.archive!(head_archive_number) }.tap { reset }
       end
 
       def unarchive_all!

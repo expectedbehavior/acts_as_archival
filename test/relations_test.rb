@@ -3,9 +3,7 @@ require_relative "test_helper"
 class RelationsTest < ActiveSupport::TestCase
 
   test "archive_all! archives all records in an AR Association" do
-    for i in 0..2 do
-      Archival.create!
-    end 
+    3.times { Archival.create! }
 
     archivals = Archival.all
     archivals.archive_all!
@@ -14,9 +12,7 @@ class RelationsTest < ActiveSupport::TestCase
   end
 
   test "archive_all! archives all records with the same archival number" do
-    for i in 0..2 do
-      Archival.create!
-    end 
+    3.times { Archival.create! }
 
     archivals = Archival.all
     archivals.archive_all!
@@ -24,9 +20,9 @@ class RelationsTest < ActiveSupport::TestCase
   end
 
   test "archive_all! archives children records" do
-    for i in 0..2 do
+    3.times do
       parent = Archival.create!
-      for j in 0..1 do
+      2.times do
         parent.archivals.create!
       end
     end
@@ -39,9 +35,7 @@ class RelationsTest < ActiveSupport::TestCase
   end
 
   test "unarchive_all! unarchives all records in an AR Assocation" do
-    for i in 0..2 do
-      Archival.create!
-    end 
+    3.times { Archival.create! }
 
     archivals = Archival.all
     archivals.archive_all!
@@ -51,9 +45,9 @@ class RelationsTest < ActiveSupport::TestCase
   end
 
   test "unarchive_all! unarchives children records" do
-    for i in 0..2 do
+    3.times do
       parent = Archival.create!
-      for j in 0..1 do
+      2.times do
         parent.archivals.create!
       end
     end
