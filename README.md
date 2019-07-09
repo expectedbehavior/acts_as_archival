@@ -163,8 +163,8 @@ end
 
 #### Halting the callback chain
 
-* Rails 4.1/4.2 - the callback method should return a `false`/`nil` value.
-* Rails 5x - the callback should `throw(:abort)`/`raise(:abort)`.
+* Rails 4.2 - the callback method should return a `false`/`nil` value.
+* Rails 5.x - the callback should `throw(:abort)`/`raise(:abort)`.
 
 ## Caveats
 
@@ -210,6 +210,7 @@ ActsAsParanoid and PermanentRecords were both inspirations for this:
 * Aaron Milam
 * Anton Rieder
 * Josh Menden
+* Sergey Gnuskov
 
 Thanks!
 

@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.4.0 - July 10, 2019
+* **BREAKING CHANGE** drop support for rails 4.1
+* **BUGFIX** polymorphic associations that are archived/unarchived can be acted on safely if they share the same ID.
+* add support officially for rails 5.2
+* sqlite upgrades for various rails
+* new methods `#archive_all!` and `#unarchive_all` that can be called off scopes
+
+
 ## 1.3.0 - October 21, 2017
 * deprecate `#archive` and `#unarchive` in favor of `#archive!` and `#unarchive!` [#36](https://github.com/expectedbehavior/acts_as_archival/pull/36)
 

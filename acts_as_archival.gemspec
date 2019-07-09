@@ -18,7 +18,8 @@ Gem::Specification.new do |gem|
                      "Anthony Panozzo",
                      "Aaron Milam",
                      "Anton Rieder",
-                     "Josh Menden"]
+                     "Josh Menden",
+                     "Sergey Gnuskov"]
   gem.email       = ["joel@expectedbehavior.com",
                      "matt@expectedbehavior.com",
                      "jason@expectedbehavior.com",
