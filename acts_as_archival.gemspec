@@ -36,8 +36,8 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "database_cleaner"
   gem.add_development_dependency "rake"
   gem.add_development_dependency "rr"
-  gem.add_development_dependency "sqlite3"
   gem.add_development_dependency "rubocop", "~> 0.47.1"
+  gem.add_development_dependency "sqlite3"
 
   gem.description = <<-END
 *Atomic archiving/unarchiving for ActiveRecord-based apps*
