@@ -37,7 +37,9 @@ module ExpectedBehavior
         def act_on_association(association)
           key = association.respond_to?(:foreign_key) ? association.foreign_key : association.primary_key_name
           scope_conditions = { key => model.id }
-          scope_conditions[association.type] = model.class.base_class.name if association.type # polymorphic association case
+          # polymorphic associations need a type so we don't accidentally act on multiple associated objects
+          # that have the same ID
+          scope_conditions[association.type] = model.class.base_class.name if association.type
           scope = association.klass.where(scope_conditions)
           act_on_archivals(scope)
         end
