@@ -17,7 +17,8 @@ gemfile:
   - gemfiles/rails_5.2.gemfile
 
 before_install:
-  - gem install rubygems-update && update_rubygems
+  # rubygems 3.x dropped support for Ruby <2.2
+  - gem update --system 2.7.10
   # Rails 4.2 doesn't support bundler 2.0, so we need to lock bundler to
   # v1.17.3. This is just for Ruby 2.5 which ships with bundler 2.x on Travis
   # CI while Ruby 2.6 does not.
