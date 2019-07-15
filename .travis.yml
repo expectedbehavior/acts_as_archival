@@ -1,5 +1,4 @@
 language: ruby
-dist: trusty
 cache: bundler
 script: "bundle exec rake"
 
