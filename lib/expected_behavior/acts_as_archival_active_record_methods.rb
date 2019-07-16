@@ -12,12 +12,12 @@ module ExpectedBehavior
         included_modules.include?(ExpectedBehavior::ActsAsArchival::InstanceMethods)
       end
 
-      # rubocop:disable Style/PredicateName
+      # rubocop:disable Naming/PredicateName
       def is_archival?
         ActiveSupport::Deprecation.warn(".is_archival? is deprecated in favor of .archival?")
         archival?
       end
-      # rubocop:enable Style/PredicateName
+      # rubocop:enable Naming/PredicateName
 
     end
 
@@ -27,12 +27,12 @@ module ExpectedBehavior
         self.class.archival?
       end
 
-      # rubocop:disable Style/PredicateName
+      # rubocop:disable Naming/PredicateName
       def is_archival?
         ActiveSupport::Deprecation.warn("#is_archival? is deprecated in favor of #archival?")
         archival?
       end
-      # rubocop:enable Style/PredicateName
+      # rubocop:enable Naming/PredicateName
 
     end
 

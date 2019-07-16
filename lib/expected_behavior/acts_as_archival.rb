@@ -70,13 +70,13 @@ module ExpectedBehavior
 
       private def define_callback_dsl_method(callbackable_type, action)
         # rubocop:disable Security/Eval
-        eval <<-end_callbacks
+        eval <<-END_CALLBACKS, __FILE__, __LINE__ + 1
           unless defined?(#{callbackable_type}_#{action})
             def #{callbackable_type}_#{action}(*args, &blk)
               set_callback(:#{action}, :#{callbackable_type}, *args, &blk)
             end
           end
-        end_callbacks
+        END_CALLBACKS
         # rubocop:enable Security/Eval
       end
 
@@ -105,10 +105,10 @@ module ExpectedBehavior
       end
 
       def archive(head_archive_number = nil)
-        ActiveSupport::Deprecation.warn <<~EOS
+        ActiveSupport::Deprecation.warn <<~DEPRECATION
           '.archive' is deprecated and will be removed in future versions of acts_as_archival.
           Please use '.archive!' instead.
-        EOS
+        DEPRECATION
         archive!(head_archive_number)
       end
 
@@ -125,10 +125,10 @@ module ExpectedBehavior
       end
 
       def unarchive(head_archive_number = nil)
-        ActiveSupport::Deprecation.warn <<~EOS
+        ActiveSupport::Deprecation.warn <<~DEPRECATION
           '.unarchive' is deprecated and will be removed in future versions of acts_as_archival.
           Please use '.unarchive!' instead.
-        EOS
+        DEPRECATION
         unarchive!(head_archive_number)
       end
 
@@ -157,7 +157,7 @@ module ExpectedBehavior
           begin
             success = run_callbacks(action) { yield }
             return !!success
-          rescue => e
+          rescue StandardError => e
             handle_archival_action_exception(e)
           end
         end

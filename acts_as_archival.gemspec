@@ -1,5 +1,4 @@
-# -*- encoding: utf-8 -*-
-$LOAD_PATH.push File.expand_path("../lib", __FILE__)
+$LOAD_PATH.push File.expand_path("lib", __dir__)
 require "acts_as_archival/version"
 
 Gem::Specification.new do |gem|
@@ -38,11 +37,12 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "database_cleaner"
   gem.add_development_dependency "rake"
   gem.add_development_dependency "rr"
-  gem.add_development_dependency "rubocop", "~> 0.47.1"
+  gem.add_development_dependency "rubocop", "~> 0.73.0"
+  gem.add_development_dependency "rubocop-performance", "~> 1.4.0"
   gem.add_development_dependency "sqlite3"
 
   gem.description =
-    <<~END
+    <<~DESCRIPTION
       *Atomic archiving/unarchiving for ActiveRecord-based apps*
 
       We had the problem that acts_as_paranoid and similar plugins/gems always work on
@@ -56,5 +56,5 @@ Gem::Specification.new do |gem|
 
       Additionally, other plugins generally screw with how destroy/delete work. We
       don't because we actually want to be able to destroy records.
-    END
+    DESCRIPTION
 end

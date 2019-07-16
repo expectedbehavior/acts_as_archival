@@ -1,3 +1,4 @@
+require: rubocop-performance
 inherit_from: .rubocop_todo.yml
 
 AllCops:
@@ -27,8 +28,21 @@ Metrics/MethodLength:
 
 
 ###############
-# Style Rules #
+# Layout and Style Rules #
 ###############
+Layout/EmptyLinesAroundClassBody:
+  EnforcedStyle: empty_lines_except_namespace
+
+Layout/EmptyLinesAroundModuleBody:
+  EnforcedStyle: empty_lines_except_namespace
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: space
+
+# https://github.com/rubocop-hq/rubocop/issues/5953
+Style/AccessModifierDeclarations:
+  Enabled: false
+
 Style/Alias:
   EnforcedStyle: prefer_alias_method
 
@@ -43,12 +57,6 @@ Style/Documentation:
 
 Style/DoubleNegation:
   Enabled: false
-
-Style/EmptyLinesAroundClassBody:
-  EnforcedStyle: empty_lines_except_namespace
-
-Style/EmptyLinesAroundModuleBody:
-  EnforcedStyle: empty_lines_except_namespace
 
 Style/FrozenStringLiteralComment:
   EnforcedStyle: never
@@ -74,9 +82,6 @@ Style/PercentLiteralDelimiters:
 
 Style/RaiseArgs:
   EnforcedStyle: compact
-
-Style/SpaceInsideHashLiteralBraces:
-  EnforcedStyle: space
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes

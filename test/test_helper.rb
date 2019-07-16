@@ -9,9 +9,7 @@ require "database_cleaner"
 
 require "acts_as_archival"
 
-if ActiveSupport::TestCase.respond_to?(:test_order=)
-  ActiveSupport::TestCase.test_order = :random
-end
+ActiveSupport::TestCase.test_order = :random if ActiveSupport::TestCase.respond_to?(:test_order=)
 
 def prepare_for_tests
   setup_logging
@@ -49,29 +47,29 @@ def create_test_tables
   load(schema_file) if File.exist?(schema_file)
 end
 
-BASE_FIXTURE_CLASSES = [
-  :another_polys_holder,
-  :archival,
-  :archival_kid,
-  :archival_grandkid,
-  :archival_table_name,
-  :exploder,
-  :independent_archival,
-  :missing_archived_at,
-  :missing_archive_number,
-  :plain,
-  :poly,
-  :readonly_when_archived
+BASE_FIXTURE_CLASSES = %i[
+  another_polys_holder
+  archival
+  archival_kid
+  archival_grandkid
+  archival_table_name
+  exploder
+  independent_archival
+  missing_archived_at
+  missing_archive_number
+  plain
+  poly
+  readonly_when_archived
 ].freeze
 
 RAILS_4_FIXTURE_CLASSES = [
   :callback_archival_4
 ].freeze
 
-RAILS_5_FIXTURE_CLASSES = [
-  :application_record,
-  :application_record_row,
-  :callback_archival_5
+RAILS_5_FIXTURE_CLASSES = %i[
+  application_record
+  application_record_row
+  callback_archival_5
 ].freeze
 
 def require_test_classes
