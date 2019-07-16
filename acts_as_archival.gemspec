@@ -41,19 +41,20 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "rubocop", "~> 0.47.1"
   gem.add_development_dependency "sqlite3"
 
-  gem.description = <<-END
-*Atomic archiving/unarchiving for ActiveRecord-based apps*
+  gem.description =
+    <<~END
+      *Atomic archiving/unarchiving for ActiveRecord-based apps*
 
-We had the problem that acts_as_paranoid and similar plugins/gems always work on
-a record by record basis and made it very difficult to restore records
-atomically (or archive them, for that matter).
+      We had the problem that acts_as_paranoid and similar plugins/gems always work on
+      a record by record basis and made it very difficult to restore records
+      atomically (or archive them, for that matter).
 
-Because the archive and unarchive methods are in transactions, and every
-archival record involved gets the same archive number upon archiving, you can
-easily restore or remove an entire set of records without having to worry about
-partial deletion or restoration.
+      Because the archive and unarchive methods are in transactions, and every
+      archival record involved gets the same archive number upon archiving, you can
+      easily restore or remove an entire set of records without having to worry about
+      partial deletion or restoration.
 
-Additionally, other plugins generally screw with how destroy/delete work.  We
-don't because we actually want to be able to destroy records.
-END
+      Additionally, other plugins generally screw with how destroy/delete work. We
+      don't because we actually want to be able to destroy records.
+    END
 end
