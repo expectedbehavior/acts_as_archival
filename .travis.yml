@@ -24,3 +24,9 @@ before_install:
 
 matrix:
   fast_finish: true
+
+jobs:
+  include:
+    - stage: Lint
+      rvm: 2.6.3
+      script: bundle exec rake rubocop
