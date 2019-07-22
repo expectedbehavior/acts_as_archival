@@ -1,35 +1,26 @@
 language: ruby
-sudo: false
-dist: trusty
 cache: bundler
 script: "bundle exec rake"
 
 rvm:
-  - 2.1.10
-  - 2.2.6
-  - 2.3.3
-  - 2.4.0
-  - 2.5.1
+  - 2.4.6
+  - 2.5.5
+  - 2.6.3
 
 gemfile:
-  - gemfiles/rails_4.1.gemfile
   - gemfiles/rails_4.2.gemfile
   - gemfiles/rails_5.0.gemfile
   - gemfiles/rails_5.1.gemfile
+  - gemfiles/rails_5.2.gemfile
 
 before_install:
   - gem update --system
-  - gem update bundler
-  - gem cleanup bundler
+  # Rails 4.2 doesn't support bundler 2.0, so we need to lock bundler to
+  # v1.17.3. This is just for Ruby 2.5 which ships with bundler 2.x on Travis
+  # CI while Ruby 2.6 does not.
+  # TODO: Remove once Rails 4.2 support is dropped and we can use bundler 2.x
+  - yes | rvm @global do gem uninstall bundler --all
+  - yes | rvm @global do gem install bundler -v 1.17.3 || true
 
 matrix:
   fast_finish: true
-  exclude:
-    - rvm: 2.1.10
-      gemfile: gemfiles/rails_5.0.gemfile
-    - rvm: 2.1.10
-      gemfile: gemfiles/rails_5.1.gemfile
-    - rvm: 2.4.0
-      gemfile: gemfiles/rails_4.1.gemfile
-    - rvm: 2.5.1
-      gemfile: gemfiles/rails_4.1.gemfile
