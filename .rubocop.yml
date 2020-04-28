@@ -5,6 +5,23 @@ AllCops:
     - vendor/**/*
     - gemfiles/**/*
   TargetRubyVersion: 2.4
+  NewCops: enable
+
+
+################
+# Layout Rules #
+################
+Layout/EmptyLinesAroundClassBody:
+  EnforcedStyle: empty_lines_except_namespace
+
+Layout/EmptyLinesAroundModuleBody:
+  EnforcedStyle: empty_lines_except_namespace
+
+Layout/LineLength:
+  Max: 140
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: space
 
 
 ################
@@ -17,9 +34,6 @@ Metrics/BlockLength:
 
 Metrics/AbcSize:
   Max: 25
-
-Metrics/LineLength:
-  Max: 140
 
 Metrics/MethodLength:
   Max: 10
@@ -44,39 +58,14 @@ Style/Documentation:
 Style/DoubleNegation:
   Enabled: false
 
-Style/EmptyLinesAroundClassBody:
-  EnforcedStyle: empty_lines_except_namespace
-
-Style/EmptyLinesAroundModuleBody:
-  EnforcedStyle: empty_lines_except_namespace
-
 Style/FrozenStringLiteralComment:
   EnforcedStyle: never
 
 Style/HashSyntax:
   EnforcedStyle: ruby19
 
-# TODO: replace the [] below with default once a new version of
-#       rubocop comes out, since there is a PR for it:
-#       https://github.com/bbatsov/rubocop/pull/4038
-Style/PercentLiteralDelimiters:
-  PreferredDelimiters:
-    '%':  '{}'
-    '%i': '[]'
-    '%I': '[]'
-    '%q': '{}'
-    '%Q': '{}'
-    '%r': '{}'
-    '%s': '[]'
-    '%w': '[]'
-    '%W': '[]'
-    '%x': '[]'
-
 Style/RaiseArgs:
   EnforcedStyle: compact
-
-Style/SpaceInsideHashLiteralBraces:
-  EnforcedStyle: space
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes

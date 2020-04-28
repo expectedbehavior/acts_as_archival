@@ -4,7 +4,7 @@
 bin
 vendor/bundle
 *.gem
-*emfile.lock
+gemfiles/*.lock
 pkg/*
 .DS_Store
 *.sqlite3

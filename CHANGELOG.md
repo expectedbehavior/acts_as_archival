@@ -1,7 +1,14 @@
 # CHANGELOG
 
+## 2.0.0 – (UNRELEASED)
+
+* **BREAKING CHANGE** Drop support for Rails 4.2
+* **BREAKING CHANGE** Removed deprecated methods
+* Fix Rails 6 deprecation warnings
+
 ## 1.4.0 - July 10, 2019
 * **BREAKING CHANGE** drop support for rails 4.1
+* **BREAKING CHANGE** drop support for Ruby <2.4
 * **BUGFIX** polymorphic associations that are archived/unarchived can be acted on safely if they share the same ID.
 * add support officially for rails 5.2
 * sqlite upgrades for various rails
