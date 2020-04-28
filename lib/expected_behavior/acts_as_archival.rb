@@ -37,7 +37,7 @@ module ExpectedBehavior
       end
 
       private def setup_scopes
-        scope :archived, -> { where.not(archived_at: nil, archive_number: nil) }
+        scope :archived, -> { where.not(archived_at: nil).where.not(archive_number: nil) }
         scope :unarchived, -> { where(archived_at: nil, archive_number: nil) }
         scope :archived_from_archive_number, (lambda do |head_archive_number|
           where(["archived_at IS NOT NULL AND archive_number = ?", head_archive_number])
@@ -53,11 +53,7 @@ module ExpectedBehavior
       end
 
       private def setup_activerecord_callbacks(callbackable_actions)
-        if ActiveSupport::VERSION::MAJOR >= 5
-          define_callbacks(*[callbackable_actions].flatten)
-        elsif ActiveSupport::VERSION::MAJOR >= 4
-          define_callbacks(*[callbackable_actions, { terminator: ->(_, result) { result == false } }].flatten)
-        end
+        define_callbacks(*[callbackable_actions].flatten)
       end
 
       private def define_callback_dsl_methods(callbackable_actions)
