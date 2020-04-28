@@ -53,11 +53,7 @@ module ExpectedBehavior
       end
 
       private def setup_activerecord_callbacks(callbackable_actions)
-        if ActiveSupport::VERSION::MAJOR >= 5
-          define_callbacks(*[callbackable_actions].flatten)
-        elsif ActiveSupport::VERSION::MAJOR >= 4
-          define_callbacks(*[callbackable_actions, { terminator: ->(_, result) { result == false } }].flatten)
-        end
+        define_callbacks(*[callbackable_actions].flatten)
       end
 
       private def define_callback_dsl_methods(callbackable_actions)
